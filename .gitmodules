@@ -1,6 +1,6 @@
-[submodule "lib/SmokeLounge.AOtomation.Hook"]
-	path = lib/SmokeLounge.AOtomation.Hook
-	url = https://github.com/SmokeLounge/AOtomation.Hook.git
 [submodule "lib/SmokeLounge.AOtomation.Messaging"]
 	path = lib/SmokeLounge.AOtomation.Messaging
 	url = https://github.com/SmokeLounge/AOtomation.Messaging.git
+[submodule "lib/SmokeLounge.AOtomation.Domain"]
+	path = lib/SmokeLounge.AOtomation.Domain
+	url = https://github.com/SmokeLounge/AOtomation.Domain.git
