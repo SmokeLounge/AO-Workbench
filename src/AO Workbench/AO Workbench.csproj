@@ -155,6 +155,11 @@
     <Compile Include="Controls\CaptionButtons.xaml.cs">
       <DependentUpon>CaptionButtons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\WindowManager.cs" />
+    <Compile Include="Controls\DialogWindow.xaml.cs">
+      <DependentUpon>DialogWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModels\AttachToProcessViewModel.cs" />
     <Compile Include="ViewModels\Documents\StartViewModel.cs" />
     <Compile Include="ViewModels\IToolbar.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
@@ -172,6 +177,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\DialogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Resources\ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -179,6 +188,10 @@
     <Page Include="Resources\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AttachToProcessView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Documents\StartView.xaml">
       <SubType>Designer</SubType>

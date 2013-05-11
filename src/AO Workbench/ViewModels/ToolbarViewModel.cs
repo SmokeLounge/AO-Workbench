@@ -15,16 +15,37 @@
 namespace SmokeLounge.AoWorkbench.ViewModels
 {
     using System.ComponentModel.Composition;
+    using System.Dynamic;
 
     using Caliburn.Micro;
 
     [Export(typeof(IToolbar))]
     public class ToolbarViewModel : Screen, IToolbar
     {
+        #region Fields
+
+        private readonly IWindowManager windowManager;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        [ImportingConstructor]
+        public ToolbarViewModel(IWindowManager windowManager)
+        {
+            this.windowManager = windowManager;
+        }
+
+        #endregion
+
         #region Public Methods and Operators
 
         public void AttachToProcess()
         {
+            dynamic settings = new ExpandoObject();
+            settings.MinWidth = 600;
+            settings.MinHeight = 300;
+            this.windowManager.ShowDialog(new AttachToProcessViewModel(), null, settings);
         }
 
         #endregion

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StartViewModel.cs" company="SmokeLounge">
+// <copyright file="AttachToProcessViewModel.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,24 +8,23 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the StartViewModel type.
+//   Defines the AttachToProcessViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Documents
+namespace SmokeLounge.AoWorkbench.ViewModels
 {
-    using System.ComponentModel.Composition;
+    using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench;
-
-    [Export]
-    public class StartViewModel : DocumentItemViewModel
+    public class AttachToProcessViewModel : Screen
     {
-        #region Constructors and Destructors
+        #region Methods
 
-        public StartViewModel()
+        protected override void OnInitialize()
         {
-            this.Title = "Start";
+            this.DisplayName = "Attach to Process";
+
+            base.OnInitialize();
         }
 
         #endregion

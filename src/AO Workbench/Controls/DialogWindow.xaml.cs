@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StartViewModel.cs" company="SmokeLounge">
+// <copyright file="DialogWindow.xaml.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,24 +8,32 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the StartViewModel type.
+//   Defines the DialogWindow type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Documents
+namespace SmokeLounge.AoWorkbench.Controls
 {
-    using System.ComponentModel.Composition;
+    using System;
 
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench;
-
-    [Export]
-    public class StartViewModel : DocumentItemViewModel
+    public partial class DialogWindow
     {
         #region Constructors and Destructors
 
-        public StartViewModel()
+        public DialogWindow()
         {
-            this.Title = "Start";
+            this.InitializeComponent();
+            this.Activated += this.OnActivated;
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void OnActivated(object sender, EventArgs eventArgs)
+        {
+            this.Activated -= this.OnActivated;
+            this.InvalidateArrange();
         }
 
         #endregion

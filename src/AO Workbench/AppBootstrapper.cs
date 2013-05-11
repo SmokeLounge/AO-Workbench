@@ -27,6 +27,8 @@ namespace SmokeLounge.AoWorkbench
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AoWorkbench.ViewModels;
 
+    using WindowManager = SmokeLounge.AoWorkbench.Components.WindowManager;
+
     public sealed class AppBootstrapper : Bootstrapper<IShell>, IDisposable
     {
         #region Fields

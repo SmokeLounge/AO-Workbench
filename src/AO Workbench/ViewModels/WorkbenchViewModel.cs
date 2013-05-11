@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.ViewModels
 {
     using System.ComponentModel.Composition;
+    using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
@@ -78,6 +79,17 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             {
                 return this.documents;
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.anchorables != null);
+            Contract.Invariant(this.documents != null);
         }
 
         #endregion

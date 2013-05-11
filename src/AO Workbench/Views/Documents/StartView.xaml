@@ -8,6 +8,7 @@
              mc:Ignorable="d">
     <Grid>
         <TextBlock HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
                    FontSize="20"
                    Text="Hello AO Workbench!" />
     </Grid>
