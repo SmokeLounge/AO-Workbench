@@ -31,13 +31,15 @@ namespace SmokeLounge.AoWorkbench.Components
         #region Constructors and Destructors
 
         public RelayCommand(Action<object> execute)
-            : this(execute, null)
         {
+            Contract.Requires<ArgumentNullException>(execute != null);
+
+            this.execute = execute;
         }
 
         public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
-            Contract.Requires(execute != null);
+            Contract.Requires<ArgumentNullException>(execute != null);
 
             this.execute = execute;
             this.canExecute = canExecute;
@@ -72,6 +74,16 @@ namespace SmokeLounge.AoWorkbench.Components
         public void Execute(object parameter)
         {
             this.execute(parameter);
+        }
+
+        #endregion
+
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.execute != null);
         }
 
         #endregion

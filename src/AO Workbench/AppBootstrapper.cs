@@ -27,11 +27,26 @@ namespace SmokeLounge.AoWorkbench
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AoWorkbench.ViewModels;
 
-    public class AppBootstrapper : Bootstrapper<IShell>
+    public sealed class AppBootstrapper : Bootstrapper<IShell>, IDisposable
     {
         #region Fields
 
         private CompositionContainer container;
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public void Dispose()
+        {
+            if (this.container == null)
+            {
+                return;
+            }
+
+            this.container.Dispose();
+            this.container = null;
+        }
 
         #endregion
 
@@ -86,7 +101,7 @@ namespace SmokeLounge.AoWorkbench
         protected override void OnExit(object sender, EventArgs e)
         {
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
-            Contract.Assert(domainBootstrapper != null);
+            Contract.Assume(domainBootstrapper != null);
             domainBootstrapper.Shutdown();
             base.OnExit(sender, e);
         }
@@ -94,7 +109,7 @@ namespace SmokeLounge.AoWorkbench
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
-            Contract.Assert(domainBootstrapper != null);
+            Contract.Assume(domainBootstrapper != null);
             domainBootstrapper.Startup();
             base.OnStartup(sender, e);
         }
