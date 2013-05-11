@@ -20,12 +20,14 @@ namespace SmokeLounge.AoWorkbench
     using System.ComponentModel.Composition.Hosting;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Windows;
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AoWorkbench.ViewModels;
 
-    public class AppBootstrapper : Bootstrapper<ShellViewModel>
+    public class AppBootstrapper : Bootstrapper<IShell>
     {
         #region Fields
 
@@ -44,9 +46,8 @@ namespace SmokeLounge.AoWorkbench
 
         protected override void Configure()
         {
-            var catalog =
-                new AggregateCatalog(
-                    AssemblySource.Instance.Select(x => new AssemblyCatalog(x)).Where(c => c != null));
+            Contract.Ensures(this.container != null);
+            var catalog = new ApplicationCatalog();
 
             this.container = new CompositionContainer(catalog);
 
@@ -80,6 +81,22 @@ namespace SmokeLounge.AoWorkbench
             }
 
             throw new Exception(string.Format("Could not locate any instances of contract {0}.", contract));
+        }
+
+        protected override void OnExit(object sender, EventArgs e)
+        {
+            var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
+            Contract.Assert(domainBootstrapper != null);
+            domainBootstrapper.Shutdown();
+            base.OnExit(sender, e);
+        }
+
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
+            Contract.Assert(domainBootstrapper != null);
+            domainBootstrapper.Startup();
+            base.OnStartup(sender, e);
         }
 
         #endregion

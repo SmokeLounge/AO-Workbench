@@ -15,9 +15,67 @@
 namespace SmokeLounge.AoWorkbench.ViewModels
 {
     using System.ComponentModel.Composition;
+    using System.Diagnostics.Contracts;
 
-    [Export(typeof(ShellViewModel))]
-    public class ShellViewModel
+    using Caliburn.Micro;
+
+    [Export(typeof(IShell))]
+    public class ShellViewModel : Screen, IShell
     {
+        #region Fields
+
+        private readonly IToolbar toolbar;
+
+        private readonly IWorkbench workbench;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        [ImportingConstructor]
+        public ShellViewModel(IToolbar toolbar, IWorkbench workbench)
+        {
+            Contract.Requires(toolbar != null);
+            Contract.Requires(workbench != null);
+
+            this.toolbar = toolbar;
+            this.workbench = workbench;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        public IToolbar Toolbar
+        {
+            get
+            {
+                return this.toolbar;
+            }
+        }
+
+        public IWorkbench Workbench
+        {
+            get
+            {
+                return this.workbench;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override void OnInitialize()
+        {
+            this.DisplayName = "AO Workbench";
+
+            this.toolbar.ConductWith(this);
+            this.workbench.ConductWith(this);
+
+            base.OnInitialize();
+        }
+
+        #endregion
     }
 }
