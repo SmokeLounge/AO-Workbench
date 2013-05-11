@@ -14,15 +14,21 @@
 
 namespace SmokeLounge.AoWorkbench.ViewModels
 {
+    using System;
     using System.ComponentModel.Composition;
+    using System.Diagnostics.Contracts;
     using System.Dynamic;
 
     using Caliburn.Micro;
+
+    using SmokeLounge.AoWorkbench.ViewModels.Dialogs;
 
     [Export(typeof(IToolbar))]
     public class ToolbarViewModel : Screen, IToolbar
     {
         #region Fields
+
+        private readonly AttachToProcessFactory attachToProcessFactory;
 
         private readonly IWindowManager windowManager;
 
@@ -31,9 +37,13 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public ToolbarViewModel(IWindowManager windowManager)
+        public ToolbarViewModel(IWindowManager windowManager, AttachToProcessFactory attachToProcessFactory)
         {
+            Contract.Requires<ArgumentNullException>(windowManager != null);
+            Contract.Requires<ArgumentNullException>(attachToProcessFactory != null);
+
             this.windowManager = windowManager;
+            this.attachToProcessFactory = attachToProcessFactory;
         }
 
         #endregion
@@ -45,7 +55,18 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             dynamic settings = new ExpandoObject();
             settings.MinWidth = 600;
             settings.MinHeight = 300;
-            this.windowManager.ShowDialog(new AttachToProcessViewModel(), null, settings);
+            this.windowManager.ShowDialog(this.attachToProcessFactory.Create(), null, settings);
+        }
+
+        #endregion
+
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.windowManager != null);
+            Contract.Invariant(this.attachToProcessFactory != null);
         }
 
         #endregion

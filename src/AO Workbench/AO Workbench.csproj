@@ -159,8 +159,17 @@
     <Compile Include="Controls\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\AttachToProcessViewModel.cs" />
+    <Compile Include="Services\IRemoteProcessService.cs" />
+    <Compile Include="Services\RemoteProcessService.cs" />
+    <Compile Include="ViewModels\Dialogs\AttachToProcessFactory.cs" />
+    <Compile Include="ViewModels\Dialogs\AttachToProcessViewModel.cs" />
     <Compile Include="ViewModels\Documents\StartViewModel.cs" />
+    <Compile Include="ViewModels\Domain\IPlayer.cs" />
+    <Compile Include="ViewModels\Domain\IRemoteProcess.cs" />
+    <Compile Include="ViewModels\Domain\PlayerFactory.cs" />
+    <Compile Include="ViewModels\Domain\PlayerViewModel.cs" />
+    <Compile Include="ViewModels\Domain\RemoteProcessFactory.cs" />
+    <Compile Include="ViewModels\Domain\RemoteProcessViewModel.cs" />
     <Compile Include="ViewModels\IToolbar.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\Workbench\AnchorableItemViewModel.cs" />
@@ -189,7 +198,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AttachToProcessView.xaml">
+    <Page Include="Views\Dialogs\AttachToProcessView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -243,9 +252,17 @@
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
+      <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
+      <Name>SmokeLounge.AOtomation.Messaging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Domain.Facade\SmokeLounge.AOtomation.Domain.Facade.csproj">
       <Project>{CCD8C3F0-1D08-4AAC-972D-4E5079C3B392}</Project>
       <Name>SmokeLounge.AOtomation.Domain.Facade</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Domain.Interfaces\SmokeLounge.AOtomation.Domain.Interfaces.csproj">
+      <Project>{F7ACCFA0-A898-444B-ABFA-5A920945F52B}</Project>
+      <Name>SmokeLounge.AOtomation.Domain.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

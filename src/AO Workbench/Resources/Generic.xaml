@@ -7,8 +7,12 @@
         <Setter Property="MinHeight" Value="25" />
     </Style>
 
+    <SolidColorBrush x:Key="BlackColorBrush" Color="{DynamicResource BlackColor}" />
+
     <ControlTemplate x:Key="MainWindowControlTemplate" TargetType="{x:Type Window}">
-        <Border Background="{DynamicResource WindowBackgroundBrush}">
+        <Border Background="{DynamicResource WindowBackgroundBrush}"
+                BorderBrush="{DynamicResource BlackColorBrush}"
+                BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
@@ -58,7 +62,9 @@
     </Style>
 
     <ControlTemplate x:Key="WindowControlTemplate" TargetType="{x:Type Window}">
-        <Border Background="{DynamicResource WindowBackgroundBrush}">
+        <Border Background="{DynamicResource WindowBackgroundBrush}"
+                BorderBrush="{DynamicResource BlackColorBrush}"
+                BorderThickness="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />

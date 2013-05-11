@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="AttachToProcessViewModel.cs" company="SmokeLounge">
+// <copyright file="IPlayer.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,24 +8,25 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the AttachToProcessViewModel type.
+//   Defines the IPlayer type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels
+namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 {
-    using Caliburn.Micro;
+    using System;
 
-    public class AttachToProcessViewModel : Screen
+    using SmokeLounge.AOtomation.Messaging.GameData;
+
+    public interface IPlayer
     {
-        #region Methods
+        #region Public Properties
 
-        protected override void OnInitialize()
-        {
-            this.DisplayName = "Attach to Process";
+        Guid Id { get; }
 
-            base.OnInitialize();
-        }
+        string Name { get; }
+
+        Identity RemoteId { get; }
 
         #endregion
     }
