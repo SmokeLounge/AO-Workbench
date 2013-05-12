@@ -26,7 +26,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         bool IsAttached { get; }
 
-        IPlayer Player { get; }
+        IPlayer Player { get; set; }
 
         int RemoteId { get; }
 

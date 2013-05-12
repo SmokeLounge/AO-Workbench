@@ -18,7 +18,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AoWorkbench.Services;
+    using SmokeLounge.AoWorkbench.Components.Services;
 
     [Export]
     public class AttachToProcessFactory

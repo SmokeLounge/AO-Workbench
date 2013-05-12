@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Services
+namespace SmokeLounge.AoWorkbench.Components.Services
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -26,6 +26,10 @@ namespace SmokeLounge.AoWorkbench.Services
     {
         #region Public Methods and Operators
 
+        void Add(IRemoteProcess remoteProcess);
+
+        IRemoteProcess Get(Guid id);
+
         IObservableCollection<IRemoteProcess> GetAll();
 
         #endregion
@@ -35,6 +39,18 @@ namespace SmokeLounge.AoWorkbench.Services
     internal abstract class IRemoteProcessServiceContract : IRemoteProcessService
     {
         #region Public Methods and Operators
+
+        public void Add(IRemoteProcess remoteProcess)
+        {
+            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+
+            throw new NotImplementedException();
+        }
+
+        public IRemoteProcess Get(Guid id)
+        {
+            throw new NotImplementedException();
+        }
 
         public IObservableCollection<IRemoteProcess> GetAll()
         {

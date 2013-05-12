@@ -12,31 +12,28 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Services
+namespace SmokeLounge.AoWorkbench.Components.Services
 {
     using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Domain.Facade;
-    using SmokeLounge.AOtomation.Domain.Interfaces;
-    using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
     [Export(typeof(IRemoteProcessService))]
-    public class RemoteProcessService : IRemoteProcessService, IHandleDomainEvent<RemoteProcessCreatedEvent>
+    public class RemoteProcessService : IRemoteProcessService
     {
         #region Fields
-
-        private readonly IDomainEventAggregator domainEvents;
 
         private readonly RemoteProcessFactory remoteProcessFactory;
 
         private readonly IRemoteProcessQueryService remoteProcessQueryService;
 
-        private readonly Lazy<IObservableCollection<IRemoteProcess>> remoteProcesses;
+        private readonly IObservableCollection<IRemoteProcess> remoteProcesses;
 
         #endregion
 
@@ -44,62 +41,45 @@ namespace SmokeLounge.AoWorkbench.Services
 
         [ImportingConstructor]
         public RemoteProcessService(
-            IRemoteProcessQueryService remoteProcessQueryService, 
-            RemoteProcessFactory remoteProcessFactory, 
-            IDomainEventAggregator domainEvents)
+            IRemoteProcessQueryService remoteProcessQueryService, RemoteProcessFactory remoteProcessFactory)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessQueryService != null);
             Contract.Requires<ArgumentNullException>(remoteProcessFactory != null);
-            Contract.Requires<ArgumentNullException>(domainEvents != null);
 
             this.remoteProcessQueryService = remoteProcessQueryService;
             this.remoteProcessFactory = remoteProcessFactory;
-            this.domainEvents = domainEvents;
 
-            this.remoteProcesses = new Lazy<IObservableCollection<IRemoteProcess>>(this.InitializeCollection);
+            this.remoteProcesses = new BindableCollection<IRemoteProcess>();
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public IObservableCollection<IRemoteProcess> GetAll()
+        public void Add(IRemoteProcess remoteProcess)
         {
-            Contract.Assume(this.remoteProcesses.Value != null);
-            return this.remoteProcesses.Value;
+            this.remoteProcesses.Add(remoteProcess);
         }
 
-        public void Handle(RemoteProcessCreatedEvent message)
+        public IRemoteProcess Get(Guid id)
         {
+            return this.remoteProcesses.FirstOrDefault(p => p.Id == id);
+        }
+
+        public IObservableCollection<IRemoteProcess> GetAll()
+        {
+            return this.remoteProcesses;
         }
 
         #endregion
 
         #region Methods
 
-        private IObservableCollection<IRemoteProcess> InitializeCollection()
-        {
-            this.domainEvents.Subscribe(this);
-            var remoteProcessDtos = this.remoteProcessQueryService.GetAll();
-
-            var collection = new BindableCollection<IRemoteProcess>();
-
-            foreach (var remoteProcessDto in remoteProcessDtos)
-            {
-                Contract.Assume(remoteProcessDto != null);
-                var remoteProcess = this.remoteProcessFactory.Create(remoteProcessDto);
-                collection.Add(remoteProcess);
-            }
-
-            return collection;
-        }
-
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
             Contract.Invariant(this.remoteProcessQueryService != null);
             Contract.Invariant(this.remoteProcessFactory != null);
-            Contract.Invariant(this.domainEvents != null);
             Contract.Invariant(this.remoteProcesses != null);
         }
 

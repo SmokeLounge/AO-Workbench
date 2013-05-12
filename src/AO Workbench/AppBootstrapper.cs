@@ -25,6 +25,7 @@ namespace SmokeLounge.AoWorkbench
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Domain.Facade;
+    using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AoWorkbench.ViewModels;
 
     using WindowManager = SmokeLounge.AoWorkbench.Components.WindowManager;
@@ -80,6 +81,7 @@ namespace SmokeLounge.AoWorkbench
 
         protected override IEnumerable<object> GetAllInstances(Type serviceType)
         {
+            Contract.Ensures(Contract.Result<IEnumerable<object>>() != null);
             Contract.Assume(this.container != null);
 
             return this.container.GetExportedValues<object>(AttributedModelServices.GetContractName(serviceType));
@@ -87,6 +89,7 @@ namespace SmokeLounge.AoWorkbench
 
         protected override object GetInstance(Type serviceType, string key)
         {
+            Contract.Ensures(Contract.Result<object>() != null);
             Contract.Assume(this.container != null);
 
             var contract = string.IsNullOrEmpty(key) ? AttributedModelServices.GetContractName(serviceType) : key;
@@ -102,16 +105,22 @@ namespace SmokeLounge.AoWorkbench
 
         protected override void OnExit(object sender, EventArgs e)
         {
+            var domainEvents = (IDomainEventAggregator)this.GetInstance(typeof(IDomainEventAggregator), null);
+            var domainEventHandlers = this.GetAllInstances(typeof(IHandleDomainEvent));
+            domainEventHandlers.Apply(domainEvents.Unsubscribe);
+
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
-            Contract.Assume(domainBootstrapper != null);
             domainBootstrapper.Shutdown();
             base.OnExit(sender, e);
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            var domainEvents = (IDomainEventAggregator)this.GetInstance(typeof(IDomainEventAggregator), null);
+            var domainEventHandlers = this.GetAllInstances(typeof(IHandleDomainEvent));
+            domainEventHandlers.Apply(domainEvents.Subscribe);
+
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
-            Contract.Assume(domainBootstrapper != null);
             domainBootstrapper.Startup();
             base.OnStartup(sender, e);
         }

@@ -16,10 +16,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 {
     using System;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Services;
+    using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
     public class AttachToProcessViewModel : Screen
@@ -29,6 +30,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
         private readonly IRemoteProcessService remoteProcessService;
 
         private readonly IObservableCollection<IRemoteProcess> remoteProcesses;
+
+        private readonly IObservableCollection<IRemoteProcess> selectedItems;
 
         #endregion
 
@@ -40,11 +43,21 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
             this.remoteProcessService = remoteProcessService;
             this.remoteProcesses = this.remoteProcessService.GetAll();
+            this.selectedItems = new BindableCollection<IRemoteProcess>();
+            this.selectedItems.CollectionChanged += (sender, args) => this.NotifyOfPropertyChange(() => this.CanAttach);
         }
 
         #endregion
 
         #region Public Properties
+
+        public bool CanAttach
+        {
+            get
+            {
+                return this.selectedItems.Any(i => i.IsAttached == false);
+            }
+        }
 
         public IObservableCollection<IRemoteProcess> RemoteProcesses
         {
@@ -52,6 +65,27 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
             {
                 return this.remoteProcesses;
             }
+        }
+
+        public IObservableCollection<IRemoteProcess> SelectedItems
+        {
+            get
+            {
+                return this.selectedItems;
+            }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public void Attach()
+        {
+            this.TryClose();
+        }
+
+        public void Cancel()
+        {
         }
 
         #endregion
@@ -69,6 +103,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
         {
             Contract.Invariant(this.remoteProcessService != null);
             Contract.Invariant(this.remoteProcesses != null);
+            Contract.Invariant(this.selectedItems != null);
         }
 
         #endregion

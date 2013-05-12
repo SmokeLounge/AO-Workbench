@@ -15,24 +15,14 @@
 namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 {
     using System;
-    using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AOtomation.Domain.Interfaces;
-    using SmokeLounge.AOtomation.Domain.Interfaces.Events;
-
-    public class RemoteProcessViewModel : PropertyChangedBase, 
-                                          IRemoteProcess, 
-                                          IHandleDomainEvent<PlayerForRemoteProcessFoundEvent>
+    public class RemoteProcessViewModel : PropertyChangedBase, IRemoteProcess
     {
         #region Fields
 
-        private readonly IDomainEventAggregator domainEvents;
-
         private readonly Guid id;
-
-        private readonly PlayerFactory playerFactory;
 
         private readonly int remoteId;
 
@@ -44,19 +34,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         #region Constructors and Destructors
 
-        public RemoteProcessViewModel(
-            Guid id, int remoteId, IPlayer player, PlayerFactory playerFactory, IDomainEventAggregator domainEvents)
+        public RemoteProcessViewModel(Guid id, int remoteId, IPlayer player)
         {
-            Contract.Requires<ArgumentNullException>(playerFactory != null);
-            Contract.Requires<ArgumentNullException>(domainEvents != null);
-
             this.id = id;
             this.remoteId = remoteId;
             this.player = player;
-            this.playerFactory = playerFactory;
-            this.domainEvents = domainEvents;
-
-            this.domainEvents.Subscribe(this);
         }
 
         #endregion
@@ -105,7 +87,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
                 return this.player;
             }
 
-            private set
+            set
             {
                 if (Equals(value, this.player))
                 {
@@ -124,25 +106,6 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
             {
                 return this.remoteId;
             }
-        }
-
-        #endregion
-
-        #region Public Methods and Operators
-
-        public void Handle(PlayerForRemoteProcessFoundEvent message)
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.playerFactory != null);
-            Contract.Invariant(this.domainEvents != null);
         }
 
         #endregion
