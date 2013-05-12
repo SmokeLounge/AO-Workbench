@@ -30,6 +30,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         int RemoteId { get; }
 
+        Guid ClientId { get; set; }
+
         #endregion
     }
 }

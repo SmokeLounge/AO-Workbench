@@ -20,12 +20,16 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.Domain.Facade;
+    using SmokeLounge.AOtomation.Domain.Interfaces.Commands;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
     public class AttachToProcessViewModel : Screen
     {
         #region Fields
+
+        private readonly IRemoteProcessCommandService remoteProcessCommandService;
 
         private readonly IRemoteProcessService remoteProcessService;
 
@@ -37,11 +41,14 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
         #region Constructors and Destructors
 
-        public AttachToProcessViewModel(IRemoteProcessService remoteProcessService)
+        public AttachToProcessViewModel(
+            IRemoteProcessService remoteProcessService, IRemoteProcessCommandService remoteProcessCommandService)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
+            Contract.Requires<ArgumentNullException>(remoteProcessCommandService != null);
 
             this.remoteProcessService = remoteProcessService;
+            this.remoteProcessCommandService = remoteProcessCommandService;
             this.remoteProcesses = this.remoteProcessService.GetAll();
             this.selectedItems = new BindableCollection<IRemoteProcess>();
             this.selectedItems.CollectionChanged += (sender, args) => this.NotifyOfPropertyChange(() => this.CanAttach);
@@ -81,6 +88,18 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
         public void Attach()
         {
+            if (this.CanAttach == false)
+            {
+                throw new InvalidOperationException();
+            }
+
+            foreach (var remoteProcess in this.selectedItems.Where(p => p.IsAttached == false))
+            {
+                Contract.Assume(remoteProcess != null);
+                this.remoteProcessCommandService.AttachClientToRemoteProcess(
+                    new AttachClientToRemoteProcessCommand(remoteProcess.Id));
+            }
+
             this.TryClose();
         }
 
@@ -101,6 +120,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(this.remoteProcessCommandService != null);
             Contract.Invariant(this.remoteProcessService != null);
             Contract.Invariant(this.remoteProcesses != null);
             Contract.Invariant(this.selectedItems != null);

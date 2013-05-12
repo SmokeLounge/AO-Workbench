@@ -18,6 +18,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AoWorkbench.Components.Services;
 
     [Export]
@@ -27,16 +28,20 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
         private readonly IRemoteProcessService remoteProcessService;
 
+        private readonly IRemoteProcessCommandService remoteProcessCommandService;
+
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public AttachToProcessFactory(IRemoteProcessService remoteProcessService)
+        public AttachToProcessFactory(IRemoteProcessService remoteProcessService, IRemoteProcessCommandService remoteProcessCommandService)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
+            Contract.Requires<ArgumentNullException>(remoteProcessCommandService != null);
 
             this.remoteProcessService = remoteProcessService;
+            this.remoteProcessCommandService = remoteProcessCommandService;
         }
 
         #endregion
@@ -45,7 +50,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
         public AttachToProcessViewModel Create()
         {
-            var attachToProcess = new AttachToProcessViewModel(this.remoteProcessService);
+            var attachToProcess = new AttachToProcessViewModel(this.remoteProcessService, this.remoteProcessCommandService);
             return attachToProcess;
         }
 
@@ -56,6 +61,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(this.remoteProcessCommandService != null);
             Contract.Invariant(this.remoteProcessService != null);
         }
 

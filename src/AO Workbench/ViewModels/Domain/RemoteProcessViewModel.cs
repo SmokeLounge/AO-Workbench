@@ -26,7 +26,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         private readonly int remoteId;
 
-        private bool isAttached;
+        private Guid clientId;
 
         private IPlayer player;
 
@@ -44,6 +44,26 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         #endregion
 
         #region Public Properties
+
+        public Guid ClientId
+        {
+            get
+            {
+                return this.clientId;
+            }
+
+            set
+            {
+                if (value.Equals(this.clientId))
+                {
+                    return;
+                }
+
+                this.clientId = value;
+                this.NotifyOfPropertyChange();
+                this.NotifyOfPropertyChange(() => this.IsAttached);
+            }
+        }
 
         public string DisplayName
         {
@@ -65,18 +85,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         {
             get
             {
-                return this.isAttached;
-            }
-
-            private set
-            {
-                if (value.Equals(this.isAttached))
-                {
-                    return;
-                }
-
-                this.isAttached = value;
-                this.NotifyOfPropertyChange();
+                return this.clientId != Guid.Empty;
             }
         }
 
@@ -89,7 +98,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
             set
             {
-                if (Equals(value, this.player))
+                if (value == this.player)
                 {
                     return;
                 }

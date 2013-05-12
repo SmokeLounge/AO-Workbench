@@ -16,6 +16,15 @@
         <ListView x:Name="RemoteProcesses"
                   Grid.Row="0"
                   SelectionMode="Multiple">
+            <ListView.Resources>
+                <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAttached}" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource DisabledForegroundBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
             <i:Interaction.Behaviors>
                 <behaviors:ListBoxSelectedItemsBindingBehavior SelectedItems="{Binding SelectedItems}" />
             </i:Interaction.Behaviors>
