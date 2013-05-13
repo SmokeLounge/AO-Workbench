@@ -26,16 +26,17 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
     {
         #region Fields
 
-        private readonly IRemoteProcessService remoteProcessService;
-
         private readonly IRemoteProcessCommandService remoteProcessCommandService;
+
+        private readonly IRemoteProcessService remoteProcessService;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public AttachToProcessFactory(IRemoteProcessService remoteProcessService, IRemoteProcessCommandService remoteProcessCommandService)
+        public AttachToProcessFactory(
+            IRemoteProcessService remoteProcessService, IRemoteProcessCommandService remoteProcessCommandService)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
             Contract.Requires<ArgumentNullException>(remoteProcessCommandService != null);
@@ -50,7 +51,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
         public AttachToProcessViewModel Create()
         {
-            var attachToProcess = new AttachToProcessViewModel(this.remoteProcessService, this.remoteProcessCommandService);
+            var attachToProcess = new AttachToProcessViewModel(
+                this.remoteProcessService, this.remoteProcessCommandService);
             return attachToProcess;
         }
 

@@ -23,11 +23,21 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
     {
         #region Fields
 
-        private bool canClose;
+        private ICommand activateCommand;
 
-        private bool canFloat;
+        private bool canClose = true;
+
+        private bool canFloat = true;
+
+        private ICommand closeAllButThisCommand;
+
+        private ICommand closeCommand;
 
         private string contentId;
+
+        private ICommand dockAsDocumentCommand;
+
+        private ICommand floatCommand;
 
         private Uri iconSource;
 
@@ -35,13 +45,40 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         private bool isSelected;
 
+        private ICommand moveToNextTabGroupCommand;
+
+        private ICommand moveToPreviousTabGroupCommand;
+
+        private ICommand newHorizontalTabGroupCommand;
+
+        private ICommand newVerticalTabGroupCommand;
+
         private string title;
+
+        private string toolTip;
 
         #endregion
 
         #region Public Properties
 
-        public ICommand ActivateCommand { get; private set; }
+        public ICommand ActivateCommand
+        {
+            get
+            {
+                return this.activateCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.activateCommand))
+                {
+                    return;
+                }
+
+                this.activateCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
         public bool CanClose
         {
@@ -81,9 +118,43 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
             }
         }
 
-        public ICommand CloseAllButThisCommand { get; private set; }
+        public ICommand CloseAllButThisCommand
+        {
+            get
+            {
+                return this.closeAllButThisCommand;
+            }
 
-        public ICommand CloseCommand { get; private set; }
+            protected set
+            {
+                if (Equals(value, this.closeAllButThisCommand))
+                {
+                    return;
+                }
+
+                this.closeAllButThisCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand CloseCommand
+        {
+            get
+            {
+                return this.closeCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.closeCommand))
+                {
+                    return;
+                }
+
+                this.closeCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
         public string ContentId
         {
@@ -104,9 +175,43 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
             }
         }
 
-        public ICommand DockAsDocumentCommand { get; private set; }
+        public ICommand DockAsDocumentCommand
+        {
+            get
+            {
+                return this.dockAsDocumentCommand;
+            }
 
-        public ICommand FloatCommand { get; private set; }
+            protected set
+            {
+                if (Equals(value, this.dockAsDocumentCommand))
+                {
+                    return;
+                }
+
+                this.dockAsDocumentCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand FloatCommand
+        {
+            get
+            {
+                return this.floatCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.floatCommand))
+                {
+                    return;
+                }
+
+                this.floatCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
         public Uri IconSource
         {
@@ -165,13 +270,81 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
             }
         }
 
-        public ICommand MoveToNextTabGroupCommand { get; private set; }
+        public ICommand MoveToNextTabGroupCommand
+        {
+            get
+            {
+                return this.moveToNextTabGroupCommand;
+            }
 
-        public ICommand MoveToPreviousTabGroupCommand { get; private set; }
+            protected set
+            {
+                if (Equals(value, this.moveToNextTabGroupCommand))
+                {
+                    return;
+                }
 
-        public ICommand NewHorizontalTabGroupCommand { get; private set; }
+                this.moveToNextTabGroupCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
-        public ICommand NewVerticalTabGroupCommand { get; private set; }
+        public ICommand MoveToPreviousTabGroupCommand
+        {
+            get
+            {
+                return this.moveToPreviousTabGroupCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.moveToPreviousTabGroupCommand))
+                {
+                    return;
+                }
+
+                this.moveToPreviousTabGroupCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand NewHorizontalTabGroupCommand
+        {
+            get
+            {
+                return this.newHorizontalTabGroupCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.newHorizontalTabGroupCommand))
+                {
+                    return;
+                }
+
+                this.newHorizontalTabGroupCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand NewVerticalTabGroupCommand
+        {
+            get
+            {
+                return this.newVerticalTabGroupCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.newVerticalTabGroupCommand))
+                {
+                    return;
+                }
+
+                this.newVerticalTabGroupCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
         public string Title
         {
@@ -188,6 +361,25 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
                 }
 
                 this.title = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
+        public string ToolTip
+        {
+            get
+            {
+                return this.toolTip;
+            }
+
+            set
+            {
+                if (value == this.toolTip)
+                {
+                    return;
+                }
+
+                this.toolTip = value;
                 this.NotifyOfPropertyChange();
             }
         }

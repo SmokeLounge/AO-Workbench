@@ -3,24 +3,62 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:avalondock="http://avalondock.codeplex.com"
              xmlns:cal="http://www.caliburnproject.org"
+             xmlns:controls="clr-namespace:SmokeLounge.AoWorkbench.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:themes="clr-namespace:AvalonDock.Themes;assembly=AvalonDock.Themes.Expression"
+             xmlns:workbench="clr-namespace:SmokeLounge.AoWorkbench.ViewModels.Workbench"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <avalondock:UriSourceToBitmapImageConverter x:Key="UriSourceToBitmapImageConverter" />
+
+        <Style x:Key="ItemStyle" TargetType="{x:Type avalondock:LayoutItem}">
+            <Setter Property="ActivateCommand" Value="{Binding Model.ActivateCommand}" />
+            <Setter Property="CanClose" Value="{Binding Model.CanClose}" />
+            <Setter Property="CanFloat" Value="{Binding Model.CanFloat}" />
+            <Setter Property="CloseAllButThisCommand" Value="{Binding Model.CloseAllButThisCommand}" />
+            <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
+            <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
+            <Setter Property="DockAsDocumentCommand" Value="{Binding Model.DockAsDocumentCommand}" />
+            <Setter Property="FloatCommand" Value="{Binding Model.FloatCommand}" />
+            <Setter Property="IconSource" Value="{Binding Model.IconSource, Converter={StaticResource UriSourceToBitmapImageConverter}}" />
+            <Setter Property="IsActive" Value="{Binding Model.IsActive}" />
+            <Setter Property="IsSelected" Value="{Binding Model.IsSelected}" />
+            <Setter Property="MoveToNextTabGroupCommand" Value="{Binding Model.MoveToNextTabGroupCommand}" />
+            <Setter Property="MoveToPreviousTabGroupCommand" Value="{Binding Model.MoveToPreviousTabGroupCommand}" />
+            <Setter Property="NewHorizontalTabGroupCommand" Value="{Binding Model.NewHorizontalTabGroupCommand}" />
+            <Setter Property="NewVerticalTabGroupCommand" Value="{Binding Model.NewVerticalTabGroupCommand}" />
+            <Setter Property="Title" Value="{Binding Model.Title}" />
+            <Setter Property="ToolTip" Value="{Binding Model.ToolTip}" />
+        </Style>
+
+        <Style x:Key="DocumentStyle"
+               BasedOn="{StaticResource ItemStyle}"
+               TargetType="{x:Type avalondock:LayoutDocumentItem}">
+            <Setter Property="Description" Value="{Binding Model.Description}" />
+        </Style>
+
+        <Style x:Key="AnchorableStyle"
+               BasedOn="{StaticResource ItemStyle}"
+               TargetType="{x:Type avalondock:LayoutAnchorableItem}">
+            <Setter Property="AutoHideCommand" Value="{Binding Model.AutoHideCommand}" />
+            <Setter Property="CanHide" Value="{Binding Model.CanHide}" />
+            <Setter Property="DockCommand" Value="{Binding Model.DockCommand}" />
+            <Setter Property="HideCommand" Value="{Binding Model.HideCommand}" />
+        </Style>
+    </UserControl.Resources>
+
     <avalondock:DockingManager ActiveContent="{Binding ActiveContent}"
                                AnchorablesSource="{Binding Anchorables}"
                                DocumentsSource="{Binding Documents}">
-        <avalondock:DockingManager.LayoutItemContainerStyle>
-            <Style TargetType="{x:Type avalondock:LayoutItem}">
-                <Setter Property="Title" Value="{Binding Model.Title}" />
-                <Setter Property="ToolTip" Value="{Binding Model.ToolTip}" />
-                <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}" />
-                <Setter Property="IconSource" Value="{Binding Model.IconSource}" />
-                <Setter Property="ContentId" Value="{Binding Model.ContentId}" />
-            </Style>
-        </avalondock:DockingManager.LayoutItemContainerStyle>
+        <avalondock:DockingManager.LayoutItemContainerStyleSelector>
+            <controls:DockingManagerLayoutItemContainerStyleSelector AnchorableStyle="{StaticResource AnchorableStyle}"
+                                                                     AnchorableType="{x:Type workbench:IAnchorableItem}"
+                                                                     DocumentStyle="{StaticResource DocumentStyle}"
+                                                                     DocumentType="{x:Type workbench:IDocumentItem}" />
+        </avalondock:DockingManager.LayoutItemContainerStyleSelector>
         <avalondock:DockingManager.LayoutItemTemplate>
             <DataTemplate>
                 <ContentControl cal:View.Model="{Binding}" />

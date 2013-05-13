@@ -20,6 +20,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     {
         #region Public Properties
 
+        Guid ClientId { get; set; }
+
         string DisplayName { get; }
 
         Guid Id { get; }
@@ -29,8 +31,6 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         IPlayer Player { get; set; }
 
         int RemoteId { get; }
-
-        Guid ClientId { get; set; }
 
         #endregion
     }

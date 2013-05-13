@@ -55,7 +55,8 @@
     <CodeContractsCustomRewriterClass />
     <CodeContractsLibPaths />
     <CodeContractsExtraRewriteOptions />
-    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsExtraAnalysisOptions>
+    </CodeContractsExtraAnalysisOptions>
     <CodeContractsSQLServerOption />
     <CodeContractsBaseLineFile />
     <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
@@ -151,7 +152,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="Components\Behaviors\ListViewSelectedItemsBindingBehavior.cs" />
+    <Compile Include="Controls\Behaviors\ListViewSelectedItemsBindingBehavior.cs" />
+    <Compile Include="Controls\Converters\NullToBoolConverter.cs" />
     <Compile Include="Components\RelayCommand.cs" />
     <Compile Include="Controls\CaptionButtons.xaml.cs">
       <DependentUpon>CaptionButtons.xaml</DependentUpon>
@@ -162,6 +164,7 @@
     </Compile>
     <Compile Include="Components\Services\IRemoteProcessService.cs" />
     <Compile Include="Components\Services\RemoteProcessService.cs" />
+    <Compile Include="Controls\DockingManagerLayoutItemContainerStyleSelector.cs" />
     <Compile Include="DomainEventHandlers\ClientAttachedToProcessEventHandler.cs" />
     <Compile Include="DomainEventHandlers\PlayerForRemoteProcessFoundEventHandler.cs" />
     <Compile Include="DomainEventHandlers\RemoteProcessCreatedEvent.cs" />

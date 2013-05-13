@@ -73,6 +73,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             this.DisplayName = "AO Workbench";
 
             this.workbench.Documents.Add(new StartViewModel());
+            this.workbench.Documents.Add(new StartViewModel());
 
             this.toolbar.ConductWith(this);
             this.workbench.ConductWith(this);

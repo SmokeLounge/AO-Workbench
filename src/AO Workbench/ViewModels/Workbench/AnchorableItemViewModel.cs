@@ -20,13 +20,34 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
     {
         #region Fields
 
-        private bool canHide;
+        private ICommand autoHideCommand;
+
+        private bool canHide = true;
+
+        private ICommand dockCommand;
 
         #endregion
 
         #region Public Properties
 
-        public ICommand AutoHideCommand { get; private set; }
+        public ICommand AutoHideCommand
+        {
+            get
+            {
+                return this.autoHideCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.autoHideCommand))
+                {
+                    return;
+                }
+
+                this.autoHideCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
         public bool CanHide
         {
@@ -47,9 +68,26 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
             }
         }
 
-        public ICommand DockCommand { get; private set; }
+        public ICommand DockCommand
+        {
+            get
+            {
+                return this.dockCommand;
+            }
 
-        public ICommand HideCommand { get; private set; }
+            protected set
+            {
+                if (Equals(value, this.dockCommand))
+                {
+                    return;
+                }
+
+                this.dockCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
+        public ICommand HideCommand { get; protected set; }
 
         #endregion
     }

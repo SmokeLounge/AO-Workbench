@@ -53,6 +53,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         string Title { get; set; }
 
+        string ToolTip { get; set; }
+
         #endregion
     }
 }

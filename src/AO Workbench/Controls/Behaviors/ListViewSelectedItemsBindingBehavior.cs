@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Behaviors
+namespace SmokeLounge.AoWorkbench.Controls.Behaviors
 {
     using System.Collections;
     using System.Collections.Specialized;
