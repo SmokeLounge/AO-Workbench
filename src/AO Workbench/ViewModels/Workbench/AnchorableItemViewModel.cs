@@ -16,6 +16,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 {
     using System.Windows.Input;
 
+    using Caliburn.Micro;
+
     public abstract class AnchorableItemViewModel : ItemViewModel, IAnchorableItem
     {
         #region Fields
@@ -25,6 +27,17 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
         private bool canHide = true;
 
         private ICommand dockCommand;
+
+        private ICommand hideCommand;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        protected AnchorableItemViewModel(IEventAggregator events)
+            : base(events)
+        {
+        }
 
         #endregion
 
@@ -87,7 +100,24 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
             }
         }
 
-        public ICommand HideCommand { get; protected set; }
+        public ICommand HideCommand
+        {
+            get
+            {
+                return this.hideCommand;
+            }
+
+            protected set
+            {
+                if (Equals(value, this.hideCommand))
+                {
+                    return;
+                }
+
+                this.hideCommand = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
 
         #endregion
     }

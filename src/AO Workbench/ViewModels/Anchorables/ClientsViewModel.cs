@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="StartViewModel.cs" company="SmokeLounge">
+// <copyright file="ClientsViewModel.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,24 +8,24 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the StartViewModel type.
+//   Defines the ClientsViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Documents
+namespace SmokeLounge.AoWorkbench.ViewModels.Anchorables
 {
     using Caliburn.Micro;
 
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
-    public class StartViewModel : DocumentItemViewModel
+    public class ClientsViewModel : AnchorableItemViewModel
     {
         #region Constructors and Destructors
 
-        public StartViewModel(IEventAggregator events)
+        public ClientsViewModel(IEventAggregator events)
             : base(events)
         {
-            this.Title = "Start";
+            this.Title = "Clients";
         }
 
         #endregion

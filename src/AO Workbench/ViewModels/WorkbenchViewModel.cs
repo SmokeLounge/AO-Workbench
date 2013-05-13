@@ -19,10 +19,13 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Events.Workbench;
+    using SmokeLounge.AoWorkbench.ViewModels.Anchorables;
+    using SmokeLounge.AoWorkbench.ViewModels.Documents;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
     [Export(typeof(IWorkbench))]
-    public class WorkbenchViewModel : Screen, IWorkbench
+    public class WorkbenchViewModel : Screen, IWorkbench, IHandle<ItemClosedEvent>
     {
         #region Fields
 
@@ -30,14 +33,18 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
         private readonly IObservableCollection<IDocumentItem> documents;
 
+        private readonly IEventAggregator events;
+
         private IItem activeContent;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public WorkbenchViewModel()
+        [ImportingConstructor]
+        public WorkbenchViewModel(IEventAggregator events)
         {
+            this.events = events;
             this.anchorables = new BindableCollection<IAnchorableItem>();
             this.documents = new BindableCollection<IDocumentItem>();
         }
@@ -83,7 +90,51 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
         #endregion
 
+        #region Public Methods and Operators
+
+        public void Handle(ItemClosedEvent message)
+        {
+            var document = message.Item as IDocumentItem;
+            if (document != null)
+            {
+                this.documents.Remove(document);
+                return;
+            }
+
+            var anchorable = message.Item as IAnchorableItem;
+            if (anchorable != null)
+            {
+                this.anchorables.Remove(anchorable);
+            }
+        }
+
+        #endregion
+
         #region Methods
+
+        protected override void OnInitialize()
+        {
+            this.events.Subscribe(this);
+
+            var start = new StartViewModel(this.events);
+            this.Documents.Add(start);
+
+            var configurationLoaded = this.LoadConfiguration();
+            if (configurationLoaded == false)
+            {
+                this.Anchorables.Add(new ClientsViewModel(this.events));
+                this.Anchorables.Add(new PropertiesViewModel(this.events));
+            }
+
+            this.ActiveContent = start;
+
+            base.OnInitialize();
+        }
+
+        private bool LoadConfiguration()
+        {
+            return false;
+        }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()

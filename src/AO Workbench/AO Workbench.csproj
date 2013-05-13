@@ -168,6 +168,9 @@
     <Compile Include="DomainEventHandlers\ClientAttachedToProcessEventHandler.cs" />
     <Compile Include="DomainEventHandlers\PlayerForRemoteProcessFoundEventHandler.cs" />
     <Compile Include="DomainEventHandlers\RemoteProcessCreatedEvent.cs" />
+    <Compile Include="Events\Workbench\ItemClosedEvent.cs" />
+    <Compile Include="ViewModels\Anchorables\ClientsViewModel.cs" />
+    <Compile Include="ViewModels\Anchorables\PropertiesViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AttachToProcessFactory.cs" />
     <Compile Include="ViewModels\Dialogs\AttachToProcessViewModel.cs" />
     <Compile Include="ViewModels\Documents\StartViewModel.cs" />
@@ -204,6 +207,14 @@
     <Page Include="Resources\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Anchorables\ClientsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Anchorables\PropertiesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\AttachToProcessView.xaml">
       <SubType>Designer</SubType>
@@ -255,7 +266,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Events\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>

@@ -68,9 +68,9 @@
             <themes:ExpressionDarkTheme />
         </avalondock:DockingManager.Theme>
         <avalondock:LayoutRoot>
-            <avalondock:LayoutPanel Orientation="Vertical">
+            <avalondock:LayoutPanel Orientation="Horizontal">
                 <avalondock:LayoutDocumentPane />
-                <avalondock:LayoutAnchorablePane />
+                <avalondock:LayoutAnchorablePane DockWidth="300" />
             </avalondock:LayoutPanel>
         </avalondock:LayoutRoot>
     </avalondock:DockingManager>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DocumentItemViewModel.cs" company="SmokeLounge">
+// <copyright file="ItemClosedEvent.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,50 +8,54 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the DocumentItemViewModel type.
+//   Defines the ItemClosedEvent type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
+namespace SmokeLounge.AoWorkbench.Events.Workbench
 {
-    using Caliburn.Micro;
+    using System;
+    using System.Diagnostics.Contracts;
 
-    public abstract class DocumentItemViewModel : ItemViewModel, IDocumentItem
+    using SmokeLounge.AoWorkbench.ViewModels.Workbench;
+
+    public class ItemClosedEvent
     {
         #region Fields
 
-        private string description;
+        private readonly IItem item;
 
         #endregion
 
         #region Constructors and Destructors
 
-        protected DocumentItemViewModel(IEventAggregator events)
-            : base(events)
+        public ItemClosedEvent(IItem item)
         {
+            Contract.Requires<ArgumentNullException>(item != null);
+
+            this.item = item;
         }
 
         #endregion
 
         #region Public Properties
 
-        public string Description
+        public IItem Item
         {
             get
             {
-                return this.description;
+                return this.item;
             }
+        }
 
-            set
-            {
-                if (value == this.description)
-                {
-                    return;
-                }
+        #endregion
 
-                this.description = value;
-                this.NotifyOfPropertyChange();
-            }
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.item != null);
         }
 
         #endregion

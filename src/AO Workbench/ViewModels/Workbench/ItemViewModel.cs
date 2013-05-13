@@ -15,13 +15,19 @@
 namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Windows.Input;
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Components;
+    using SmokeLounge.AoWorkbench.Events.Workbench;
+
     public abstract class ItemViewModel : PropertyChangedBase, IItem
     {
         #region Fields
+
+        private readonly IEventAggregator events;
 
         private ICommand activateCommand;
 
@@ -56,6 +62,19 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
         private string title;
 
         private string toolTip;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        protected ItemViewModel(IEventAggregator events)
+        {
+            Contract.Requires<ArgumentNullException>(events != null);
+
+            this.events = events;
+
+            this.closeCommand = new RelayCommand(_ => this.OnClose(), _ => this.CanClose);
+        }
 
         #endregion
 
@@ -382,6 +401,27 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
                 this.toolTip = value;
                 this.NotifyOfPropertyChange();
             }
+        }
+
+        #endregion
+
+        #region Properties
+
+        protected IEventAggregator Events
+        {
+            get
+            {
+                return this.events;
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected virtual void OnClose()
+        {
+            this.Events.Publish(new ItemClosedEvent(this));
         }
 
         #endregion

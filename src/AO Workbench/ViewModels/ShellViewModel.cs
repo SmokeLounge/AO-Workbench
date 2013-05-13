@@ -19,8 +19,6 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.ViewModels.Documents;
-
     [Export(typeof(IShell))]
     public class ShellViewModel : Screen, IShell
     {
@@ -71,9 +69,6 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         protected override void OnInitialize()
         {
             this.DisplayName = "AO Workbench";
-
-            this.workbench.Documents.Add(new StartViewModel());
-            this.workbench.Documents.Add(new StartViewModel());
 
             this.toolbar.ConductWith(this);
             this.workbench.ConductWith(this);
