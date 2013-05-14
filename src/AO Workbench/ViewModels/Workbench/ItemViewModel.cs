@@ -22,6 +22,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
     using SmokeLounge.AoWorkbench.Components;
     using SmokeLounge.AoWorkbench.Events.Workbench;
+    using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public abstract class ItemViewModel : PropertyChangedBase, IItem
     {
@@ -422,6 +423,12 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
         protected virtual void OnClose()
         {
             this.Events.Publish(new ItemClosedEvent(this));
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.events != null);
         }
 
         #endregion

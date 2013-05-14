@@ -14,15 +14,18 @@
 
 namespace SmokeLounge.AoWorkbench.ViewModels
 {
+    using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
     using SmokeLounge.AoWorkbench.Events.Workbench;
-    using SmokeLounge.AoWorkbench.ViewModels.Anchorables;
-    using SmokeLounge.AoWorkbench.ViewModels.Documents;
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench;
+    using SmokeLounge.AoWorkbench.Models;
+    using SmokeLounge.AoWorkbench.Models.Workbench;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer;
+    using SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables;
+    using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
 
     [Export(typeof(IWorkbench))]
     public class WorkbenchViewModel : Screen, IWorkbench, IHandle<ItemClosedEvent>
@@ -44,6 +47,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         [ImportingConstructor]
         public WorkbenchViewModel(IEventAggregator events)
         {
+            Contract.Requires<ArgumentNullException>(events != null);
+
             this.events = events;
             this.anchorables = new BindableCollection<IAnchorableItem>();
             this.documents = new BindableCollection<IDocumentItem>();
@@ -94,6 +99,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
         public void Handle(ItemClosedEvent message)
         {
+            Contract.Assume(message != null);
+
             var document = message.Item as IDocumentItem;
             if (document != null)
             {
@@ -117,13 +124,14 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             this.events.Subscribe(this);
 
             var start = new StartViewModel(this.events);
-            this.Documents.Add(start);
+            this.documents.Add(start);
+            this.documents.Add(new PacketVisualizerViewModel(this.events));
 
             var configurationLoaded = this.LoadConfiguration();
             if (configurationLoaded == false)
             {
-                this.Anchorables.Add(new ClientsViewModel(this.events));
-                this.Anchorables.Add(new PropertiesViewModel(this.events));
+                this.anchorables.Add(new ProcessListViewModel(this.events));
+                this.anchorables.Add(new PropertiesViewModel(this.events));
             }
 
             this.ActiveContent = start;
@@ -141,6 +149,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         {
             Contract.Invariant(this.anchorables != null);
             Contract.Invariant(this.documents != null);
+            Contract.Invariant(this.events != null);
         }
 
         #endregion

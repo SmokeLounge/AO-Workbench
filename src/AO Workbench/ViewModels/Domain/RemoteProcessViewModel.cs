@@ -18,6 +18,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Models.Domain;
+
     public class RemoteProcessViewModel : PropertyChangedBase, IRemoteProcess
     {
         #region Fields

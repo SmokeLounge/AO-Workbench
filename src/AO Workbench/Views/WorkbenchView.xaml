@@ -8,6 +8,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:themes="clr-namespace:AvalonDock.Themes;assembly=AvalonDock.Themes.Expression"
              xmlns:workbench="clr-namespace:SmokeLounge.AoWorkbench.ViewModels.Workbench"
+             xmlns:workbench2="clr-namespace:SmokeLounge.AoWorkbench.Models.Workbench"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -55,9 +56,9 @@
                                DocumentsSource="{Binding Documents}">
         <avalondock:DockingManager.LayoutItemContainerStyleSelector>
             <controls:DockingManagerLayoutItemContainerStyleSelector AnchorableStyle="{StaticResource AnchorableStyle}"
-                                                                     AnchorableType="{x:Type workbench:IAnchorableItem}"
+                                                                     AnchorableType="{x:Type workbench2:IAnchorableItem}"
                                                                      DocumentStyle="{StaticResource DocumentStyle}"
-                                                                     DocumentType="{x:Type workbench:IDocumentItem}" />
+                                                                     DocumentType="{x:Type workbench2:IDocumentItem}" />
         </avalondock:DockingManager.LayoutItemContainerStyleSelector>
         <avalondock:DockingManager.LayoutItemTemplate>
             <DataTemplate>

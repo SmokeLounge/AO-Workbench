@@ -168,28 +168,49 @@
     <Compile Include="DomainEventHandlers\ClientAttachedToProcessEventHandler.cs" />
     <Compile Include="DomainEventHandlers\PlayerForRemoteProcessFoundEventHandler.cs" />
     <Compile Include="DomainEventHandlers\RemoteProcessCreatedEvent.cs" />
+    <Compile Include="Events\PropertyDisplayRequestedEvent.cs" />
     <Compile Include="Events\Workbench\ItemClosedEvent.cs" />
-    <Compile Include="ViewModels\Anchorables\ClientsViewModel.cs" />
-    <Compile Include="ViewModels\Anchorables\PropertiesViewModel.cs" />
+    <Compile Include="Models\Domain\IPlayer.cs" />
+    <Compile Include="Models\Domain\IRemoteProcess.cs" />
+    <Compile Include="Models\IShell.cs" />
+    <Compile Include="Models\IToolbar.cs" />
+    <Compile Include="Models\IWorkbench.cs" />
+    <Compile Include="Models\Modules\IAnchorableItemFactory.cs" />
+    <Compile Include="Models\Modules\IDocumentItemFactory.cs" />
+    <Compile Include="Models\Modules\IItemFactory.cs" />
+    <Compile Include="Models\Modules\IModule.cs" />
+    <Compile Include="Models\Workbench\IAnchorableItem.cs" />
+    <Compile Include="Models\Workbench\IDocumentItem.cs" />
+    <Compile Include="Models\Workbench\IItem.cs" />
+    <Compile Include="Modules\Inventory\InventoryFactory.cs" />
+    <Compile Include="Modules\Inventory\InventoryModule.cs" />
+    <Compile Include="Modules\Inventory\InventoryViewModel.cs" />
+    <Compile Include="Modules\Nanos\NanosFactory.cs" />
+    <Compile Include="Modules\Nanos\NanosModule.cs" />
+    <Compile Include="Modules\Nanos\NanosViewModel.cs" />
+    <Compile Include="Modules\Ncu\NcuFactory.cs" />
+    <Compile Include="Modules\Ncu\NcuModule.cs" />
+    <Compile Include="Modules\Ncu\NcuViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketVisualizerFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketVisualizerModule.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketVisualizerViewModel.cs" />
+    <Compile Include="Modules\Wear\WearFactory.cs" />
+    <Compile Include="Modules\Wear\WearModule.cs" />
+    <Compile Include="Modules\Wear\WearViewModel.cs" />
     <Compile Include="ViewModels\Dialogs\AttachToProcessFactory.cs" />
     <Compile Include="ViewModels\Dialogs\AttachToProcessViewModel.cs" />
-    <Compile Include="ViewModels\Documents\StartViewModel.cs" />
-    <Compile Include="ViewModels\Domain\IPlayer.cs" />
-    <Compile Include="ViewModels\Domain\IRemoteProcess.cs" />
     <Compile Include="ViewModels\Domain\PlayerFactory.cs" />
     <Compile Include="ViewModels\Domain\PlayerViewModel.cs" />
     <Compile Include="ViewModels\Domain\RemoteProcessFactory.cs" />
     <Compile Include="ViewModels\Domain\RemoteProcessViewModel.cs" />
-    <Compile Include="ViewModels\IToolbar.cs" />
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\Workbench\AnchorableItemViewModel.cs" />
+    <Compile Include="ViewModels\Workbench\Anchorables\BreakpointsViewModel.cs" />
+    <Compile Include="ViewModels\Workbench\Anchorables\ProcessListViewModel.cs" />
+    <Compile Include="ViewModels\Workbench\Anchorables\PropertiesViewModel.cs" />
     <Compile Include="ViewModels\Workbench\DocumentItemViewModel.cs" />
-    <Compile Include="ViewModels\Workbench\IAnchorableItem.cs" />
-    <Compile Include="ViewModels\Workbench\IDocumentItem.cs" />
-    <Compile Include="ViewModels\Workbench\IItem.cs" />
-    <Compile Include="ViewModels\IShell.cs" />
+    <Compile Include="ViewModels\Workbench\Documents\StartViewModel.cs" />
     <Compile Include="ViewModels\Workbench\ItemViewModel.cs" />
-    <Compile Include="ViewModels\IWorkbench.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\WorkbenchViewModel.cs" />
     <Page Include="Controls\CaptionButtons.xaml">
@@ -200,6 +221,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Modules\Inventory\InventoryView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Nanos\NanosView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Ncu\NcuView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\PacketVisualizer\PacketVisualizerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\Wear\WearView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resources\ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -208,19 +249,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Anchorables\ClientsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Anchorables\PropertiesView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Dialogs\AttachToProcessView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Documents\StartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,6 +264,22 @@
     <Page Include="Views\WorkbenchView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Workbench\Anchorables\BreakpointsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Workbench\Anchorables\ProcessListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Workbench\Anchorables\PropertiesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Workbench\Documents\StartView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -265,9 +310,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
       <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>

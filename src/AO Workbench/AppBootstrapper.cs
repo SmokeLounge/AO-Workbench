@@ -26,7 +26,7 @@ namespace SmokeLounge.AoWorkbench
 
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AOtomation.Domain.Interfaces;
-    using SmokeLounge.AoWorkbench.ViewModels;
+    using SmokeLounge.AoWorkbench.Models;
 
     using WindowManager = SmokeLounge.AoWorkbench.Components.WindowManager;
 

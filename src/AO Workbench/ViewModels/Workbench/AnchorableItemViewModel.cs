@@ -14,9 +14,13 @@
 
 namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 {
+    using System;
+    using System.Diagnostics.Contracts;
     using System.Windows.Input;
 
     using Caliburn.Micro;
+
+    using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public abstract class AnchorableItemViewModel : ItemViewModel, IAnchorableItem
     {
@@ -37,6 +41,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
         protected AnchorableItemViewModel(IEventAggregator events)
             : base(events)
         {
+            Contract.Requires<ArgumentNullException>(events != null);
         }
 
         #endregion

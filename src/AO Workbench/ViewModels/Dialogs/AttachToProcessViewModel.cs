@@ -23,7 +23,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AOtomation.Domain.Interfaces.Commands;
     using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.ViewModels.Domain;
+    using SmokeLounge.AoWorkbench.Models.Domain;
 
     public class AttachToProcessViewModel : Screen
     {

@@ -22,6 +22,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Domain.Facade;
+    using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
     [Export(typeof(IRemoteProcessService))]

@@ -19,6 +19,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     using System.Diagnostics.Contracts;
 
     using SmokeLounge.AOtomation.Domain.Facade.Dtos;
+    using SmokeLounge.AoWorkbench.Models.Domain;
 
     [Export]
     public class PlayerFactory

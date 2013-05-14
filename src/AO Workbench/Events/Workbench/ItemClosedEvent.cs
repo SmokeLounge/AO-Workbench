@@ -17,7 +17,7 @@ namespace SmokeLounge.AoWorkbench.Events.Workbench
     using System;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench;
+    using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public class ItemClosedEvent
     {

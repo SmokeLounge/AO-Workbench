@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
     using SmokeLounge.AOtomation.Domain.Facade.Dtos;
     using SmokeLounge.AOtomation.Domain.Interfaces;
+    using SmokeLounge.AoWorkbench.Models.Domain;
 
     [Export]
     public class RemoteProcessFactory

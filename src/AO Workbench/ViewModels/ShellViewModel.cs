@@ -19,6 +19,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Models;
+
     [Export(typeof(IShell))]
     public class ShellViewModel : Screen, IShell
     {

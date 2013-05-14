@@ -14,7 +14,12 @@
 
 namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 {
+    using System;
+    using System.Diagnostics.Contracts;
+
     using Caliburn.Micro;
+
+    using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public abstract class DocumentItemViewModel : ItemViewModel, IDocumentItem
     {
@@ -29,6 +34,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
         protected DocumentItemViewModel(IEventAggregator events)
             : base(events)
         {
+            Contract.Requires<ArgumentNullException>(events != null);
         }
 
         #endregion

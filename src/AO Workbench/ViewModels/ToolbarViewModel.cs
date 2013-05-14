@@ -21,6 +21,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Models;
     using SmokeLounge.AoWorkbench.ViewModels.Dialogs;
 
     [Export(typeof(IToolbar))]
