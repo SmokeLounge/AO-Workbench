@@ -152,6 +152,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="Components\Services\IProcessModulesService.cs" />
+    <Compile Include="Components\Services\ProcessModulesService.cs" />
     <Compile Include="Controls\Behaviors\ListViewSelectedItemsBindingBehavior.cs" />
     <Compile Include="Controls\Converters\NullToBoolConverter.cs" />
     <Compile Include="Components\RelayCommand.cs" />
@@ -159,19 +161,28 @@
       <DependentUpon>CaptionButtons.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\WindowManager.cs" />
+    <Compile Include="Controls\DataTemplatePair.cs" />
+    <Compile Include="Controls\DataTemplatePairCollection.cs" />
     <Compile Include="Controls\DialogWindow.xaml.cs">
       <DependentUpon>DialogWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Components\Services\IRemoteProcessService.cs" />
     <Compile Include="Components\Services\RemoteProcessService.cs" />
-    <Compile Include="Controls\DockingManagerLayoutItemContainerStyleSelector.cs" />
+    <Compile Include="Controls\CollectionStyleSelector.cs" />
+    <Compile Include="Controls\CollectionDataTemplateSelector.cs" />
+    <Compile Include="Controls\StylePair.cs" />
+    <Compile Include="Controls\StylePairCollection.cs" />
     <Compile Include="DomainEventHandlers\ClientAttachedToProcessEventHandler.cs" />
     <Compile Include="DomainEventHandlers\PlayerForRemoteProcessFoundEventHandler.cs" />
     <Compile Include="DomainEventHandlers\RemoteProcessCreatedEvent.cs" />
     <Compile Include="Events\PropertyDisplayRequestedEvent.cs" />
     <Compile Include="Events\Workbench\ItemClosedEvent.cs" />
+    <Compile Include="Events\Workbench\ItemOpenedEvent.cs" />
     <Compile Include="Models\Domain\IPlayer.cs" />
     <Compile Include="Models\Domain\IRemoteProcess.cs" />
+    <Compile Include="Models\Domain\IProcessModules.cs" />
+    <Compile Include="ViewModels\Domain\ProcessModulesFactory.cs" />
+    <Compile Include="ViewModels\Domain\ProcessModulesViewModel.cs" />
     <Compile Include="Models\IShell.cs" />
     <Compile Include="Models\IToolbar.cs" />
     <Compile Include="Models\IWorkbench.cs" />
@@ -179,21 +190,27 @@
     <Compile Include="Models\Modules\IDocumentItemFactory.cs" />
     <Compile Include="Models\Modules\IItemFactory.cs" />
     <Compile Include="Models\Modules\IModule.cs" />
+    <Compile Include="Models\Modules\IModuleFactory.cs" />
     <Compile Include="Models\Workbench\IAnchorableItem.cs" />
     <Compile Include="Models\Workbench\IDocumentItem.cs" />
     <Compile Include="Models\Workbench\IItem.cs" />
     <Compile Include="Modules\Inventory\InventoryFactory.cs" />
     <Compile Include="Modules\Inventory\InventoryModule.cs" />
+    <Compile Include="Modules\Inventory\InventoryModuleFactory.cs" />
     <Compile Include="Modules\Inventory\InventoryViewModel.cs" />
+    <Compile Include="Modules\Nanos\NanosModuleFactory.cs" />
     <Compile Include="Modules\Nanos\NanosFactory.cs" />
     <Compile Include="Modules\Nanos\NanosModule.cs" />
     <Compile Include="Modules\Nanos\NanosViewModel.cs" />
+    <Compile Include="Modules\Ncu\NcuModuleFactory.cs" />
     <Compile Include="Modules\Ncu\NcuFactory.cs" />
     <Compile Include="Modules\Ncu\NcuModule.cs" />
     <Compile Include="Modules\Ncu\NcuViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketVisualizerModuleFactory.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketVisualizerFactory.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketVisualizerModule.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketVisualizerViewModel.cs" />
+    <Compile Include="Modules\Wear\WearModuleFactory.cs" />
     <Compile Include="Modules\Wear\WearFactory.cs" />
     <Compile Include="Modules\Wear\WearModule.cs" />
     <Compile Include="Modules\Wear\WearViewModel.cs" />
@@ -206,6 +223,8 @@
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\Workbench\AnchorableItemViewModel.cs" />
     <Compile Include="ViewModels\Workbench\Anchorables\BreakpointsViewModel.cs" />
+    <Compile Include="ViewModels\Workbench\Documents\ProcessDetailsFactory.cs" />
+    <Compile Include="ViewModels\Workbench\Documents\ProcessDetailsViewModel.cs" />
     <Compile Include="ViewModels\Workbench\Anchorables\ProcessListViewModel.cs" />
     <Compile Include="ViewModels\Workbench\Anchorables\PropertiesViewModel.cs" />
     <Compile Include="ViewModels\Workbench\DocumentItemViewModel.cs" />
@@ -276,6 +295,10 @@
     <Page Include="Views\Workbench\Anchorables\PropertiesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Workbench\Documents\ProcessDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Workbench\Documents\StartView.xaml">
       <Generator>MSBuild:Compile</Generator>

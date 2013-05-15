@@ -15,13 +15,12 @@
 namespace SmokeLounge.AoWorkbench.Modules.Ncu
 {
     using System;
-    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.Models.Workbench;
 
-    [Export(typeof(IModule))]
     public class NcuModule : IModule
     {
         #region Fields
@@ -30,17 +29,20 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
 
         private readonly string name;
 
+        private readonly IRemoteProcess remoteProcess;
+
         private readonly NcuFactory ncuFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
-        [ImportingConstructor]
-        public NcuModule(NcuFactory ncuFactory)
+        public NcuModule(IRemoteProcess remoteProcess, NcuFactory ncuFactory)
         {
+            Contract.Requires<ArgumentNullException>(remoteProcess != null);
             Contract.Requires<ArgumentNullException>(ncuFactory != null);
 
+            this.remoteProcess = remoteProcess;
             this.ncuFactory = ncuFactory;
             this.iconSource = null;
             this.name = "NCU";
@@ -70,9 +72,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
 
         #region Public Methods and Operators
 
-        public IItem CreateItem(Guid processId)
+        public IItem CreateItem()
         {
-            return this.ncuFactory.CreateItem(processId);
+            return this.ncuFactory.CreateItem(this.remoteProcess.Id);
         }
 
         #endregion
@@ -84,6 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.ncuFactory != null);
+            Contract.Invariant(this.remoteProcess != null);
         }
 
         #endregion

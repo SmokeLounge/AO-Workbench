@@ -103,6 +103,20 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
             this.TryClose();
         }
 
+        public void AttachToProcess(IRemoteProcess remoteProcess)
+        {
+            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+
+            if (remoteProcess.IsAttached)
+            {
+                return;
+            }
+
+            this.remoteProcessCommandService.AttachClientToRemoteProcess(
+                new AttachClientToRemoteProcessCommand(remoteProcess.Id));
+            this.TryClose();
+        }
+
         public void Cancel()
         {
         }

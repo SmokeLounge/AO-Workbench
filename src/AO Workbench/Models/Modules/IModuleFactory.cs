@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IModule.cs" company="SmokeLounge">
+// <copyright file="IModuleFactory.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,7 +8,7 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the IModule type.
+//   Defines the IModuleFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -17,10 +17,10 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
     using System;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AoWorkbench.Models.Workbench;
+    using SmokeLounge.AoWorkbench.Models.Domain;
 
-    [ContractClass(typeof(IModuleContract))]
-    public interface IModule
+    [ContractClass(typeof(IModuleFactoryContract))]
+    public interface IModuleFactory
     {
         #region Public Properties
 
@@ -28,13 +28,17 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
 
         string Name { get; }
 
-        IItem CreateItem();
+        #endregion
+
+        #region Public Methods and Operators
+
+        IModule Create(IRemoteProcess remoteProcess);
 
         #endregion
     }
 
-    [ContractClassFor(typeof(IModule))]
-    internal abstract class IModuleContract : IModule
+    [ContractClassFor(typeof(IModuleFactory))]
+    internal abstract class IModuleFactoryContract : IModuleFactory
     {
         #region Public Properties
 
@@ -56,17 +60,17 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
             }
         }
 
-        public IItem CreateItem()
+        #endregion
+
+        #region Public Methods and Operators
+
+        public IModule Create(IRemoteProcess remoteProcess)
         {
-            Contract.Ensures(Contract.Result<IItem>() != null);
+            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Ensures(Contract.Result<IModule>() != null);
 
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Explicit Interface Methods
-
 
         #endregion
     }

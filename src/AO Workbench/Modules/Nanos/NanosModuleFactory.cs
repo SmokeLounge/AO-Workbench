@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="NanosModule.cs" company="SmokeLounge">
+// <copyright file="NanosModuleFactory.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,20 +8,21 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the NanosModule type.
+//   Defines the NanosModuleFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace SmokeLounge.AoWorkbench.Modules.Nanos
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
-    using SmokeLounge.AoWorkbench.Models.Workbench;
 
-    public class NanosModule : IModule
+    [Export(typeof(IModuleFactory))]
+    public class NanosModuleFactory : IModuleFactory
     {
         #region Fields
 
@@ -29,20 +30,17 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
 
         private readonly string name;
 
-        private readonly IRemoteProcess remoteProcess;
-
         private readonly NanosFactory nanosFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public NanosModule(IRemoteProcess remoteProcess, NanosFactory nanosFactory)
+        [ImportingConstructor]
+        public NanosModuleFactory(NanosFactory nanosFactory)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
             Contract.Requires<ArgumentNullException>(nanosFactory != null);
 
-            this.remoteProcess = remoteProcess;
             this.nanosFactory = nanosFactory;
             this.iconSource = null;
             this.name = "Nanos";
@@ -72,9 +70,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
 
         #region Public Methods and Operators
 
-        public IItem CreateItem()
+        public IModule Create(IRemoteProcess remoteProcess)
         {
-            return this.nanosFactory.CreateItem(this.remoteProcess.Id);
+            return new NanosModule(remoteProcess, this.nanosFactory);
         }
 
         #endregion
@@ -84,9 +82,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.nanosFactory != null);
-            Contract.Invariant(this.remoteProcess != null);
+            Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
         }
 
         #endregion

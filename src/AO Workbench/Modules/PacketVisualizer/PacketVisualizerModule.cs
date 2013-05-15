@@ -15,13 +15,12 @@
 namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 {
     using System;
-    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.Models.Workbench;
 
-    [Export(typeof(IModule))]
     public class PacketVisualizerModule : IModule
     {
         #region Fields
@@ -30,17 +29,20 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         private readonly string name;
 
+        private readonly IRemoteProcess remoteProcess;
+
         private readonly PacketVisualizerFactory packetVisualizerFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
-        [ImportingConstructor]
-        public PacketVisualizerModule(PacketVisualizerFactory packetVisualizerFactory)
+        public PacketVisualizerModule(IRemoteProcess remoteProcess, PacketVisualizerFactory packetVisualizerFactory)
         {
+            Contract.Requires<ArgumentNullException>(remoteProcess != null);
             Contract.Requires<ArgumentNullException>(packetVisualizerFactory != null);
 
+            this.remoteProcess = remoteProcess;
             this.packetVisualizerFactory = packetVisualizerFactory;
             this.iconSource = null;
             this.name = "Packet Visualizer";
@@ -70,9 +72,9 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         #region Public Methods and Operators
 
-        public IItem CreateItem(Guid processId)
+        public IItem CreateItem()
         {
-            return this.packetVisualizerFactory.CreateItem(processId);
+            return this.packetVisualizerFactory.CreateItem(this.remoteProcess.Id);
         }
 
         #endregion
@@ -84,6 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.packetVisualizerFactory != null);
+            Contract.Invariant(this.remoteProcess != null);
         }
 
         #endregion

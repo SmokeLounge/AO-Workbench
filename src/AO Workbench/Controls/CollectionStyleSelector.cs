@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="DockingManagerLayoutItemContainerStyleSelector.cs" company="SmokeLounge">
+// <copyright file="CollectionStyleSelector.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,27 +8,21 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the DockingManagerLayoutItemContainerStyleSelector type.
+//   Defines the CollectionStyleSelector type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
 namespace SmokeLounge.AoWorkbench.Controls
 {
-    using System;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Controls;
 
-    public class DockingManagerLayoutItemContainerStyleSelector : StyleSelector
+    public class CollectionStyleSelector : StyleSelector
     {
         #region Public Properties
 
-        public Style AnchorableStyle { get; set; }
-
-        public Type AnchorableType { get; set; }
-
-        public Style DocumentStyle { get; set; }
-
-        public Type DocumentType { get; set; }
+        public StylePairCollection Styles { get; set; }
 
         #endregion
 
@@ -36,28 +30,13 @@ namespace SmokeLounge.AoWorkbench.Controls
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item == null)
+            if (this.Styles == null)
             {
-                return null;
+                return base.SelectStyle(item, container);
             }
 
-            if (this.DocumentType != null)
-            {
-                if (this.DocumentType.IsInstanceOfType(item))
-                {
-                    return this.DocumentStyle;
-                }
-            }
-
-            if (this.AnchorableType != null)
-            {
-                if (this.AnchorableType.IsInstanceOfType(item))
-                {
-                    return this.AnchorableStyle;
-                }
-            }
-
-            return base.SelectStyle(item, container);
+            var stylePair = this.Styles.FirstOrDefault(d => d.TargetType.IsInstanceOfType(item));
+            return stylePair != null ? stylePair.Style : base.SelectStyle(item, container);
         }
 
         #endregion

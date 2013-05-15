@@ -20,15 +20,15 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Events.Workbench;
     using SmokeLounge.AoWorkbench.Models;
     using SmokeLounge.AoWorkbench.Models.Workbench;
-    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
 
     [Export(typeof(IWorkbench))]
-    public class WorkbenchViewModel : Screen, IWorkbench, IHandle<ItemClosedEvent>
+    public class WorkbenchViewModel : Screen, IWorkbench, IHandle<ItemClosedEvent>, IHandle<ItemOpenedEvent>
     {
         #region Fields
 
@@ -38,6 +38,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
         private readonly IEventAggregator events;
 
+        private readonly IProcessModulesService processModulesService;
+
         private IItem activeContent;
 
         #endregion
@@ -45,10 +47,12 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public WorkbenchViewModel(IEventAggregator events)
+        public WorkbenchViewModel(IProcessModulesService processModulesService, IEventAggregator events)
         {
+            Contract.Requires<ArgumentNullException>(processModulesService != null);
             Contract.Requires<ArgumentNullException>(events != null);
 
+            this.processModulesService = processModulesService;
             this.events = events;
             this.anchorables = new BindableCollection<IAnchorableItem>();
             this.documents = new BindableCollection<IDocumentItem>();
@@ -115,6 +119,26 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             }
         }
 
+        public void Handle(ItemOpenedEvent message)
+        {
+            Contract.Assume(message != null);
+
+            var document = message.Item as IDocumentItem;
+            if (document != null && this.documents.Contains(document) == false)
+            {
+                this.documents.Add(document);
+                this.ActiveContent = document;
+                return;
+            }
+
+            var anchorable = message.Item as IAnchorableItem;
+            if (anchorable != null && this.anchorables.Contains(anchorable) == false)
+            {
+                this.anchorables.Add(anchorable);
+                this.ActiveContent = anchorable;
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -125,12 +149,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
             var start = new StartViewModel(this.events);
             this.documents.Add(start);
-            this.documents.Add(new PacketVisualizerViewModel(this.events));
 
             var configurationLoaded = this.LoadConfiguration();
             if (configurationLoaded == false)
             {
-                this.anchorables.Add(new ProcessListViewModel(this.events));
+                this.anchorables.Add(new ProcessListViewModel(this.processModulesService, this.events));
                 this.anchorables.Add(new PropertiesViewModel(this.events));
             }
 
@@ -150,6 +173,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             Contract.Invariant(this.anchorables != null);
             Contract.Invariant(this.documents != null);
             Contract.Invariant(this.events != null);
+            Contract.Invariant(this.processModulesService != null);
         }
 
         #endregion

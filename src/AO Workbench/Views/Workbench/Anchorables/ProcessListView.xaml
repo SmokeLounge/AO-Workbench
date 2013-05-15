@@ -1,10 +1,66 @@
 <UserControl x:Class="SmokeLounge.AoWorkbench.Views.Workbench.Anchorables.ProcessListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalondock="http://avalondock.codeplex.com"
+             xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             xmlns:controls="clr-namespace:SmokeLounge.AoWorkbench.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:domain="clr-namespace:SmokeLounge.AoWorkbench.Models.Domain"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:modules="clr-namespace:SmokeLounge.AoWorkbench.Models.Modules"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <TreeView />
+    <UserControl.Resources>
+        <avalondock:UriSourceToBitmapImageConverter x:Key="UriSourceToBitmapImageConverter" />
+
+        <HierarchicalDataTemplate x:Key="IProcessModulesTemplate"
+                                  DataType="{x:Type domain:IProcessModules}"
+                                  ItemsSource="{Binding Modules}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Width="16"
+                       Height="16"
+                       Source="{Binding IconSource,
+                                        Converter={StaticResource UriSourceToBitmapImageConverter}}" />
+                <TextBlock Grid.Column="1" Text="{Binding Name}" />
+            </Grid>
+        </HierarchicalDataTemplate>
+
+        <HierarchicalDataTemplate x:Key="IModuleTemplate" DataType="{x:Type modules:IModule}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Width="16"
+                       Height="16"
+                       Source="{Binding IconSource,
+                                        Converter={StaticResource UriSourceToBitmapImageConverter}}" />
+                <TextBlock Grid.Column="1" Text="{Binding Name}" />
+            </Grid>
+        </HierarchicalDataTemplate>
+    </UserControl.Resources>
+
+    <TreeView x:Name="ProcessModulesCollection">
+        <TreeView.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type TreeViewItem}">
+                <Setter Property="IsExpanded" Value="True" />
+                <Setter Property="cal:Message.Attach" Value="[Event MouseDoubleClick] = [Action Open($dataContext)]" />
+            </Style>
+        </TreeView.ItemContainerStyle>
+        <TreeView.ItemTemplateSelector>
+            <controls:CollectionDataTemplateSelector>
+                <controls:CollectionDataTemplateSelector.Templates>
+                    <controls:DataTemplatePairCollection>
+                        <controls:DataTemplatePair DataTemplate="{StaticResource IProcessModulesTemplate}" DataType="{x:Type domain:IProcessModules}" />
+                        <controls:DataTemplatePair DataTemplate="{StaticResource IModuleTemplate}" DataType="{x:Type modules:IModule}" />
+                    </controls:DataTemplatePairCollection>
+                </controls:CollectionDataTemplateSelector.Templates>
+            </controls:CollectionDataTemplateSelector>
+        </TreeView.ItemTemplateSelector>
+    </TreeView>
 </UserControl>

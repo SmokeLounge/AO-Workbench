@@ -15,18 +15,19 @@
 namespace SmokeLounge.AoWorkbench.Modules.Inventory
 {
     using System;
-    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.Models.Workbench;
 
-    [Export(typeof(IModule))]
     public class InventoryModule : IModule
     {
         #region Fields
 
         private readonly Uri iconSource;
+
+        private readonly IRemoteProcess remoteProcess;
 
         private readonly InventoryFactory inventoryFactory;
 
@@ -36,11 +37,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
 
         #region Constructors and Destructors
 
-        [ImportingConstructor]
-        public InventoryModule(InventoryFactory inventoryFactory)
+        public InventoryModule(IRemoteProcess remoteProcess, InventoryFactory inventoryFactory)
         {
+            Contract.Requires<ArgumentNullException>(remoteProcess != null);
             Contract.Requires<ArgumentNullException>(inventoryFactory != null);
 
+            this.remoteProcess = remoteProcess;
             this.inventoryFactory = inventoryFactory;
             this.iconSource = null;
             this.name = "Inventory";
@@ -70,9 +72,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
 
         #region Public Methods and Operators
 
-        public IItem CreateItem(Guid processId)
+        public IItem CreateItem()
         {
-            return this.inventoryFactory.CreateItem(processId);
+            return this.inventoryFactory.CreateItem(this.remoteProcess.Id);
         }
 
         #endregion
@@ -84,6 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.inventoryFactory != null);
+            Contract.Invariant(this.remoteProcess != null);
         }
 
         #endregion

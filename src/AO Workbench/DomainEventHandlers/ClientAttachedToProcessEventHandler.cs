@@ -21,11 +21,16 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
     using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Components.Services;
+    using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
     [Export(typeof(IHandleDomainEvent))]
     public class ClientAttachedToProcessEventHandler : IHandleDomainEvent<ClientAttachedToProcessEvent>
     {
         #region Fields
+
+        private readonly ProcessModulesFactory processModulesFactory;
+
+        private readonly IProcessModulesService processModulesService;
 
         private readonly IRemoteProcessService remoteProcessService;
 
@@ -34,11 +39,18 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public ClientAttachedToProcessEventHandler(IRemoteProcessService remoteProcessService)
+        public ClientAttachedToProcessEventHandler(
+            IRemoteProcessService remoteProcessService, 
+            IProcessModulesService processModulesService, 
+            ProcessModulesFactory processModulesFactory)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
+            Contract.Requires<ArgumentNullException>(processModulesService != null);
+            Contract.Requires<ArgumentNullException>(processModulesFactory != null);
 
             this.remoteProcessService = remoteProcessService;
+            this.processModulesService = processModulesService;
+            this.processModulesFactory = processModulesFactory;
         }
 
         #endregion
@@ -54,6 +66,10 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
             }
 
             remoteProcess.ClientId = message.ClientId;
+
+            var processModules = this.processModulesFactory.Create(remoteProcess);
+
+            this.processModulesService.Add(processModules);
         }
 
         #endregion
@@ -64,6 +80,8 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
         private void ObjectInvariant()
         {
             Contract.Invariant(this.remoteProcessService != null);
+            Contract.Invariant(this.processModulesService != null);
+            Contract.Invariant(this.processModulesFactory != null);
         }
 
         #endregion

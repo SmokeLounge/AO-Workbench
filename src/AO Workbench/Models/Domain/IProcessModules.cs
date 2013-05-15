@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IModule.cs" company="SmokeLounge">
+// <copyright file="IProcessModules.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,65 +8,63 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the IModule type.
+//   Defines the IProcessModules type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Models.Modules
+namespace SmokeLounge.AoWorkbench.Models.Domain
 {
     using System;
     using System.Diagnostics.Contracts;
 
+    using Caliburn.Micro;
+
+    using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.Models.Workbench;
 
-    [ContractClass(typeof(IModuleContract))]
-    public interface IModule
+    [ContractClass(typeof(ProcessModulesContract))]
+    public interface IProcessModules : IModule
     {
         #region Public Properties
 
-        Uri IconSource { get; }
-
-        string Name { get; }
-
-        IItem CreateItem();
+        IObservableCollection<IModule> Modules { get; }
 
         #endregion
     }
 
-    [ContractClassFor(typeof(IModule))]
-    internal abstract class IModuleContract : IModule
+    [ContractClassFor(typeof(IProcessModules))]
+    internal abstract class ProcessModulesContract : IProcessModules
     {
         #region Public Properties
 
-        public Uri IconSource
+        public IObservableCollection<IModule> Modules
         {
             get
             {
-                throw new NotImplementedException();
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                Contract.Ensures(string.IsNullOrWhiteSpace(Contract.Result<string>()) == false);
+                Contract.Ensures(Contract.Result<IObservableCollection<IModule>>() != null);
 
                 throw new NotImplementedException();
             }
         }
 
-        public IItem CreateItem()
-        {
-            Contract.Ensures(Contract.Result<IItem>() != null);
+        Uri IModule.IconSource { get { throw new NotImplementedException(); } }
 
-            throw new NotImplementedException();
+        string IModule.Name
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
         }
 
         #endregion
 
         #region Explicit Interface Methods
 
+        IItem IModule.CreateItem()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

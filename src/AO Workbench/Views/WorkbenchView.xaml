@@ -7,8 +7,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:themes="clr-namespace:AvalonDock.Themes;assembly=AvalonDock.Themes.Expression"
-             xmlns:workbench="clr-namespace:SmokeLounge.AoWorkbench.ViewModels.Workbench"
-             xmlns:workbench2="clr-namespace:SmokeLounge.AoWorkbench.Models.Workbench"
+             xmlns:workbench="clr-namespace:SmokeLounge.AoWorkbench.Models.Workbench"
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
@@ -55,10 +54,15 @@
                                AnchorablesSource="{Binding Anchorables}"
                                DocumentsSource="{Binding Documents}">
         <avalondock:DockingManager.LayoutItemContainerStyleSelector>
-            <controls:DockingManagerLayoutItemContainerStyleSelector AnchorableStyle="{StaticResource AnchorableStyle}"
-                                                                     AnchorableType="{x:Type workbench2:IAnchorableItem}"
-                                                                     DocumentStyle="{StaticResource DocumentStyle}"
-                                                                     DocumentType="{x:Type workbench2:IDocumentItem}" />
+            <controls:CollectionStyleSelector>
+                <controls:CollectionStyleSelector.Styles>
+                    <controls:StylePairCollection>
+                        <controls:StylePair Style="{StaticResource AnchorableStyle}" TargetType="{x:Type workbench:IAnchorableItem}" />
+                        <controls:StylePair Style="{StaticResource DocumentStyle}" TargetType="{x:Type workbench:IDocumentItem}" />
+                    </controls:StylePairCollection>
+                </controls:CollectionStyleSelector.Styles>
+            </controls:CollectionStyleSelector>
+
         </avalondock:DockingManager.LayoutItemContainerStyleSelector>
         <avalondock:DockingManager.LayoutItemTemplate>
             <DataTemplate>
