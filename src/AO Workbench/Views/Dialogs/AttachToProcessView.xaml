@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         <ListView x:Name="RemoteProcesses"
                   Grid.Row="0"
-                  SelectionMode="Multiple">
+                  SelectionMode="Extended">
             <ListView.Resources>
                 <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
                     <Style.Triggers>
@@ -34,7 +34,8 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="150"
-                                    DisplayMemberBinding="{Binding DisplayName}"
+                                    DisplayMemberBinding="{Binding Player.Name,
+                                                                   FallbackValue=(AnarchyOnline)}"
                                     Header="Process" />
                     <GridViewColumn Width="100"
                                     DisplayMemberBinding="{Binding RemoteId}"
@@ -42,7 +43,7 @@
                 </GridView>
             </ListView.View>
             <i:Interaction.Behaviors>
-                <behaviors:ListBoxSelectedItemsBindingBehavior SelectedItems="{Binding SelectedItems}" />
+                <behaviors:BindableSelectedItemsBehavior SelectedItems="{Binding SelectedItems}" />
             </i:Interaction.Behaviors>
         </ListView>
         <StackPanel Grid.Row="1"

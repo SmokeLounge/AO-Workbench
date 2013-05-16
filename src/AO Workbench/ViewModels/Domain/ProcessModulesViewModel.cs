@@ -25,19 +25,18 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.Models.Workbench;
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
 
     public class ProcessModulesViewModel : PropertyChangedBase, IProcessModules
     {
         #region Fields
 
-        private readonly IObservableCollection<IModule> modules;
+        private readonly Uri iconSource;
 
-        private readonly IRemoteProcess remoteProcess;
+        private readonly IObservableCollection<IModule> modules;
 
         private readonly IItem processDetails;
 
-        private Uri iconSource;
+        private readonly IRemoteProcess remoteProcess;
 
         #endregion
 
@@ -68,19 +67,19 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         #region Public Properties
 
-        public IObservableCollection<IModule> Modules
-        {
-            get
-            {
-                return this.modules;
-            }
-        }
-
         public Uri IconSource
         {
             get
             {
                 return this.iconSource;
+            }
+        }
+
+        public IObservableCollection<IModule> Modules
+        {
+            get
+            {
+                return this.modules;
             }
         }
 
@@ -99,6 +98,10 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
                 return name;
             }
         }
+
+        #endregion
+
+        #region Public Methods and Operators
 
         public IItem CreateItem()
         {

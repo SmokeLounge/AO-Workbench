@@ -70,9 +70,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
 
         #region Public Methods and Operators
 
-        public IModule Create(IRemoteProcess remoteProcess)
+        public IModule Create(IProcess process)
         {
-            return new NcuModule(remoteProcess, this.ncuFactory);
+            return new NcuModule(process, this.ncuFactory);
         }
 
         #endregion

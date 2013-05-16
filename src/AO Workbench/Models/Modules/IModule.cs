@@ -28,6 +28,10 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
 
         string Name { get; }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         IItem CreateItem();
 
         #endregion
@@ -56,17 +60,16 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
             }
         }
 
+        #endregion
+
+        #region Public Methods and Operators
+
         public IItem CreateItem()
         {
             Contract.Ensures(Contract.Result<IItem>() != null);
 
             throw new NotImplementedException();
         }
-
-        #endregion
-
-        #region Explicit Interface Methods
-
 
         #endregion
     }

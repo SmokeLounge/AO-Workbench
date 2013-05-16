@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PlayerForRemoteProcessFoundEventHandler.cs" company="SmokeLounge">
+// <copyright file="ProcessPlayerChangedEvent.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,7 +8,7 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the PlayerForRemoteProcessFoundEventHandler type.
+//   Defines the ProcessPlayerChangedEvent type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -20,12 +20,12 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
 
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AOtomation.Domain.Interfaces;
-    using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
     [Export(typeof(IHandleDomainEvent))]
-    public class PlayerForRemoteProcessFoundEventHandler : IHandleDomainEvent<PlayerForRemoteProcessFoundEvent>
+    public class ProcessPlayerChangedEvent :
+        IHandleDomainEvent<AOtomation.Domain.Interfaces.Events.ProcessPlayerChangedEvent>
     {
         #region Fields
 
@@ -40,7 +40,7 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PlayerForRemoteProcessFoundEventHandler(
+        public ProcessPlayerChangedEvent(
             IRemoteProcessService remoteProcessService, 
             PlayerFactory playerFactory, 
             IPlayerQueryService playerQueryService)
@@ -58,7 +58,7 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
 
         #region Public Methods and Operators
 
-        public void Handle(PlayerForRemoteProcessFoundEvent message)
+        public void Handle(AOtomation.Domain.Interfaces.Events.ProcessPlayerChangedEvent message)
         {
             var remoteProcess = this.remoteProcessService.Get(message.RemoteProcessId);
             if (remoteProcess == null)

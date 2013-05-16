@@ -29,20 +29,20 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
 
         private readonly string name;
 
-        private readonly IRemoteProcess remoteProcess;
-
         private readonly NcuFactory ncuFactory;
+
+        private readonly IProcess process;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public NcuModule(IRemoteProcess remoteProcess, NcuFactory ncuFactory)
+        public NcuModule(IProcess process, NcuFactory ncuFactory)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(ncuFactory != null);
 
-            this.remoteProcess = remoteProcess;
+            this.process = process;
             this.ncuFactory = ncuFactory;
             this.iconSource = null;
             this.name = "NCU";
@@ -74,7 +74,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
 
         public IItem CreateItem()
         {
-            return this.ncuFactory.CreateItem(this.remoteProcess.Id);
+            return this.ncuFactory.CreateItem(this.process.Id);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.ncuFactory != null);
-            Contract.Invariant(this.remoteProcess != null);
+            Contract.Invariant(this.process != null);
         }
 
         #endregion

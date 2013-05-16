@@ -23,7 +23,6 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
     using SmokeLounge.AoWorkbench.Events.Workbench;
     using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
-    using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public class ProcessListViewModel : AnchorableItemViewModel
     {
@@ -32,6 +31,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
         private readonly IObservableCollection<IProcessModules> processModulesCollection;
 
         private readonly IProcessModulesService processModulesService;
+
+        private IModule selectedItem;
 
         #endregion
 
@@ -60,11 +61,37 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
             }
         }
 
+        public IModule SelectedItem
+        {
+            get
+            {
+                return this.selectedItem;
+            }
+
+            set
+            {
+                if (Equals(value, this.selectedItem))
+                {
+                    return;
+                }
+
+                this.selectedItem = value;
+                this.NotifyOfPropertyChange();
+            }
+        }
+
         #endregion
+
+        #region Public Methods and Operators
 
         public void Open(object arg)
         {
             Contract.Requires<ArgumentNullException>(arg != null);
+
+            if (arg != this.selectedItem)
+            {
+                return;
+            }
 
             var module = arg as IModule;
             if (module == null)
@@ -75,6 +102,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
             var item = module.CreateItem();
             this.Events.Publish(new ItemOpenedEvent(item));
         }
+
+        #endregion
 
         #region Methods
 

@@ -70,9 +70,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
 
         #region Public Methods and Operators
 
-        public IModule Create(IRemoteProcess remoteProcess)
+        public IModule Create(IProcess process)
         {
-            return new NanosModule(remoteProcess, this.nanosFactory);
+            return new NanosModule(process, this.nanosFactory);
         }
 
         #endregion

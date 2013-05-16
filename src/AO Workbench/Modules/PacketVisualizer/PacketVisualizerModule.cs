@@ -29,23 +29,26 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         private readonly string name;
 
-        private readonly IRemoteProcess remoteProcess;
+        private readonly PacketVisualizerViewModel packetVisualizer;
 
         private readonly PacketVisualizerFactory packetVisualizerFactory;
+
+        private readonly IProcess process;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public PacketVisualizerModule(IRemoteProcess remoteProcess, PacketVisualizerFactory packetVisualizerFactory)
+        public PacketVisualizerModule(IProcess process, PacketVisualizerFactory packetVisualizerFactory)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(packetVisualizerFactory != null);
 
-            this.remoteProcess = remoteProcess;
+            this.process = process;
             this.packetVisualizerFactory = packetVisualizerFactory;
             this.iconSource = null;
             this.name = "Packet Visualizer";
+            this.packetVisualizer = this.packetVisualizerFactory.CreateItem(this.process.Id);
         }
 
         #endregion
@@ -74,7 +77,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         public IItem CreateItem()
         {
-            return this.packetVisualizerFactory.CreateItem(this.remoteProcess.Id);
+            return this.packetVisualizer;
         }
 
         #endregion
@@ -85,8 +88,9 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         private void ObjectInvariant()
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
+            Contract.Invariant(this.packetVisualizer != null);
             Contract.Invariant(this.packetVisualizerFactory != null);
-            Contract.Invariant(this.remoteProcess != null);
+            Contract.Invariant(this.process != null);
         }
 
         #endregion

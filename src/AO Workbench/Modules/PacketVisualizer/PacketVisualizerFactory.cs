@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Models.Modules;
 
     [Export]
@@ -29,15 +30,19 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         private readonly IEventAggregator events;
 
+        private readonly IRemoteProcessService remoteProcessService;
+
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketVisualizerFactory(IEventAggregator events)
+        public PacketVisualizerFactory(IRemoteProcessService remoteProcessService, IEventAggregator events)
         {
+            Contract.Requires<ArgumentNullException>(remoteProcessService != null);
             Contract.Requires<ArgumentNullException>(events != null);
 
+            this.remoteProcessService = remoteProcessService;
             this.events = events;
         }
 
@@ -47,7 +52,9 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         public PacketVisualizerViewModel CreateItem(Guid processId)
         {
-            return new PacketVisualizerViewModel(this.events);
+            var process = this.remoteProcessService.Get(processId);
+
+            return new PacketVisualizerViewModel(process, this.events);
         }
 
         #endregion
@@ -58,6 +65,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         private void ObjectInvariant()
         {
             Contract.Invariant(this.events != null);
+            Contract.Invariant(this.remoteProcessService != null);
         }
 
         #endregion

@@ -47,7 +47,17 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
             }
         }
 
-        Uri IModule.IconSource { get { throw new NotImplementedException(); } }
+        #endregion
+
+        #region Explicit Interface Properties
+
+        Uri IModule.IconSource
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         string IModule.Name
         {

@@ -15,7 +15,6 @@
 namespace SmokeLounge.AoWorkbench.Modules.Wear
 {
     using System;
-    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using SmokeLounge.AoWorkbench.Models.Domain;
@@ -30,7 +29,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
 
         private readonly string name;
 
-        private readonly IRemoteProcess remoteProcess;
+        private readonly IProcess process;
 
         private readonly WearFactory wearFactory;
 
@@ -38,12 +37,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
 
         #region Constructors and Destructors
 
-        public WearModule(IRemoteProcess remoteProcess, WearFactory wearFactory)
+        public WearModule(IProcess process, WearFactory wearFactory)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(wearFactory != null);
 
-            this.remoteProcess = remoteProcess;
+            this.process = process;
             this.wearFactory = wearFactory;
             this.iconSource = null;
             this.name = "Wear";
@@ -75,7 +74,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
 
         public IItem CreateItem()
         {
-            return this.wearFactory.CreateItem(this.remoteProcess.Id);
+            return this.wearFactory.CreateItem(this.process.Id);
         }
 
         #endregion
@@ -87,7 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.wearFactory != null);
-            Contract.Invariant(this.remoteProcess != null);
+            Contract.Invariant(this.process != null);
         }
 
         #endregion

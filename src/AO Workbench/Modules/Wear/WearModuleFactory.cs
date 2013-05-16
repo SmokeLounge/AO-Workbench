@@ -70,9 +70,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
 
         #region Public Methods and Operators
 
-        public IModule Create(IRemoteProcess remoteProcess)
+        public IModule Create(IProcess process)
         {
-            return new WearModule(remoteProcess, this.wearFactory);
+            return new WearModule(process, this.wearFactory);
         }
 
         #endregion

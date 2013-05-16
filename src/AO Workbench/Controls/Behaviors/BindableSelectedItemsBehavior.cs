@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ListViewSelectedItemsBindingBehavior.cs" company="SmokeLounge">
+// <copyright file="BindableSelectedItemsBehavior.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,7 +8,7 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the ListBoxSelectedItemsBindingBehavior type.
+//   Defines the BindableSelectedItemsBehavior type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -21,15 +21,14 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
     using System.Windows.Controls;
     using System.Windows.Interactivity;
 
-    public class ListBoxSelectedItemsBindingBehavior : Behavior<ListBox>
+    public class BindableSelectedItemsBehavior : Behavior<ListBox>
     {
-        // Using a DependencyProperty as the backing store for SelectedItems.  This enables animation, styling, binding, etc...
         #region Static Fields
 
         public static readonly DependencyProperty SelectedItemsProperty = DependencyProperty.Register(
             "SelectedItems", 
             typeof(INotifyCollectionChanged), 
-            typeof(ListBoxSelectedItemsBindingBehavior), 
+            typeof(BindableSelectedItemsBehavior), 
             new PropertyMetadata(OnSelectedItemsPropertyChanged));
 
         #endregion
@@ -96,7 +95,7 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
         private static void OnSelectedItemsPropertyChanged(
             DependencyObject target, DependencyPropertyChangedEventArgs args)
         {
-            var behavior = (ListBoxSelectedItemsBindingBehavior)target;
+            var behavior = (BindableSelectedItemsBehavior)target;
             var newValue = args.NewValue as INotifyCollectionChanged;
             if (newValue != null)
             {

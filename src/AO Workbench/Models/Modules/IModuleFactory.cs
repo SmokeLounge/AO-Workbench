@@ -32,7 +32,7 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
 
         #region Public Methods and Operators
 
-        IModule Create(IRemoteProcess remoteProcess);
+        IModule Create(IProcess process);
 
         #endregion
     }
@@ -64,9 +64,9 @@ namespace SmokeLounge.AoWorkbench.Models.Modules
 
         #region Public Methods and Operators
 
-        public IModule Create(IRemoteProcess remoteProcess)
+        public IModule Create(IProcess process)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Requires<ArgumentNullException>(process != null);
             Contract.Ensures(Contract.Result<IModule>() != null);
 
             throw new NotImplementedException();

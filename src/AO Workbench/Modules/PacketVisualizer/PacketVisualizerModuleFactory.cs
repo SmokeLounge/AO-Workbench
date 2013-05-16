@@ -70,9 +70,9 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         #region Public Methods and Operators
 
-        public IModule Create(IRemoteProcess remoteProcess)
+        public IModule Create(IProcess process)
         {
-            return new PacketVisualizerModule(remoteProcess, this.packetVisualizerFactory);
+            return new PacketVisualizerModule(process, this.packetVisualizerFactory);
         }
 
         #endregion

@@ -70,9 +70,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
 
         #region Public Methods and Operators
 
-        public IModule Create(IRemoteProcess remoteProcess)
+        public IModule Create(IProcess process)
         {
-            return new InventoryModule(remoteProcess, this.inventoryFactory);
+            return new InventoryModule(process, this.inventoryFactory);
         }
 
         #endregion

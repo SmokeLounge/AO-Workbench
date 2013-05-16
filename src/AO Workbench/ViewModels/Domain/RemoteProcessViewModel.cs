@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 {
     using System;
+    using System.Globalization;
 
     using Caliburn.Micro;
 
@@ -71,7 +72,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         {
             get
             {
-                return this.player == null ? "(AnarchyOnline)" : this.player.Name;
+                return this.remoteId.ToString(CultureInfo.InvariantCulture);
             }
         }
 

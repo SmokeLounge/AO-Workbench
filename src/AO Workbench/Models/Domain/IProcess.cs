@@ -1,5 +1,5 @@
 // --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IRemoteProcess.cs" company="SmokeLounge">
+// <copyright file="IProcess.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,7 +8,7 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the IRemoteProcess type.
+//   Defines the IProcess type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -18,18 +18,26 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
     using System.ComponentModel;
     using System.Diagnostics.Contracts;
 
-    [ContractClass(typeof(IRemoteProcessContract))]
-    public interface IRemoteProcess : IProcess
+    [ContractClass(typeof(IProcessContract))]
+    public interface IProcess : INotifyPropertyChanged
     {
         #region Public Properties
 
-        int RemoteId { get; }
+        Guid ClientId { get; set; }
+
+        string DisplayName { get; }
+
+        Guid Id { get; }
+
+        bool IsAttached { get; }
+
+        IPlayer Player { get; set; }
 
         #endregion
     }
 
-    [ContractClassFor(typeof(IRemoteProcess))]
-    internal abstract class IRemoteProcessContract : IRemoteProcess
+    [ContractClassFor(typeof(IProcess))]
+    internal abstract class IProcessContract : IProcess
     {
         #region Explicit Interface Events
 
@@ -50,19 +58,7 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
 
         #region Public Properties
 
-        public int RemoteId
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        #endregion
-
-        #region Explicit Interface Properties
-
-        Guid IProcess.ClientId
+        public Guid ClientId
         {
             get
             {
@@ -75,7 +71,7 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
             }
         }
 
-        string IProcess.DisplayName
+        public string DisplayName
         {
             get
             {
@@ -83,7 +79,7 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
             }
         }
 
-        Guid IProcess.Id
+        public Guid Id
         {
             get
             {
@@ -91,7 +87,7 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
             }
         }
 
-        bool IProcess.IsAttached
+        public bool IsAttached
         {
             get
             {
@@ -99,7 +95,7 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
             }
         }
 
-        IPlayer IProcess.Player
+        public IPlayer Player
         {
             get
             {

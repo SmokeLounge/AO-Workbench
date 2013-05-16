@@ -29,20 +29,20 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
 
         private readonly string name;
 
-        private readonly IRemoteProcess remoteProcess;
-
         private readonly NanosFactory nanosFactory;
+
+        private readonly IProcess process;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public NanosModule(IRemoteProcess remoteProcess, NanosFactory nanosFactory)
+        public NanosModule(IProcess process, NanosFactory nanosFactory)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(nanosFactory != null);
 
-            this.remoteProcess = remoteProcess;
+            this.process = process;
             this.nanosFactory = nanosFactory;
             this.iconSource = null;
             this.name = "Nanos";
@@ -74,7 +74,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
 
         public IItem CreateItem()
         {
-            return this.nanosFactory.CreateItem(this.remoteProcess.Id);
+            return this.nanosFactory.CreateItem(this.process.Id);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.nanosFactory != null);
-            Contract.Invariant(this.remoteProcess != null);
+            Contract.Invariant(this.process != null);
         }
 
         #endregion

@@ -2,10 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:avalondock="http://avalondock.codeplex.com"
+             xmlns:behaviors="clr-namespace:SmokeLounge.AoWorkbench.Controls.Behaviors"
              xmlns:cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
              xmlns:controls="clr-namespace:SmokeLounge.AoWorkbench.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:domain="clr-namespace:SmokeLounge.AoWorkbench.Models.Domain"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:modules="clr-namespace:SmokeLounge.AoWorkbench.Models.Modules"
              d:DesignHeight="300"
@@ -62,5 +64,8 @@
                 </controls:CollectionDataTemplateSelector.Templates>
             </controls:CollectionDataTemplateSelector>
         </TreeView.ItemTemplateSelector>
+        <i:Interaction.Behaviors>
+            <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedItem}" />
+        </i:Interaction.Behaviors>
     </TreeView>
 </UserControl>

@@ -50,7 +50,8 @@
         </Style>
     </UserControl.Resources>
 
-    <avalondock:DockingManager ActiveContent="{Binding ActiveContent}"
+    <avalondock:DockingManager ActiveContent="{Binding ActiveContent,
+                                                       Mode=TwoWay}"
                                AnchorablesSource="{Binding Anchorables}"
                                DocumentsSource="{Binding Documents}">
         <avalondock:DockingManager.LayoutItemContainerStyleSelector>

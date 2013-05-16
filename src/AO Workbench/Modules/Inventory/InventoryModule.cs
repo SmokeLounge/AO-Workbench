@@ -27,22 +27,22 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
 
         private readonly Uri iconSource;
 
-        private readonly IRemoteProcess remoteProcess;
-
         private readonly InventoryFactory inventoryFactory;
 
         private readonly string name;
+
+        private readonly IProcess process;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public InventoryModule(IRemoteProcess remoteProcess, InventoryFactory inventoryFactory)
+        public InventoryModule(IProcess process, InventoryFactory inventoryFactory)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcess != null);
+            Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(inventoryFactory != null);
 
-            this.remoteProcess = remoteProcess;
+            this.process = process;
             this.inventoryFactory = inventoryFactory;
             this.iconSource = null;
             this.name = "Inventory";
@@ -74,7 +74,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
 
         public IItem CreateItem()
         {
-            return this.inventoryFactory.CreateItem(this.remoteProcess.Id);
+            return this.inventoryFactory.CreateItem(this.process.Id);
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
             Contract.Invariant(this.inventoryFactory != null);
-            Contract.Invariant(this.remoteProcess != null);
+            Contract.Invariant(this.process != null);
         }
 
         #endregion

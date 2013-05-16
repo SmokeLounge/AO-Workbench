@@ -15,10 +15,13 @@
 namespace SmokeLounge.AoWorkbench.Models.Domain
 {
     using System;
+    using System.ComponentModel;
+    using System.Diagnostics.Contracts;
 
     using SmokeLounge.AOtomation.Messaging.GameData;
 
-    public interface IPlayer
+    [ContractClass(typeof(IPlayerContract))]
+    public interface IPlayer : INotifyPropertyChanged
     {
         #region Public Properties
 
@@ -27,6 +30,57 @@ namespace SmokeLounge.AoWorkbench.Models.Domain
         string Name { get; }
 
         Identity RemoteId { get; }
+
+        #endregion
+    }
+
+    [ContractClassFor(typeof(IPlayer))]
+    internal abstract class IPlayerContract : IPlayer
+    {
+        #region Explicit Interface Events
+
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        public Guid Id
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                Contract.Ensures(string.IsNullOrWhiteSpace(Contract.Result<string>()) == false);
+
+                throw new NotImplementedException();
+            }
+        }
+
+        public Identity RemoteId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         #endregion
     }
