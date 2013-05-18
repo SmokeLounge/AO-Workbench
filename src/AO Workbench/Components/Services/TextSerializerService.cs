@@ -23,7 +23,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         public string Serialize<T>(T value)
         {
-            return string.Empty;
+            return "test";
         }
 
         #endregion

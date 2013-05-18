@@ -6,7 +6,6 @@
              xmlns:controls="clr-namespace:SmokeLounge.AoWorkbench.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:themes="clr-namespace:AvalonDock.Themes;assembly=AvalonDock.Themes.Expression"
              xmlns:workbench="clr-namespace:SmokeLounge.AoWorkbench.Models.Workbench"
              d:DesignHeight="300"
              d:DesignWidth="300"
@@ -71,7 +70,7 @@
             </DataTemplate>
         </avalondock:DockingManager.LayoutItemTemplate>
         <avalondock:DockingManager.Theme>
-            <themes:ExpressionDarkTheme />
+            <avalondock:MetroTheme />
         </avalondock:DockingManager.Theme>
         <avalondock:LayoutRoot>
             <avalondock:LayoutPanel Orientation="Horizontal">
