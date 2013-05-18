@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
 {
     using System;
     using System.Diagnostics;
@@ -23,6 +23,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
     using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Components.Services;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails;
 
     using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
 
@@ -35,6 +36,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         private readonly IMessageSerializerService messageSerializerService;
 
         private readonly PacketFactory packetFactory;
+
+        private readonly IOpenPacketDetails openPacketDetails;
 
         private readonly IObservableCollection<PacketViewModel> packets;
 
@@ -49,14 +52,16 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         #region Constructors and Destructors
 
         public PacketListViewModel(
-            Guid processId, IMessageSerializerService messageSerializerService, PacketFactory packetFactory)
+            Guid processId, IMessageSerializerService messageSerializerService, PacketFactory packetFactory, IOpenPacketDetails openPacketDetails)
         {
             Contract.Requires<ArgumentNullException>(messageSerializerService != null);
             Contract.Requires<ArgumentNullException>(packetFactory != null);
+            Contract.Requires<ArgumentNullException>(openPacketDetails != null);
 
             this.processId = processId;
             this.messageSerializerService = messageSerializerService;
             this.packetFactory = packetFactory;
+            this.openPacketDetails = openPacketDetails;
 
             this.packets = new BindableCollection<PacketViewModel>();
         }
@@ -138,6 +143,13 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
             this.packets.Add(packet);
         }
 
+        public void OpenDetails(PacketViewModel packet)
+        {
+            Contract.Requires<ArgumentNullException>(packet != null);
+
+            this.openPacketDetails.OpenDetailsInNewTab(packet);
+        }
+
         public void Clear()
         {
             this.packets.Clear();
@@ -171,6 +183,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         private void ObjectInvariant()
         {
             Contract.Invariant(this.messageSerializerService != null);
+            Contract.Invariant(this.openPacketDetails != null);
             Contract.Invariant(this.packetFactory != null);
             Contract.Invariant(this.packets != null);
         }

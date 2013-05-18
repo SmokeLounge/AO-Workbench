@@ -190,12 +190,16 @@
     <Compile Include="Models\Domain\IProcess.cs" />
     <Compile Include="Models\Domain\IRemoteProcess.cs" />
     <Compile Include="Models\Domain\IProcessModules.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetailsFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetailsViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\IOpenPacketDetails.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\OpenPacketDetails.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsDocumentItemFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsDocumentItemViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsViewModel.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketDirection.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketListFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketListViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketList\PacketListFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketList\PacketListViewModel.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketViewModel.cs" />
     <Compile Include="ViewModels\Domain\ProcessModulesFactory.cs" />
     <Compile Include="ViewModels\Domain\ProcessModulesViewModel.cs" />
@@ -264,11 +268,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketDetailsView.xaml">
+    <Page Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsDocumentItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketListView.xaml">
+    <Page Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\PacketVisualizer\PacketList\PacketListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

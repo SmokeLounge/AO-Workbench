@@ -22,6 +22,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Models.Modules;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList;
 
     [Export]
     public class PacketVisualizerFactory : IDocumentItemFactory<PacketVisualizerViewModel>

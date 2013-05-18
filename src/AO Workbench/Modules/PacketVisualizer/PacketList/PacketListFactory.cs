@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
 {
     using System;
     using System.ComponentModel.Composition;
@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
     using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AoWorkbench.Components.Services;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails;
 
     [Export]
     public class PacketListFactory
@@ -32,6 +33,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         private readonly PacketFactory packetFactory;
 
+        private readonly IOpenPacketDetails openPacketDetails;
+
         #endregion
 
         #region Constructors and Destructors
@@ -40,14 +43,17 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         public PacketListFactory(
             IMessageSerializerService messageSerializerService, 
             PacketFactory packetFactory, 
+            IOpenPacketDetails openPacketDetails,
             IDomainEventAggregator domainEvents)
         {
             Contract.Requires<ArgumentNullException>(messageSerializerService != null);
             Contract.Requires<ArgumentNullException>(packetFactory != null);
+            Contract.Requires<ArgumentNullException>(openPacketDetails != null);
             Contract.Requires<ArgumentNullException>(domainEvents != null);
 
             this.messageSerializerService = messageSerializerService;
             this.packetFactory = packetFactory;
+            this.openPacketDetails = openPacketDetails;
             this.domainEvents = domainEvents;
         }
 
@@ -59,7 +65,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         {
             Contract.Ensures(Contract.Result<PacketListViewModel>() != null);
 
-            var packetList = new PacketListViewModel(processId, this.messageSerializerService, this.packetFactory);
+            var packetList = new PacketListViewModel(processId, this.messageSerializerService, this.packetFactory, this.openPacketDetails);
             this.domainEvents.Subscribe(packetList);
             return packetList;
         }
@@ -71,9 +77,10 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.messageSerializerService != null);
-            Contract.Invariant(this.packetFactory != null);
             Contract.Invariant(this.domainEvents != null);
+            Contract.Invariant(this.messageSerializerService != null);
+            Contract.Invariant(this.openPacketDetails != null);
+            Contract.Invariant(this.packetFactory != null);
         }
 
         #endregion

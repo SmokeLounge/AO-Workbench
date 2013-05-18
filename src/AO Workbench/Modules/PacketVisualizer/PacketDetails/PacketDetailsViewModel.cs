@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PacketDetailsFactory.cs" company="SmokeLounge">
+// <copyright file="PacketDetailsViewModel.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,31 +8,32 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the PacketDetailsFactory type.
+//   Defines the PacketDetailsViewModel type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
 {
     using System;
-    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
+
+    using Caliburn.Micro;
 
     using SmokeLounge.AoWorkbench.Components.Services;
 
-    [Export]
-    public class PacketDetailsFactory
+    public class PacketDetailsViewModel : PropertyChangedBase
     {
         #region Fields
 
         private readonly ITextSerializerService textSerializerService;
 
+        private PacketViewModel packet;
+
         #endregion
 
         #region Constructors and Destructors
 
-        [ImportingConstructor]
-        public PacketDetailsFactory(ITextSerializerService textSerializerService)
+        public PacketDetailsViewModel(ITextSerializerService textSerializerService)
         {
             Contract.Requires<ArgumentNullException>(textSerializerService != null);
 
@@ -41,13 +42,39 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Public Properties
 
-        public PacketDetailsViewModel Create()
+        public PacketViewModel Packet
         {
-            Contract.Ensures(Contract.Result<PacketDetailsViewModel>() != null);
+            get
+            {
+                return this.packet;
+            }
 
-            return new PacketDetailsViewModel(this.textSerializerService);
+            set
+            {
+                if (Equals(value, this.packet))
+                {
+                    return;
+                }
+
+                this.packet = value;
+                this.NotifyOfPropertyChange();
+                this.NotifyOfPropertyChange(() => this.MessageText);
+            }
+        }
+
+        public string MessageText
+        {
+            get
+            {
+                if (this.packet == null || this.packet.Message == null)
+                {
+                    return null;
+                }
+
+                return this.textSerializerService.Serialize(this.packet.Message);
+            }
         }
 
         #endregion

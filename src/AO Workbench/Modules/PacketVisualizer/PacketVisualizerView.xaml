@@ -17,7 +17,7 @@
             <ContentControl x:Name="PacketList" />
             <GridSplitter Grid.Column="1"
                           HorizontalAlignment="Stretch"
-                          Background="{DynamicResource NormalBrush}"
+                          Background="Transparent"
                           ShowsPreview="True" />
             <ContentControl x:Name="PacketDetails" Grid.Column="2" />
         </Grid>

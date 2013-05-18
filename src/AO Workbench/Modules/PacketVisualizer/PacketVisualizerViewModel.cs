@@ -21,6 +21,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
     using Caliburn.Micro;
 
     using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
     public class PacketVisualizerViewModel : DocumentItemViewModel
