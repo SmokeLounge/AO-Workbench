@@ -34,7 +34,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         private readonly IRemoteProcessQueryService remoteProcessQueryService;
 
-        private readonly IObservableCollection<IRemoteProcess> remoteProcesses;
+        private readonly BindableCollection<IRemoteProcess> remoteProcesses;
 
         #endregion
 
@@ -67,9 +67,9 @@ namespace SmokeLounge.AoWorkbench.Components.Services
             return this.remoteProcesses.FirstOrDefault(p => p.Id == id);
         }
 
-        public IObservableCollection<IRemoteProcess> GetAll()
+        public IReadOnlyObservableCollection<IRemoteProcess> GetAll()
         {
-            return this.remoteProcesses;
+            return new ReadOnlyBindableCollection<IRemoteProcess>(this.remoteProcesses);
         }
 
         #endregion

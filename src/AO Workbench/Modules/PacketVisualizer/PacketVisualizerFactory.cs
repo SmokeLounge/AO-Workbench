@@ -30,6 +30,10 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         private readonly IEventAggregator events;
 
+        private readonly PacketDetailsFactory packetDetailsFactory;
+
+        private readonly PacketListFactory packetListFactory;
+
         private readonly IRemoteProcessService remoteProcessService;
 
         #endregion
@@ -37,12 +41,20 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketVisualizerFactory(IRemoteProcessService remoteProcessService, IEventAggregator events)
+        public PacketVisualizerFactory(
+            IRemoteProcessService remoteProcessService, 
+            PacketListFactory packetListFactory, 
+            PacketDetailsFactory packetDetailsFactory, 
+            IEventAggregator events)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
+            Contract.Requires<ArgumentNullException>(packetListFactory != null);
+            Contract.Requires<ArgumentNullException>(packetDetailsFactory != null);
             Contract.Requires<ArgumentNullException>(events != null);
 
             this.remoteProcessService = remoteProcessService;
+            this.packetListFactory = packetListFactory;
+            this.packetDetailsFactory = packetDetailsFactory;
             this.events = events;
         }
 
@@ -53,8 +65,13 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         public PacketVisualizerViewModel CreateItem(Guid processId)
         {
             var process = this.remoteProcessService.Get(processId);
+            if (process == null)
+            {
+                throw new InvalidOperationException();
+            }
 
-            return new PacketVisualizerViewModel(process, this.events);
+            return new PacketVisualizerViewModel(
+                process, this.packetListFactory.Create(process.Id), this.packetDetailsFactory.Create(), this.events);
         }
 
         #endregion
@@ -65,6 +82,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
         private void ObjectInvariant()
         {
             Contract.Invariant(this.events != null);
+            Contract.Invariant(this.packetDetailsFactory != null);
+            Contract.Invariant(this.packetListFactory != null);
             Contract.Invariant(this.remoteProcessService != null);
         }
 

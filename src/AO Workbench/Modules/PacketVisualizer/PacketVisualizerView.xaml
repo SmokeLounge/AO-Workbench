@@ -6,5 +6,20 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Grid />
+    <AdornerDecorator>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="4" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <ContentControl x:Name="PacketList" />
+            <GridSplitter Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          Background="{DynamicResource NormalBrush}"
+                          ShowsPreview="True" />
+            <ContentControl x:Name="PacketDetails" Grid.Column="2" />
+        </Grid>
+    </AdornerDecorator>
 </UserControl>

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="RemoteProcessFactory.cs" company="SmokeLounge">
+// <copyright file="PacketListFactory.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,40 +8,46 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the RemoteProcessFactory type.
+//   Defines the PacketListFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 {
     using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AOtomation.Domain.Facade.Dtos;
     using SmokeLounge.AOtomation.Domain.Interfaces;
-    using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AoWorkbench.Components.Services;
 
     [Export]
-    public class RemoteProcessFactory
+    public class PacketListFactory
     {
         #region Fields
 
         private readonly IDomainEventAggregator domainEvents;
 
-        private readonly PlayerFactory playerFactory;
+        private readonly IMessageSerializerService messageSerializerService;
+
+        private readonly PacketFactory packetFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public RemoteProcessFactory(PlayerFactory playerFactory, IDomainEventAggregator domainEvents)
+        public PacketListFactory(
+            IMessageSerializerService messageSerializerService, 
+            PacketFactory packetFactory, 
+            IDomainEventAggregator domainEvents)
         {
-            Contract.Requires<ArgumentNullException>(playerFactory != null);
+            Contract.Requires<ArgumentNullException>(messageSerializerService != null);
+            Contract.Requires<ArgumentNullException>(packetFactory != null);
             Contract.Requires<ArgumentNullException>(domainEvents != null);
 
-            this.playerFactory = playerFactory;
+            this.messageSerializerService = messageSerializerService;
+            this.packetFactory = packetFactory;
             this.domainEvents = domainEvents;
         }
 
@@ -49,23 +55,13 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         #region Public Methods and Operators
 
-        public IRemoteProcess Create(RemoteProcess remoteProcessDto)
+        public PacketListViewModel Create(Guid processId)
         {
-            Contract.Requires<ArgumentNullException>(remoteProcessDto != null);
+            Contract.Ensures(Contract.Result<PacketListViewModel>() != null);
 
-            IPlayer player = null;
-            if (remoteProcessDto.Player != null)
-            {
-                if (string.IsNullOrWhiteSpace(remoteProcessDto.Player.Name))
-                {
-                    throw new InvalidOperationException();
-                }
-
-                player = this.playerFactory.Create(remoteProcessDto.Player);
-            }
-
-            var remoteProcess = new RemoteProcessViewModel(remoteProcessDto.Id, remoteProcessDto.RemoteId, player);
-            return remoteProcess;
+            var packetList = new PacketListViewModel(processId, this.messageSerializerService, this.packetFactory);
+            this.domainEvents.Subscribe(packetList);
+            return packetList;
         }
 
         #endregion
@@ -75,7 +71,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.playerFactory != null);
+            Contract.Invariant(this.messageSerializerService != null);
+            Contract.Invariant(this.packetFactory != null);
             Contract.Invariant(this.domainEvents != null);
         }
 

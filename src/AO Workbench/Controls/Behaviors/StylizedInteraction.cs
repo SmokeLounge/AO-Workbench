@@ -14,6 +14,8 @@
 
 namespace SmokeLounge.AoWorkbench.Controls.Behaviors
 {
+    using System;
+    using System.Diagnostics.Contracts;
     using System.Windows;
     using System.Windows.Interactivity;
 
@@ -42,21 +44,29 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
 
         public static Behaviors GetBehaviors(DependencyObject obj)
         {
+            Contract.Requires<ArgumentNullException>(obj != null);
+
             return (Behaviors)obj.GetValue(BehaviorsProperty);
         }
 
         public static Triggers GetTriggers(DependencyObject obj)
         {
+            Contract.Requires<ArgumentNullException>(obj != null);
+
             return (Triggers)obj.GetValue(TriggersProperty);
         }
 
         public static void SetBehaviors(DependencyObject obj, Behaviors value)
         {
+            Contract.Requires<ArgumentNullException>(obj != null);
+
             obj.SetValue(BehaviorsProperty, value);
         }
 
         public static void SetTriggers(DependencyObject obj, Triggers value)
         {
+            Contract.Requires<ArgumentNullException>(obj != null);
+
             obj.SetValue(TriggersProperty, value);
         }
 
@@ -73,6 +83,11 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
             }
 
             var behaviors = Interaction.GetBehaviors(d);
+            if (behaviors == null)
+            {
+                return;
+            }
+
             foreach (var behavior in styleBehaviors)
             {
                 behaviors.Add(behavior);
@@ -88,6 +103,11 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
             }
 
             var triggers = Interaction.GetTriggers(d);
+            if (triggers == null)
+            {
+                return;
+            }
+
             foreach (var trigger in styleTriggers)
             {
                 triggers.Add(trigger);

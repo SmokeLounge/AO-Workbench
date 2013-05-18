@@ -20,18 +20,16 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AOtomation.Domain.Interfaces;
-    using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
-    public class PacketVisualizerViewModel : DocumentItemViewModel, 
-                                             IHandleDomainEvent<PacketReceivedEvent>, 
-                                             IHandleDomainEvent<PacketSentEvent>
+    public class PacketVisualizerViewModel : DocumentItemViewModel
     {
         #region Fields
 
-        private readonly IObservableCollection<PacketViewModel> packets;
+        private readonly PacketDetailsViewModel packetDetails;
+
+        private readonly PacketListViewModel packetList;
 
         private readonly IProcess process;
 
@@ -39,58 +37,63 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         #region Constructors and Destructors
 
-        public PacketVisualizerViewModel(IProcess process, IEventAggregator events)
+        public PacketVisualizerViewModel(
+            IProcess process, 
+            PacketListViewModel packetList, 
+            PacketDetailsViewModel packetDetails, 
+            IEventAggregator events)
             : base(events)
         {
-            this.process = process;
             Contract.Requires<ArgumentNullException>(process != null);
+            Contract.Requires<ArgumentNullException>(packetList != null);
+            Contract.Requires<ArgumentNullException>(packetDetails != null);
             Contract.Requires<ArgumentNullException>(events != null);
 
-            this.packets = new BindableCollection<PacketViewModel>();
+            this.process = process;
+            this.packetList = packetList;
+            this.packetDetails = packetDetails;
 
             Func<string> getTitle =
                 () => "Packets: " + (this.process.Player != null ? this.process.Player.Name : this.process.DisplayName);
             this.Title = getTitle();
             PropertyChangedEventManager.AddHandler(
                 this.process, (sender, args) => this.Title = getTitle(), string.Empty);
+            PropertyChangedEventManager.AddHandler(
+                this.packetList, 
+                (sender, args) => this.packetDetails.Packet = this.packetList.SelectedPacket, 
+                "SelectedPacket");
         }
 
         #endregion
 
         #region Public Properties
 
-        public IObservableCollection<PacketViewModel> Packets
+        public PacketDetailsViewModel PacketDetails
         {
             get
             {
-                return this.packets;
+                return this.packetDetails;
+            }
+        }
+
+        public PacketListViewModel PacketList
+        {
+            get
+            {
+                return this.packetList;
             }
         }
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Methods
 
-        public void Handle(PacketReceivedEvent message)
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            if (message.ProcessId.Equals(this.process.Id) == false)
-            {
-                return;
-            }
-
-            var packet = new PacketViewModel(PacketDirection.Received, message.Packet);
-            this.packets.Add(packet);
-        }
-
-        public void Handle(PacketSentEvent message)
-        {
-            if (message.ProcessId.Equals(this.process.Id) == false)
-            {
-                return;
-            }
-
-            var packet = new PacketViewModel(PacketDirection.Sent, message.Packet);
-            this.packets.Add(packet);
+            Contract.Invariant(this.process != null);
+            Contract.Invariant(this.packetList != null);
+            Contract.Invariant(this.packetDetails != null);
         }
 
         #endregion

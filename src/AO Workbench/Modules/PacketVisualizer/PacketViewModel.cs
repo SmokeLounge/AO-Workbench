@@ -19,24 +19,108 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
     using Caliburn.Micro;
 
+    using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
+
     public class PacketViewModel : PropertyChangedBase
     {
         #region Fields
+
+        private readonly Message message;
 
         private readonly byte[] packet;
 
         private readonly PacketDirection packetDirection;
 
+        private readonly DateTime timeStamp;
+
         #endregion
 
         #region Constructors and Destructors
 
-        public PacketViewModel(PacketDirection packetDirection, byte[] packet)
+        public PacketViewModel(PacketDirection packetDirection, byte[] packet, Message message)
         {
             Contract.Requires<ArgumentNullException>(packet != null);
 
             this.packetDirection = packetDirection;
             this.packet = packet;
+            this.message = message;
+            this.timeStamp = DateTime.Now;
+        }
+
+        #endregion
+
+        #region Public Properties
+
+        public PacketDirection PacketDirection
+        {
+            get
+            {
+                return this.packetDirection;
+            }
+        }
+
+        public string PacketDirectionText
+        {
+            get
+            {
+                switch (this.packetDirection)
+                {
+                    case PacketDirection.Sent:
+                        return "Sent";
+                    case PacketDirection.Received:
+                        return "Received";
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+            }
+        }
+
+        public Message Message
+        {
+            get
+            {
+                return this.message;
+            }
+
+        }
+
+        public string PacketTypeText
+        {
+            get
+            {
+                if (this.message == null || this.message.Body == null)
+                {
+                    return "(Unknown)";
+                }
+
+                return this.message.Body.GetType().Name;
+            }
+        }
+
+        public DateTime TimeStamp
+        {
+            get
+            {
+                return this.timeStamp;
+            }
+        }
+
+        public string TimeStampText
+        {
+            get
+            {
+                return string.Format("{0}.{1}", this.timeStamp.ToLongTimeString(), this.timeStamp.Millisecond);
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.packet != null);
         }
 
         #endregion

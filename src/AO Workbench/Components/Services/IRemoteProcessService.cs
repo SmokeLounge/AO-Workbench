@@ -30,7 +30,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         IRemoteProcess Get(Guid id);
 
-        IObservableCollection<IRemoteProcess> GetAll();
+        IReadOnlyObservableCollection<IRemoteProcess> GetAll();
 
         #endregion
     }
@@ -52,7 +52,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
             throw new NotImplementedException();
         }
 
-        public IObservableCollection<IRemoteProcess> GetAll()
+        public IReadOnlyObservableCollection<IRemoteProcess> GetAll()
         {
             Contract.Ensures(Contract.Result<IObservableCollection<IRemoteProcess>>() != null);
 

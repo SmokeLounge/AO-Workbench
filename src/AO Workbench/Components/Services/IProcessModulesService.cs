@@ -28,7 +28,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         void Add(IProcessModules processModules);
 
-        IObservableCollection<IProcessModules> GetAll();
+        IReadOnlyObservableCollection<IProcessModules> GetAll();
 
         #endregion
     }
@@ -45,7 +45,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
             throw new NotImplementedException();
         }
 
-        public IObservableCollection<IProcessModules> GetAll()
+        public IReadOnlyObservableCollection<IProcessModules> GetAll()
         {
             Contract.Ensures(Contract.Result<IObservableCollection<IProcessModules>>() != null);
 

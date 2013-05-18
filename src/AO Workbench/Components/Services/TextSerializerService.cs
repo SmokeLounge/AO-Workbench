@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="PlayerFactory.cs" company="SmokeLounge">
+// <copyright file="TextSerializerService.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,32 +8,22 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the PlayerFactory type.
+//   Defines the TextSerializerService type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AoWorkbench.Components.Services
 {
-    using System;
     using System.ComponentModel.Composition;
-    using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AOtomation.Domain.Facade.Dtos;
-    using SmokeLounge.AoWorkbench.Models.Domain;
-
-    [Export]
-    public class PlayerFactory
+    [Export(typeof(ITextSerializerService))]
+    public class TextSerializerService : ITextSerializerService
     {
         #region Public Methods and Operators
 
-        public IPlayer Create(Player playerDto)
+        public string Serialize<T>(T value)
         {
-            Contract.Requires<ArgumentNullException>(playerDto != null);
-            Contract.Requires<ArgumentException>(string.IsNullOrWhiteSpace(playerDto.Name) == false);
-            Contract.Ensures(Contract.Result<IPlayer>() != null);
-
-            var player = new PlayerViewModel(playerDto.Id, playerDto.RemoteId, playerDto.Name);
-            return player;
+            return string.Empty;
         }
 
         #endregion

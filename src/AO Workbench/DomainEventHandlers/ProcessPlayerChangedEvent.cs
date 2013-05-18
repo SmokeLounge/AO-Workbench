@@ -67,7 +67,7 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
             }
 
             var playerDto = this.playerQueryService.Get(message.PlayerId);
-            if (playerDto == null)
+            if (playerDto == null || string.IsNullOrWhiteSpace(playerDto.Name))
             {
                 return;
             }

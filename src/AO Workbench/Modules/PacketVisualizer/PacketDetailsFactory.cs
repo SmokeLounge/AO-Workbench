@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProcessModulesService.cs" company="SmokeLounge">
+// <copyright file="PacketDetailsFactory.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,47 +8,46 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the ProcessModulesService type.
+//   Defines the PacketDetailsFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Services
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 {
+    using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
+    using SmokeLounge.AoWorkbench.Components.Services;
 
-    using SmokeLounge.AoWorkbench.Models.Domain;
-
-    [Export(typeof(IProcessModulesService))]
-    public class ProcessModulesService : IProcessModulesService
+    [Export]
+    public class PacketDetailsFactory
     {
         #region Fields
 
-        private readonly BindableCollection<IProcessModules> processModulesCollection;
+        private readonly ITextSerializerService textSerializerService;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public ProcessModulesService()
+        [ImportingConstructor]
+        public PacketDetailsFactory(ITextSerializerService textSerializerService)
         {
-            this.processModulesCollection = new BindableCollection<IProcessModules>();
+            Contract.Requires<ArgumentNullException>(textSerializerService != null);
+
+            this.textSerializerService = textSerializerService;
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public void Add(IProcessModules processModules)
+        public PacketDetailsViewModel Create()
         {
-            this.processModulesCollection.Add(processModules);
-        }
+            Contract.Ensures(Contract.Result<PacketDetailsViewModel>() != null);
 
-        public IReadOnlyObservableCollection<IProcessModules> GetAll()
-        {
-            return new ReadOnlyBindableCollection<IProcessModules>(this.processModulesCollection);
+            return new PacketDetailsViewModel(this.textSerializerService);
         }
 
         #endregion
@@ -58,7 +57,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.processModulesCollection != null);
+            Contract.Invariant(this.textSerializerService != null);
         }
 
         #endregion

@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="SmokeLounge.AoWorkbench.Views.ToolbarView"
+﻿<UserControl x:Class="SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetailsView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,11 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <Menu IsMainMenu="True">
-        <MenuItem x:Name="AttachToProcess" Header="Attach to Process" />
-    </Menu>
+    <TextBox AcceptsTab="True"
+             AutoWordSelection="True"
+             HorizontalScrollBarVisibility="Auto"
+             IsReadOnly="True"
+             Text="{Binding MessageText,
+                            Mode=OneWay}"
+             VerticalScrollBarVisibility="Auto" />
 </UserControl>

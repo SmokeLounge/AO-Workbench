@@ -54,6 +54,11 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
         {
             base.OnAttached();
 
+            if (this.AssociatedObject == null)
+            {
+                return;
+            }
+
             this.AssociatedObject.SelectedItemChanged += this.OnTreeViewSelectedItemChanged;
         }
 

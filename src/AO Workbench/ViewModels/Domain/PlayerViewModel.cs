@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 {
     using System;
+    using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
@@ -37,6 +38,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         public PlayerViewModel(Guid id, Identity remoteId, string name)
         {
+            Contract.Requires<ArgumentException>(string.IsNullOrWhiteSpace(name) == false);
+
             this.id = id;
             this.remoteId = remoteId;
             this.name = name;
@@ -68,6 +71,16 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
             {
                 return this.remoteId;
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
         }
 
         #endregion

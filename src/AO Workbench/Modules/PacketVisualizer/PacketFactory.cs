@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ProcessModulesService.cs" company="SmokeLounge">
+// <copyright file="PacketFactory.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,47 +8,48 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the ProcessModulesService type.
+//   Defines the PacketFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Services
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 {
+    using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
+    using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AoWorkbench.Components.Services;
 
-    using SmokeLounge.AoWorkbench.Models.Domain;
-
-    [Export(typeof(IProcessModulesService))]
-    public class ProcessModulesService : IProcessModulesService
+    [Export]
+    public class PacketFactory
     {
         #region Fields
 
-        private readonly BindableCollection<IProcessModules> processModulesCollection;
+        private readonly IMessageSerializerService messageSerializerService;
 
         #endregion
 
         #region Constructors and Destructors
 
-        public ProcessModulesService()
+        [ImportingConstructor]
+        public PacketFactory(IMessageSerializerService messageSerializerService)
         {
-            this.processModulesCollection = new BindableCollection<IProcessModules>();
+            Contract.Requires<ArgumentNullException>(messageSerializerService != null);
+
+            this.messageSerializerService = messageSerializerService;
         }
 
         #endregion
 
         #region Public Methods and Operators
 
-        public void Add(IProcessModules processModules)
+        public PacketViewModel Create(PacketDirection packetDirection, byte[] packet, Message message)
         {
-            this.processModulesCollection.Add(processModules);
-        }
+            Contract.Requires<ArgumentNullException>(packet != null);
+            Contract.Ensures(Contract.Result<PacketViewModel>() != null);
 
-        public IReadOnlyObservableCollection<IProcessModules> GetAll()
-        {
-            return new ReadOnlyBindableCollection<IProcessModules>(this.processModulesCollection);
+            return new PacketViewModel(packetDirection, packet, message);
         }
 
         #endregion
@@ -58,7 +59,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.processModulesCollection != null);
+            Contract.Invariant(this.messageSerializerService != null);
         }
 
         #endregion

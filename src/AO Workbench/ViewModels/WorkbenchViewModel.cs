@@ -124,17 +124,25 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             Contract.Assume(message != null);
 
             var document = message.Item as IDocumentItem;
-            if (document != null && this.documents.Contains(document) == false)
+            if (document != null)
             {
-                this.documents.Add(document);
+                if (this.documents.Contains(document) == false)
+                {
+                    this.documents.Add(document);
+                }
+
                 this.ActiveContent = document;
                 return;
             }
 
             var anchorable = message.Item as IAnchorableItem;
-            if (anchorable != null && this.anchorables.Contains(anchorable) == false)
+            if (anchorable != null)
             {
-                this.anchorables.Add(anchorable);
+                if (this.anchorables.Contains(anchorable) == false)
+                {
+                    this.anchorables.Add(anchorable);
+                }
+
                 this.ActiveContent = anchorable;
             }
         }
