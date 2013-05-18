@@ -19,13 +19,16 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Components.Services;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.HexView;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.PropertyView;
 
     public class PacketDetailsViewModel : PropertyChangedBase
     {
         #region Fields
 
-        private readonly ITextSerializerService textSerializerService;
+        private readonly HexViewViewModel hexViewViewV;
+
+        private readonly PropertyViewViewModel propertyView;
 
         private PacketViewModel packet;
 
@@ -33,16 +36,26 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
 
         #region Constructors and Destructors
 
-        public PacketDetailsViewModel(ITextSerializerService textSerializerService)
+        public PacketDetailsViewModel(PropertyViewViewModel propertyView, HexViewViewModel hexViewViewV)
         {
-            Contract.Requires<ArgumentNullException>(textSerializerService != null);
+            Contract.Requires<ArgumentNullException>(propertyView != null);
+            Contract.Requires<ArgumentNullException>(hexViewViewV != null);
 
-            this.textSerializerService = textSerializerService;
+            this.propertyView = propertyView;
+            this.hexViewViewV = hexViewViewV;
         }
 
         #endregion
 
         #region Public Properties
+
+        public HexViewViewModel HexView
+        {
+            get
+            {
+                return this.hexViewViewV;
+            }
+        }
 
         public PacketViewModel Packet
         {
@@ -60,20 +73,14 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
 
                 this.packet = value;
                 this.NotifyOfPropertyChange();
-                this.NotifyOfPropertyChange(() => this.MessageText);
             }
         }
 
-        public string MessageText
+        public PropertyViewViewModel PropertyView
         {
             get
             {
-                if (this.packet == null || this.packet.Message == null)
-                {
-                    return null;
-                }
-
-                return this.textSerializerService.Serialize(this.packet.Message);
+                return this.propertyView;
             }
         }
 
@@ -84,7 +91,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.textSerializerService != null);
+            Contract.Invariant(this.hexViewViewV != null);
+            Contract.Invariant(this.propertyView != null);
         }
 
         #endregion

@@ -20,7 +20,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
 
     using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.Document;
 
     [Export]
     public class PacketListFactory
@@ -31,9 +31,9 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
 
         private readonly IMessageSerializerService messageSerializerService;
 
-        private readonly PacketFactory packetFactory;
-
         private readonly IOpenPacketDetails openPacketDetails;
+
+        private readonly PacketFactory packetFactory;
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
         public PacketListFactory(
             IMessageSerializerService messageSerializerService, 
             PacketFactory packetFactory, 
-            IOpenPacketDetails openPacketDetails,
+            IOpenPacketDetails openPacketDetails, 
             IDomainEventAggregator domainEvents)
         {
             Contract.Requires<ArgumentNullException>(messageSerializerService != null);
@@ -65,7 +65,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
         {
             Contract.Ensures(Contract.Result<PacketListViewModel>() != null);
 
-            var packetList = new PacketListViewModel(processId, this.messageSerializerService, this.packetFactory, this.openPacketDetails);
+            var packetList = new PacketListViewModel(
+                processId, this.messageSerializerService, this.packetFactory, this.openPacketDetails);
             this.domainEvents.Subscribe(packetList);
             return packetList;
         }

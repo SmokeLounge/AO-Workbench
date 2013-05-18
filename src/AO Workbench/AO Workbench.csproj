@@ -156,10 +156,8 @@
     <Compile Include="Components\ReadOnlyBindableCollection.cs" />
     <Compile Include="Components\Services\IMessageSerializerService.cs" />
     <Compile Include="Components\Services\IProcessModulesService.cs" />
-    <Compile Include="Components\Services\ITextSerializerService.cs" />
     <Compile Include="Components\Services\MessageSerializerService.cs" />
     <Compile Include="Components\Services\ProcessModulesService.cs" />
-    <Compile Include="Components\Services\TextSerializerService.cs" />
     <Compile Include="Controls\Behaviors\Behaviors.cs" />
     <Compile Include="Controls\Behaviors\BindableSelectedItemBehavior.cs" />
     <Compile Include="Controls\Behaviors\BindableSelectedItemsBehavior.cs" />
@@ -190,12 +188,16 @@
     <Compile Include="Models\Domain\IProcess.cs" />
     <Compile Include="Models\Domain\IRemoteProcess.cs" />
     <Compile Include="Models\Domain\IProcessModules.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\IOpenPacketDetails.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\OpenPacketDetails.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsDocumentItemFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsDocumentItemViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\IOpenPacketDetails.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\OpenPacketDetails.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\PacketDetailsDocumentItemFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\PacketDetailsDocumentItemViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\HexView\HexViewFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\HexView\HexViewViewModel.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsFactory.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsViewModel.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\PropertyView\PropertyViewFactory.cs" />
+    <Compile Include="Modules\PacketVisualizer\PacketDetails\PropertyView\PropertyViewViewModel.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketDirection.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketFactory.cs" />
     <Compile Include="Modules\PacketVisualizer\PacketList\PacketListFactory.cs" />
@@ -268,13 +270,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsDocumentItemView.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Modules\PacketVisualizer\PacketDetails\Document\PacketDetailsDocumentItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Modules\PacketVisualizer\PacketDetails\HexView\HexViewView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Modules\PacketVisualizer\PacketDetails\PropertyView\PropertyViewView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Modules\PacketVisualizer\PacketList\PacketListView.xaml">
       <SubType>Designer</SubType>

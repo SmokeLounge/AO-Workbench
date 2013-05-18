@@ -51,6 +51,14 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
 
         #region Public Properties
 
+        public Message Message
+        {
+            get
+            {
+                return this.message;
+            }
+        }
+
         public PacketDirection PacketDirection
         {
             get
@@ -73,15 +81,6 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer
                         throw new ArgumentOutOfRangeException();
                 }
             }
-        }
-
-        public Message Message
-        {
-            get
-            {
-                return this.message;
-            }
-
         }
 
         public string PacketTypeText

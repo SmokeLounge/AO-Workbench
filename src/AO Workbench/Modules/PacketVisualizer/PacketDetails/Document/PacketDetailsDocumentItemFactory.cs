@@ -1,6 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="OpenPacketDetails.cs" company="SmokeLounge">
-//   Copyright © 2013 SmokeLounge.
+// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="PacketDetailsDocumentItemFactory.cs" company="SmokeLounge">
+//   Copyright � 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
 //   and/or modify it under the terms of the Do What The Fuck You Want
@@ -8,11 +8,11 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the OpenPacketDetails type.
+//   Defines the PacketDetailsDocumentItemFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.Document
 {
     using System;
     using System.ComponentModel.Composition;
@@ -20,29 +20,26 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Events.Workbench;
-
-    [Export(typeof(IOpenPacketDetails))]
-    public class OpenPacketDetails : IOpenPacketDetails
+    [Export]
+    public class PacketDetailsDocumentItemFactory
     {
         #region Fields
 
         private readonly IEventAggregator events;
 
-        private readonly PacketDetailsDocumentItemFactory packetDetailsDocumentItemFactory;
+        private readonly PacketDetailsFactory packetDetailsFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public OpenPacketDetails(
-            PacketDetailsDocumentItemFactory packetDetailsDocumentItemFactory, IEventAggregator events)
+        public PacketDetailsDocumentItemFactory(PacketDetailsFactory packetDetailsFactory, IEventAggregator events)
         {
-            Contract.Requires<ArgumentNullException>(packetDetailsDocumentItemFactory != null);
+            Contract.Requires<ArgumentNullException>(packetDetailsFactory != null);
             Contract.Requires<ArgumentNullException>(events != null);
 
-            this.packetDetailsDocumentItemFactory = packetDetailsDocumentItemFactory;
+            this.packetDetailsFactory = packetDetailsFactory;
             this.events = events;
         }
 
@@ -50,10 +47,13 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
 
         #region Public Methods and Operators
 
-        public void OpenDetailsInNewTab(PacketViewModel packet)
+        public PacketDetailsDocumentItemViewModel Create(PacketViewModel packet)
         {
-            var packetDetailsDocumentItem = this.packetDetailsDocumentItemFactory.Create(packet);
-            this.events.Publish(new ItemOpenedEvent(packetDetailsDocumentItem));
+            Contract.Requires<ArgumentNullException>(packet != null);
+
+            var packetDetails = this.packetDetailsFactory.Create();
+            packetDetails.Packet = packet;
+            return new PacketDetailsDocumentItemViewModel(packetDetails, this.events);
         }
 
         #endregion
@@ -63,8 +63,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.packetDetailsDocumentItemFactory != null);
             Contract.Invariant(this.events != null);
+            Contract.Invariant(this.packetDetailsFactory != null);
         }
 
         #endregion

@@ -18,25 +18,30 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AoWorkbench.Components.Services;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.HexView;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.PropertyView;
 
     [Export]
     public class PacketDetailsFactory
     {
         #region Fields
 
-        private readonly ITextSerializerService textSerializerService;
+        private readonly HexViewFactory hexViewFactory;
+
+        private readonly PropertyViewFactory propertyViewFactory;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketDetailsFactory(ITextSerializerService textSerializerService)
+        public PacketDetailsFactory(PropertyViewFactory propertyViewFactory, HexViewFactory hexViewFactory)
         {
-            Contract.Requires<ArgumentNullException>(textSerializerService != null);
+            Contract.Requires<ArgumentNullException>(propertyViewFactory != null);
+            Contract.Requires<ArgumentNullException>(hexViewFactory != null);
 
-            this.textSerializerService = textSerializerService;
+            this.propertyViewFactory = propertyViewFactory;
+            this.hexViewFactory = hexViewFactory;
         }
 
         #endregion
@@ -47,7 +52,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
         {
             Contract.Ensures(Contract.Result<PacketDetailsViewModel>() != null);
 
-            return new PacketDetailsViewModel(this.textSerializerService);
+            return new PacketDetailsViewModel(this.propertyViewFactory.Create(), this.hexViewFactory.Create());
         }
 
         #endregion
@@ -57,7 +62,8 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.textSerializerService != null);
+            Contract.Invariant(this.hexViewFactory != null);
+            Contract.Invariant(this.propertyViewFactory != null);
         }
 
         #endregion

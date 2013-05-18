@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TextSerializerService.cs" company="SmokeLounge">
+// <copyright file="HexViewFactory.cs" company="SmokeLounge">
 //   Copyright © 2013 SmokeLounge.
 //   This program is free software. It comes without any warranty, to
 //   the extent permitted by applicable law. You can redistribute it
@@ -8,22 +8,22 @@
 //   http://www.wtfpl.net/ for more details.
 // </copyright>
 // <summary>
-//   Defines the TextSerializerService type.
+//   Defines the HexViewFactory type.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Services
+namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.HexView
 {
     using System.ComponentModel.Composition;
 
-    [Export(typeof(ITextSerializerService))]
-    public class TextSerializerService : ITextSerializerService
+    [Export]
+    public class HexViewFactory
     {
         #region Public Methods and Operators
 
-        public string Serialize<T>(T value)
+        public HexViewViewModel Create()
         {
-            return "test";
+            return new HexViewViewModel();
         }
 
         #endregion

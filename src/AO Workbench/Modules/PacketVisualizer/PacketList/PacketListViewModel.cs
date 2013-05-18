@@ -23,7 +23,7 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
     using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails;
+    using SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketDetails.Document;
 
     using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
 
@@ -35,9 +35,9 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
 
         private readonly IMessageSerializerService messageSerializerService;
 
-        private readonly PacketFactory packetFactory;
-
         private readonly IOpenPacketDetails openPacketDetails;
+
+        private readonly PacketFactory packetFactory;
 
         private readonly IObservableCollection<PacketViewModel> packets;
 
@@ -52,7 +52,10 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
         #region Constructors and Destructors
 
         public PacketListViewModel(
-            Guid processId, IMessageSerializerService messageSerializerService, PacketFactory packetFactory, IOpenPacketDetails openPacketDetails)
+            Guid processId, 
+            IMessageSerializerService messageSerializerService, 
+            PacketFactory packetFactory, 
+            IOpenPacketDetails openPacketDetails)
         {
             Contract.Requires<ArgumentNullException>(messageSerializerService != null);
             Contract.Requires<ArgumentNullException>(packetFactory != null);
@@ -143,13 +146,6 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
             this.packets.Add(packet);
         }
 
-        public void OpenDetails(PacketViewModel packet)
-        {
-            Contract.Requires<ArgumentNullException>(packet != null);
-
-            this.openPacketDetails.OpenDetailsInNewTab(packet);
-        }
-
         public void Clear()
         {
             this.packets.Clear();
@@ -173,6 +169,13 @@ namespace SmokeLounge.AoWorkbench.Modules.PacketVisualizer.PacketList
             }
 
             this.Add(PacketDirection.Sent, message.Packet);
+        }
+
+        public void OpenDetails(PacketViewModel packet)
+        {
+            Contract.Requires<ArgumentNullException>(packet != null);
+
+            this.openPacketDetails.OpenDetailsInNewTab(packet);
         }
 
         #endregion
