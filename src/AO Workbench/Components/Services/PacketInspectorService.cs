@@ -19,6 +19,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
     using System.Diagnostics.Contracts;
     using System.IO;
 
+    using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
 
     using StreamReader = SmokeLounge.AOtomation.Messaging.Serialization.StreamReader;
@@ -36,7 +37,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         public PacketInspectorService()
         {
-            this.packetInspector = new PacketInspector();
+            this.packetInspector = new PacketInspector(typeof(MessageBody));
         }
 
         #endregion
