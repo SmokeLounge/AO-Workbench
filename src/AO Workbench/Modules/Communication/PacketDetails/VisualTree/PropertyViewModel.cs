@@ -14,7 +14,9 @@
 
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Reflection;
     using System.Text;
@@ -52,6 +54,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         public PropertyViewModel(
             PropertyInfo property, int offset, int length, object value, IEnumerable<IHexDigit> propertyHexDigits)
         {
+            Contract.Requires<ArgumentNullException>(propertyHexDigits != null);
+
             this.property = property;
             this.offset = offset;
             this.length = length;
@@ -187,6 +191,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             var stringBuilder = new StringBuilder();
             foreach (var hexDigit in this.hexDigits)
             {
+                Contract.Assume(hexDigit != null);
                 stringBuilder.Append(hexDigit.Value.ToString("X2"));
             }
 
@@ -212,6 +217,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             }
 
             return string.Empty;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.hexDigits != null);
+            Contract.Invariant(this.hexValue != null);
+            Contract.Invariant(this.length >= 0);
+            Contract.Invariant(this.offset >= 0);
+            Contract.Invariant(this.properties != null);
+            Contract.Invariant(this.property != null);
+            Contract.Invariant(this.valueString != null);
         }
 
         #endregion

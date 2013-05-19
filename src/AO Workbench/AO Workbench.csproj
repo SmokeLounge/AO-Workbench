@@ -156,8 +156,10 @@
     <Compile Include="Components\IReadOnlyObservableCollection.cs" />
     <Compile Include="Components\ReadOnlyBindableCollection.cs" />
     <Compile Include="Components\Services\IMessageSerializerService.cs" />
+    <Compile Include="Components\Services\IPacketInspectorService.cs" />
     <Compile Include="Components\Services\IProcessModulesService.cs" />
     <Compile Include="Components\Services\MessageSerializerService.cs" />
+    <Compile Include="Components\Services\PacketInspectorService.cs" />
     <Compile Include="Components\Services\ProcessModulesService.cs" />
     <Compile Include="Controls\Behaviors\Behaviors.cs" />
     <Compile Include="Controls\Behaviors\BindableSelectedItemBehavior.cs" />

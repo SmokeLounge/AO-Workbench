@@ -125,6 +125,7 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
 
             if (e.Action == NotifyCollectionChangedAction.Reset)
             {
+                Contract.Assume(this.AssociatedObject != null);
                 this.AssociatedObject.SelectedItems.Clear();
             }
 

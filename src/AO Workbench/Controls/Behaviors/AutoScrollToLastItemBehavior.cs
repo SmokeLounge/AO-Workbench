@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.Controls.Behaviors
 {
     using System.Collections.Specialized;
+    using System.Diagnostics.Contracts;
     using System.Windows;
     using System.Windows.Controls;
     using System.Windows.Interactivity;
@@ -56,6 +57,7 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
         protected override void OnAttached()
         {
             base.OnAttached();
+            Contract.Assume(this.AssociatedObject != null);
             var collection = this.AssociatedObject.Items.SourceCollection as INotifyCollectionChanged;
             if (collection != null)
             {
@@ -66,6 +68,7 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
         protected override void OnDetaching()
         {
             base.OnDetaching();
+            Contract.Assume(this.AssociatedObject != null);
             var collection = this.AssociatedObject.Items.SourceCollection as INotifyCollectionChanged;
             if (collection != null)
             {

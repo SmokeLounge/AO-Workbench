@@ -14,7 +14,9 @@
 
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using System.Linq;
 
     public class VisualTree : IVisualTree
@@ -31,6 +33,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         public VisualTree(IList<IProperty> properties, IList<IHexDigit> hexDigits)
         {
+            Contract.Requires<ArgumentNullException>(properties != null);
+            Contract.Requires<ArgumentNullException>(hexDigits != null);
+
             this.properties = properties;
             this.hexDigits = hexDigits;
         }
@@ -53,6 +58,17 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             {
                 return this.properties.ToArray();
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.hexDigits != null);
+            Contract.Invariant(this.properties != null);
         }
 
         #endregion

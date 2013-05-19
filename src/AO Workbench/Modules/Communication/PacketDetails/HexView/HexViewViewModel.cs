@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 {
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
@@ -87,6 +88,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
         #endregion
 
         #region Methods
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.selectedHexDigits != null);
+        }
 
         private void OnHexDigitsChanged()
         {

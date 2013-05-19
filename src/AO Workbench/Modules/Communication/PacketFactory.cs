@@ -16,11 +16,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
 {
     using System;
     using System.ComponentModel.Composition;
-    using System.Diagnostics;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AOtomation.Messaging.Messages;
-    using SmokeLounge.AOtomation.Messaging.Serialization;
     using SmokeLounge.AoWorkbench.Components.Services;
 
     [Export]
@@ -28,18 +25,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
     {
         #region Fields
 
-        private readonly IMessageSerializerService messageSerializerService;
+        private readonly IPacketInspectorService packetInspectorService;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketFactory(IMessageSerializerService messageSerializerService)
+        public PacketFactory(IPacketInspectorService packetInspectorService)
         {
-            Contract.Requires<ArgumentNullException>(messageSerializerService != null);
+            Contract.Requires<ArgumentNullException>(packetInspectorService != null);
 
-            this.messageSerializerService = messageSerializerService;
+            this.packetInspectorService = packetInspectorService;
         }
 
         #endregion
@@ -49,20 +46,11 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
         public PacketViewModel Create(PacketDirection packetDirection, byte[] packet)
         {
             Contract.Requires<ArgumentNullException>(packet != null);
+            Contract.Requires<ArgumentNullException>(packet.Length >= 16);
             Contract.Ensures(Contract.Result<PacketViewModel>() != null);
 
-            Message message = null;
-            SerializationContext serializationContext = null;
-            try
-            {
-                message = this.messageSerializerService.Deserialize(packet, out serializationContext);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-            return new PacketViewModel(packetDirection, packet, message, serializationContext);
+            var packetType = this.packetInspectorService.FindType(packet);
+            return new PacketViewModel(packetDirection, packet, packetType);
         }
 
         #endregion
@@ -72,7 +60,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.messageSerializerService != null);
+            Contract.Invariant(this.packetInspectorService != null);
         }
 
         #endregion

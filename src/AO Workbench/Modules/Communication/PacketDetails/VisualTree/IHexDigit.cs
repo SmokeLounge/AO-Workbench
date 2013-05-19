@@ -14,6 +14,10 @@
 
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 {
+    using System;
+    using System.Diagnostics.Contracts;
+
+    [ContractClass(typeof(IHexDigitContract))]
     public interface IHexDigit
     {
         #region Public Properties
@@ -25,6 +29,61 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         IProperty Property { get; set; }
 
         byte Value { get; }
+
+        #endregion
+    }
+
+    [ContractClassFor(typeof(IHexDigit))]
+    internal abstract class IHexDigitContract : IHexDigit
+    {
+        #region Public Properties
+
+        public bool IsHighlighted
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public bool IsSelected
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IProperty Property
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public byte Value
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         #endregion
     }

@@ -56,7 +56,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
             this.packetDetails = packetDetails;
 
             Func<string> getTitle =
-                () => "Communication: " + (this.process.Player != null ? this.process.Player.Name : this.process.DisplayName);
+                () =>
+                "Communication: " + (this.process.Player != null ? this.process.Player.Name : this.process.DisplayName);
             this.Title = getTitle();
             PropertyChangedEventManager.AddHandler(
                 this.process, (sender, args) => this.Title = getTitle(), string.Empty);

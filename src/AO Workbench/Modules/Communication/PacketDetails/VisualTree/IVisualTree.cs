@@ -14,8 +14,11 @@
 
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 {
+    using System;
     using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
 
+    [ContractClass(typeof(IVisualTreeContract))]
     public interface IVisualTree
     {
         #region Public Properties
@@ -23,6 +26,34 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         IReadOnlyCollection<IHexDigit> HexDigits { get; }
 
         IReadOnlyCollection<IProperty> Properties { get; }
+
+        #endregion
+    }
+
+    [ContractClassFor(typeof(IVisualTree))]
+    internal abstract class IVisualTreeContract : IVisualTree
+    {
+        #region Public Properties
+
+        public IReadOnlyCollection<IHexDigit> HexDigits
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<IHexDigit>>() != null);
+
+                throw new NotImplementedException();
+            }
+        }
+
+        public IReadOnlyCollection<IProperty> Properties
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IReadOnlyCollection<IProperty>>() != null);
+
+                throw new NotImplementedException();
+            }
+        }
 
         #endregion
     }

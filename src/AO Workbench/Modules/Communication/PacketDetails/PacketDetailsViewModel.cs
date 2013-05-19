@@ -109,7 +109,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 
         private void OnPacketChanged()
         {
-            if (this.packet == null)
+            if (this.packet == null || this.packet.Packet.Length < 16)
             {
                 this.hexView.HexDigits = null;
                 this.propertyView.Properties = null;

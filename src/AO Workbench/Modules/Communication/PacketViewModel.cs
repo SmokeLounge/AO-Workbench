@@ -19,21 +19,15 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AOtomation.Messaging.Serialization;
-
-    using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
-
     public class PacketViewModel : PropertyChangedBase
     {
         #region Fields
-
-        private readonly Message message;
 
         private readonly byte[] packet;
 
         private readonly PacketDirection packetDirection;
 
-        private readonly SerializationContext serializationContext;
+        private readonly Type packetType;
 
         private readonly DateTime timeStamp;
 
@@ -41,15 +35,14 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
 
         #region Constructors and Destructors
 
-        public PacketViewModel(
-            PacketDirection packetDirection, byte[] packet, Message message, SerializationContext serializationContext)
+        public PacketViewModel(PacketDirection packetDirection, byte[] packet, Type packetType)
         {
             Contract.Requires<ArgumentNullException>(packet != null);
+            Contract.Requires<ArgumentNullException>(packet.Length >= 16);
 
             this.packetDirection = packetDirection;
             this.packet = packet;
-            this.message = message;
-            this.serializationContext = serializationContext;
+            this.packetType = packetType;
             this.timeStamp = DateTime.Now;
         }
 
@@ -57,18 +50,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
 
         #region Public Properties
 
-        public Message Message
-        {
-            get
-            {
-                return this.message;
-            }
-        }
-
         public byte[] Packet
         {
             get
             {
+                Contract.Ensures(Contract.Result<byte[]>().Length >= 16);
+
                 return this.packet;
             }
         }
@@ -101,20 +88,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
         {
             get
             {
-                if (this.message == null || this.message.Body == null)
-                {
-                    return "(Unknown)";
-                }
-
-                return this.message.Body.GetType().Name;
-            }
-        }
-
-        public SerializationContext SerializationContext
-        {
-            get
-            {
-                return this.serializationContext;
+                return this.packetType == null ? "(Unknown)" : this.packetType.Name;
             }
         }
 
@@ -142,6 +116,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
         private void ObjectInvariant()
         {
             Contract.Invariant(this.packet != null);
+            Contract.Invariant(this.packet.Length >= 16);
         }
 
         #endregion

@@ -14,13 +14,17 @@
 
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
+    using System.Diagnostics;
+    using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Reflection;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
+    using SmokeLounge.AoWorkbench.Components.Services;
 
     using ExtensionMethods = Caliburn.Micro.ExtensionMethods;
 
@@ -33,12 +37,19 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         private readonly PropertyInfo[] messagePropertyInfos;
 
+        private readonly IMessageSerializerService messageSerializerService;
+
         #endregion
 
         #region Constructors and Destructors
 
-        public VisualTreeFactory()
+        [ImportingConstructor]
+        public VisualTreeFactory(IMessageSerializerService messageSerializerService)
         {
+            Contract.Requires<ArgumentNullException>(messageSerializerService != null);
+
+            this.messageSerializerService = messageSerializerService;
+
             this.headerPropertyInfos = new PropertyInfo[6];
             var headerType = typeof(Header);
             this.headerPropertyInfos[0] = headerType.GetProperty("MessageId");
@@ -60,20 +71,32 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         public IVisualTree Create(PacketViewModel packet)
         {
+            Contract.Requires<ArgumentNullException>(packet != null);
+
             var hexDigits = this.CreateHexDigits(packet.Packet);
 
-            var list = new List<IProperty>();
-            if (packet.Message != null)
+            Message message = null;
+            SerializationContext serializationContext = null;
+            try
             {
-                var headerProperties = this.CreateHeaderProperties(packet.Message, hexDigits);
-                var bodyProperties = this.CreateProperties(packet.SerializationContext, hexDigits);
+                message = this.messageSerializerService.Deserialize(packet.Packet, out serializationContext);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("bork: Deserialization fail!: " + ex.Message);
+            }
 
-                var headerRoot = new PropertyViewModel(
-                    this.messagePropertyInfos[0], 0, 16, packet.Message, hexDigits.Take(16));
+            var list = new List<IProperty>();
+            if (message != null)
+            {
+                var headerProperties = this.CreateHeaderProperties(message, hexDigits);
+                var bodyProperties = this.CreateProperties(serializationContext, hexDigits);
+
+                var headerRoot = new PropertyViewModel(this.messagePropertyInfos[0], 0, 16, message, hexDigits.Take(16));
                 ExtensionMethods.Apply(headerProperties, headerRoot.AddProperty);
 
                 var bodyRoot = new PropertyViewModel(
-                    this.messagePropertyInfos[1], 16, packet.Packet.Length - 16, packet.Message, hexDigits.Skip(16));
+                    this.messagePropertyInfos[1], 16, packet.Packet.Length - 16, message, hexDigits.Skip(16));
                 ExtensionMethods.Apply(bodyProperties, bodyRoot.AddProperty);
 
                 list.Add(headerRoot);
@@ -88,10 +111,10 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         #region Methods
 
-        private IList<IProperty> CreateHeaderProperties(Message message, IList<IHexDigit> hexDigits)
+        private IEnumerable<IProperty> CreateHeaderProperties(Message message, IList<IHexDigit> hexDigits)
         {
             var list = new List<IProperty>();
-            if (message == null)
+            if (message == null || message.Header == null || hexDigits == null)
             {
                 return list;
             }
@@ -117,15 +140,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             return list;
         }
 
-        private IList<IHexDigit> CreateHexDigits(byte[] packet)
+        private IList<IHexDigit> CreateHexDigits(IEnumerable<byte> packet)
         {
+            Contract.Requires(packet != null);
+
             return packet.Select(p => new HexDigitViewModel(p)).Cast<IHexDigit>().ToList();
         }
 
-        private IList<IProperty> CreateProperties(SerializationContext serializationContext, IList<IHexDigit> hexDigits)
+        private IEnumerable<IProperty> CreateProperties(
+            SerializationContext serializationContext, IList<IHexDigit> hexDigits)
         {
             var list = new List<IProperty>();
-            if (serializationContext == null)
+            if (serializationContext == null || serializationContext.DebugInfos == null)
             {
                 return list;
             }
@@ -134,6 +160,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
             foreach (var debugInfo in serializationContext.DebugInfos)
             {
+                Contract.Assume(debugInfo != null);
                 var propertyHexDigits = hexDigits.Skip((int)debugInfo.Offset).Take((int)debugInfo.Length);
                 var property = new PropertyViewModel(
                     debugInfo.PropertyMetaData.Property, 
@@ -160,6 +187,16 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             }
 
             return list;
+        }
+
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
+        {
+            Contract.Invariant(this.headerPropertyInfos != null);
+            Contract.Invariant(this.headerPropertyInfos.Length == 6);
+            Contract.Invariant(this.messagePropertyInfos != null);
+            Contract.Invariant(this.messagePropertyInfos.Length == 2);
+            Contract.Invariant(this.messageSerializerService != null);
         }
 
         #endregion

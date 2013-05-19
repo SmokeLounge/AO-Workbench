@@ -44,7 +44,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
             Contract.Requires<ArgumentNullException>(moduleFactories != null);
             Contract.Requires<ArgumentNullException>(processDetailsFactory != null);
 
-            this.moduleFactories = moduleFactories;
+            this.moduleFactories = moduleFactories.OrderBy(m => m.Name);
             this.processDetailsFactory = processDetailsFactory;
         }
 
