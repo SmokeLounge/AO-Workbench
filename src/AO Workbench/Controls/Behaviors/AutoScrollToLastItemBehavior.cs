@@ -80,14 +80,11 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
                 return;
             }
 
-            if (e.Action == NotifyCollectionChangedAction.Add)
+            if (e.Action != NotifyCollectionChangedAction.Add)
             {
-                this.ScrollToLastItem();
+                return;
             }
-        }
 
-        private void ScrollToLastItem()
-        {
             var count = this.AssociatedObject.Items.Count;
             if (count > 0)
             {

@@ -50,11 +50,11 @@
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
             <Button x:Name="Attach"
-                    Margin="0,6,6,0"
+                    Margin="4"
                     Content="Attach"
                     IsDefault="True" />
             <Button x:Name="Cancel"
-                    Margin="0,6,0,0"
+                    Margin="4"
                     Content="Cancel"
                     IsCancel="True" />
         </StackPanel>

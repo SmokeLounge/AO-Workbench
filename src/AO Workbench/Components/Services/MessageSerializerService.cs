@@ -35,7 +35,8 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         public MessageSerializerService()
         {
-            this.messageSerializer = new MessageSerializer();
+            var serializerBuilderResolver = new DebuggingSerializerResolverBuilder<MessageBody>();
+            this.messageSerializer = new MessageSerializer(serializerBuilderResolver);
         }
 
         #endregion
@@ -44,9 +45,15 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         public Message Deserialize(byte[] packet)
         {
+            SerializationContext ignore;
+            return this.Deserialize(packet, out ignore);
+        }
+
+        public Message Deserialize(byte[] packet, out SerializationContext serializationContext)
+        {
             using (var memoryStream = new MemoryStream(packet))
             {
-                var message = this.messageSerializer.Deserialize(memoryStream);
+                var message = this.messageSerializer.Deserialize(memoryStream, out serializationContext);
                 if (message == null || message.Body == null || message.Header == null)
                 {
                     throw new InvalidOperationException();
@@ -58,9 +65,15 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         public byte[] Serialize(Message message)
         {
+            SerializationContext ignore;
+            return this.Serialize(message, out ignore);
+        }
+
+        public byte[] Serialize(Message message, out SerializationContext serializationContext)
+        {
             using (var memoryStream = new MemoryStream())
             {
-                this.messageSerializer.Serialize(memoryStream, message);
+                this.messageSerializer.Serialize(memoryStream, message, out serializationContext);
                 var buffer = memoryStream.GetBuffer();
                 if (buffer == null || buffer.Length < 16)
                 {

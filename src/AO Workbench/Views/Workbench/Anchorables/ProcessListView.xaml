@@ -1,4 +1,4 @@
-<UserControl x:Class="SmokeLounge.AoWorkbench.Views.Workbench.Anchorables.ProcessListView"
+﻿<UserControl x:Class="SmokeLounge.AoWorkbench.Views.Workbench.Anchorables.ProcessListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:avalondock="http://avalondock.codeplex.com"

@@ -18,6 +18,7 @@ namespace SmokeLounge.AoWorkbench.Components.Services
     using System.Diagnostics.Contracts;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
+    using SmokeLounge.AOtomation.Messaging.Serialization;
 
     [ContractClass(typeof(IMessageSerializerServiceContract))]
     public interface IMessageSerializerService
@@ -26,7 +27,11 @@ namespace SmokeLounge.AoWorkbench.Components.Services
 
         Message Deserialize(byte[] packet);
 
+        Message Deserialize(byte[] packet, out SerializationContext serializationContext);
+
         byte[] Serialize(Message message);
+
+        byte[] Serialize(Message message, out SerializationContext serializationContext);
 
         #endregion
     }
@@ -47,7 +52,29 @@ namespace SmokeLounge.AoWorkbench.Components.Services
             throw new NotImplementedException();
         }
 
+        public Message Deserialize(byte[] packet, out SerializationContext serializationContext)
+        {
+            Contract.Requires<ArgumentNullException>(packet != null);
+            Contract.Requires<ArgumentNullException>(packet.Length >= 16);
+            Contract.Ensures(Contract.Result<Message>() != null);
+            Contract.Ensures(Contract.Result<Message>().Header != null);
+            Contract.Ensures(Contract.Result<Message>().Body != null);
+
+            throw new NotImplementedException();
+        }
+
         public byte[] Serialize(Message message)
+        {
+            Contract.Requires<ArgumentNullException>(message != null);
+            Contract.Requires<ArgumentNullException>(message.Header != null);
+            Contract.Requires<ArgumentNullException>(message.Body != null);
+            Contract.Ensures(Contract.Result<byte[]>() != null);
+            Contract.Ensures(Contract.Result<byte[]>().Length >= 16);
+
+            throw new NotImplementedException();
+        }
+
+        public byte[] Serialize(Message message, out SerializationContext serializationContext)
         {
             Contract.Requires<ArgumentNullException>(message != null);
             Contract.Requires<ArgumentNullException>(message.Header != null);

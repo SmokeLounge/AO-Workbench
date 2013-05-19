@@ -18,6 +18,7 @@
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -178,6 +179,9 @@
     <Compile Include="Controls\CollectionDataTemplateSelector.cs" />
     <Compile Include="Controls\StylePair.cs" />
     <Compile Include="Controls\StylePairCollection.cs" />
+    <Compile Include="Controls\TreeListView.cs" />
+    <Compile Include="Controls\TreeListViewConverter.cs" />
+    <Compile Include="Controls\TreeListViewExpander.cs" />
     <Compile Include="DomainEventHandlers\ClientAttachedToProcessEventHandler.cs" />
     <Compile Include="DomainEventHandlers\ProcessPlayerChangedEvent.cs" />
     <Compile Include="DomainEventHandlers\RemoteProcessCreatedEvent.cs" />
@@ -188,21 +192,28 @@
     <Compile Include="Models\Domain\IProcess.cs" />
     <Compile Include="Models\Domain\IRemoteProcess.cs" />
     <Compile Include="Models\Domain\IProcessModules.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\IOpenPacketDetails.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\OpenPacketDetails.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\PacketDetailsDocumentItemFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\Document\PacketDetailsDocumentItemViewModel.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\HexView\HexViewFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\HexView\HexViewViewModel.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsViewModel.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\PropertyView\PropertyViewFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDetails\PropertyView\PropertyViewViewModel.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketDirection.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketList\PacketListFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketList\PacketListViewModel.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\Document\IOpenPacketDetails.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\Document\OpenPacketDetails.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\Document\PacketDetailsDocumentItemFactory.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\Document\PacketDetailsDocumentItemViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\HexView\HexViewFactory.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\HexView\HexViewViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\HexDigitViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\IHexDigit.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\IProperty.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\IVisualTree.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\VisualTreeFactory.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\PacketDetailsFactory.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\PacketDetailsViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\PropertyViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\PropertyView\PropertyViewFactory.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\PropertyView\PropertyViewViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketDetails\VisualTree\VisualTree.cs" />
+    <Compile Include="Modules\Communication\PacketDirection.cs" />
+    <Compile Include="Modules\Communication\PacketFactory.cs" />
+    <Compile Include="Modules\Communication\PacketList\PacketListFactory.cs" />
+    <Compile Include="Modules\Communication\PacketList\PacketListViewModel.cs" />
+    <Compile Include="Modules\Communication\PacketViewModel.cs" />
     <Compile Include="ViewModels\Domain\ProcessModulesFactory.cs" />
     <Compile Include="ViewModels\Domain\ProcessModulesViewModel.cs" />
     <Compile Include="Models\IShell.cs" />
@@ -228,10 +239,10 @@
     <Compile Include="Modules\Ncu\NcuFactory.cs" />
     <Compile Include="Modules\Ncu\NcuModule.cs" />
     <Compile Include="Modules\Ncu\NcuViewModel.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketVisualizerModuleFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketVisualizerFactory.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketVisualizerModule.cs" />
-    <Compile Include="Modules\PacketVisualizer\PacketVisualizerViewModel.cs" />
+    <Compile Include="Modules\Communication\CommunicationModuleFactory.cs" />
+    <Compile Include="Modules\Communication\CommunicationFactory.cs" />
+    <Compile Include="Modules\Communication\CommunicationModule.cs" />
+    <Compile Include="Modules\Communication\CommunicationViewModel.cs" />
     <Compile Include="Modules\Wear\WearModuleFactory.cs" />
     <Compile Include="Modules\Wear\WearFactory.cs" />
     <Compile Include="Modules\Wear\WearModule.cs" />
@@ -270,27 +281,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketDetails\Document\PacketDetailsDocumentItemView.xaml">
+    <Page Include="Modules\Communication\PacketDetails\Document\PacketDetailsDocumentItemView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketDetails\HexView\HexViewView.xaml">
+    <Page Include="Modules\Communication\PacketDetails\HexView\HexViewView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketDetails\PacketDetailsView.xaml">
+    <Page Include="Modules\Communication\PacketDetails\PacketDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketDetails\PropertyView\PropertyViewView.xaml">
+    <Page Include="Modules\Communication\PacketDetails\PropertyView\PropertyViewView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketList\PacketListView.xaml">
+    <Page Include="Modules\Communication\PacketList\PacketListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Modules\PacketVisualizer\PacketVisualizerView.xaml">
+    <Page Include="Modules\Communication\CommunicationView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

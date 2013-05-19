@@ -123,6 +123,11 @@ namespace SmokeLounge.AoWorkbench.Controls.Behaviors
 
             this.syncing = true;
 
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                this.AssociatedObject.SelectedItems.Clear();
+            }
+
             if (e.OldItems != null)
             {
                 foreach (var oldItem in e.OldItems)
