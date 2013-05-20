@@ -12,12 +12,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
+namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
     using System.Linq;
+    using System.Net;
     using System.Reflection;
     using System.Text;
 
@@ -27,7 +28,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
     {
         #region Fields
 
-        private readonly IReadOnlyCollection<IHexDigit> hexDigits;
+        private readonly ArraySegment<byte> bytes;
+
+        private readonly int endOffset;
 
         private readonly string hexValue;
 
@@ -51,25 +54,31 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         #region Constructors and Destructors
 
-        public PropertyViewModel(
-            PropertyInfo property, int offset, int length, object value, IEnumerable<IHexDigit> propertyHexDigits)
+        public PropertyViewModel(PropertyInfo property, int offset, int length, object value, ArraySegment<byte> bytes)
         {
-            Contract.Requires<ArgumentNullException>(propertyHexDigits != null);
-
             this.property = property;
             this.offset = offset;
             this.length = length;
             this.value = value;
-            this.hexDigits = propertyHexDigits.ToArray();
-            this.hexDigits.Apply(hexDigit => hexDigit.Property = this);
-            this.properties = new List<IProperty>();
+            this.bytes = bytes;
+
+            this.endOffset = offset + length - 1;
             this.hexValue = this.GetHexValue();
-            this.valueString = this.GetValue();
+            this.properties = new List<IProperty>();
+            this.valueString = this.GetValueString();
         }
 
         #endregion
 
         #region Public Properties
+
+        public ArraySegment<byte> Bytes
+        {
+            get
+            {
+                return this.bytes;
+            }
+        }
 
         public string DisplayName
         {
@@ -79,11 +88,11 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             }
         }
 
-        public IReadOnlyCollection<IHexDigit> HexDigits
+        public int EndOffset
         {
             get
             {
-                return this.hexDigits;
+                return this.endOffset;
             }
         }
 
@@ -189,20 +198,24 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         private string GetHexValue()
         {
             var stringBuilder = new StringBuilder();
-            foreach (var hexDigit in this.hexDigits)
+            foreach (var hexDigit in this.bytes)
             {
-                Contract.Assume(hexDigit != null);
-                stringBuilder.Append(hexDigit.Value.ToString("X2"));
+                stringBuilder.Append(hexDigit.ToString("X2"));
             }
 
             return stringBuilder.ToString();
         }
 
-        private string GetValue()
+        private string GetValueString()
         {
             if (this.value == null)
             {
                 return string.Empty;
+            }
+
+            if (this.value is IPAddress)
+            {
+                return this.value.ToString();
             }
 
             var type = this.value.GetType();
@@ -222,7 +235,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.hexDigits != null);
+            Contract.Invariant(this.bytes != null);
             Contract.Invariant(this.hexValue != null);
             Contract.Invariant(this.length >= 0);
             Contract.Invariant(this.offset >= 0);

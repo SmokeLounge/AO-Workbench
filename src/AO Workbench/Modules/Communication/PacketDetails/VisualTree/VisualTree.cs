@@ -19,6 +19,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
     using System.Diagnostics.Contracts;
     using System.Linq;
 
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
+
     public class VisualTree : IVisualTree
     {
         #region Fields

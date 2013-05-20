@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
+namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView
 {
     using System;
     using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         string DisplayName { get; }
 
-        IReadOnlyCollection<IHexDigit> HexDigits { get; }
+        ArraySegment<byte> Bytes { get; }
 
         string HexValue { get; }
 
@@ -37,6 +37,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         int Length { get; }
 
         int Offset { get; }
+
+        int EndOffset { get; }
 
         IReadOnlyCollection<IProperty> Properties { get; }
 
@@ -68,12 +70,10 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             }
         }
 
-        public IReadOnlyCollection<IHexDigit> HexDigits
+        public ArraySegment<byte> Bytes
         {
             get
             {
-                Contract.Ensures(Contract.Result<IReadOnlyCollection<IHexDigit>>() != null);
-
                 throw new NotImplementedException();
             }
         }
@@ -125,6 +125,16 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         }
 
         public int Offset
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<int>() >= 0);
+
+                throw new NotImplementedException();
+            }
+        }
+
+        public int EndOffset
         {
             get
             {

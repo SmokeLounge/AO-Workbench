@@ -12,9 +12,12 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
+namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 {
     using Caliburn.Micro;
+
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree;
 
     public class HexDigitViewModel : PropertyChangedBase, IHexDigit
     {
@@ -75,25 +78,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
                 }
 
                 this.isSelected = value;
-                this.NotifyOfPropertyChange();
-            }
-        }
-
-        public IProperty Property
-        {
-            get
-            {
-                return this.property;
-            }
-
-            set
-            {
-                if (Equals(value, this.property))
-                {
-                    return;
-                }
-
-                this.property = value;
                 this.NotifyOfPropertyChange();
             }
         }

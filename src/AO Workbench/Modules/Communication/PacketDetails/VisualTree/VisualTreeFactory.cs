@@ -25,6 +25,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
     using SmokeLounge.AoWorkbench.Components.Services;
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
 
     using ExtensionMethods = Caliburn.Micro.ExtensionMethods;
 
@@ -89,14 +91,19 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             var list = new List<IProperty>();
             if (message != null)
             {
-                var headerProperties = this.CreateHeaderProperties(message, hexDigits);
-                var bodyProperties = this.CreateProperties(serializationContext, hexDigits);
+                var headerProperties = this.CreateHeaderProperties(message, packet.Packet);
+                var bodyProperties = this.CreateProperties(serializationContext, packet.Packet);
 
-                var headerRoot = new PropertyViewModel(this.messagePropertyInfos[0], 0, 16, message, hexDigits.Take(16));
+                var headerRoot = new PropertyViewModel(
+                    this.messagePropertyInfos[0], 0, 16, message, new ArraySegment<byte>(packet.Packet, 0, 16));
                 ExtensionMethods.Apply(headerProperties, headerRoot.AddProperty);
 
                 var bodyRoot = new PropertyViewModel(
-                    this.messagePropertyInfos[1], 16, packet.Packet.Length - 16, message, hexDigits.Skip(16));
+                    this.messagePropertyInfos[1], 
+                    16, 
+                    packet.Packet.Length - 16, 
+                    message, 
+                    new ArraySegment<byte>(packet.Packet, 16, packet.Packet.Length - 16));
                 ExtensionMethods.Apply(bodyProperties, bodyRoot.AddProperty);
 
                 list.Add(headerRoot);
@@ -111,31 +118,32 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         #region Methods
 
-        private IEnumerable<IProperty> CreateHeaderProperties(Message message, IList<IHexDigit> hexDigits)
+        private IEnumerable<IProperty> CreateHeaderProperties(Message message, byte[] packet)
         {
             var list = new List<IProperty>();
-            if (message == null || message.Header == null || hexDigits == null)
+            if (message == null || message.Header == null || packet == null)
             {
                 return list;
             }
 
             list.Add(
                 new PropertyViewModel(
-                    this.headerPropertyInfos[0], 0, 2, message.Header.MessageId, hexDigits.Skip(0).Take(2)));
+                    this.headerPropertyInfos[0], 0, 2, message.Header.MessageId, new ArraySegment<byte>(packet, 0, 2)));
             list.Add(
                 new PropertyViewModel(
-                    this.headerPropertyInfos[1], 2, 2, message.Header.PacketType, hexDigits.Skip(2).Take(2)));
+                    this.headerPropertyInfos[1], 2, 2, message.Header.PacketType, new ArraySegment<byte>(packet, 2, 2)));
             list.Add(
                 new PropertyViewModel(
-                    this.headerPropertyInfos[2], 4, 2, message.Header.Unknown, hexDigits.Skip(4).Take(2)));
-            list.Add(
-                new PropertyViewModel(this.headerPropertyInfos[3], 6, 2, message.Header.Size, hexDigits.Skip(6).Take(2)));
+                    this.headerPropertyInfos[2], 4, 2, message.Header.Unknown, new ArraySegment<byte>(packet, 4, 2)));
             list.Add(
                 new PropertyViewModel(
-                    this.headerPropertyInfos[4], 8, 4, message.Header.Sender, hexDigits.Skip(8).Take(4)));
+                    this.headerPropertyInfos[3], 6, 2, message.Header.Size, new ArraySegment<byte>(packet, 6, 2)));
             list.Add(
                 new PropertyViewModel(
-                    this.headerPropertyInfos[5], 12, 4, message.Header.Receiver, hexDigits.Skip(12).Take(4)));
+                    this.headerPropertyInfos[4], 8, 4, message.Header.Sender, new ArraySegment<byte>(packet, 8, 4)));
+            list.Add(
+                new PropertyViewModel(
+                    this.headerPropertyInfos[5], 12, 4, message.Header.Receiver, new ArraySegment<byte>(packet, 12, 4)));
 
             return list;
         }
@@ -147,8 +155,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             return packet.Select(p => new HexDigitViewModel(p)).Cast<IHexDigit>().ToList();
         }
 
-        private IEnumerable<IProperty> CreateProperties(
-            SerializationContext serializationContext, IList<IHexDigit> hexDigits)
+        private IEnumerable<IProperty> CreateProperties(SerializationContext serializationContext, byte[] packet)
         {
             var list = new List<IProperty>();
             if (serializationContext == null || serializationContext.DebugInfos == null)
@@ -161,7 +168,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             foreach (var debugInfo in serializationContext.DebugInfos)
             {
                 Contract.Assume(debugInfo != null);
-                var propertyHexDigits = hexDigits.Skip((int)debugInfo.Offset).Take((int)debugInfo.Length);
+                var propertyHexDigits = new ArraySegment<byte>(packet, (int)debugInfo.Offset, (int)debugInfo.Length);
                 var property = new PropertyViewModel(
                     debugInfo.PropertyMetaData.Property, 
                     (int)debugInfo.Offset, 
@@ -169,11 +176,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
                     debugInfo.Value, 
                     propertyHexDigits);
 
-                var parent = (from p in flatList
-                              where
-                                  property.Offset >= p.Offset
-                                  && (property.Offset + property.Length <= p.Offset + p.Length)
-                              select p).LastOrDefault();
+                var parent =
+                    (from p in flatList where property.Offset >= p.Offset && property.EndOffset <= p.EndOffset select p)
+                        .LastOrDefault();
 
                 flatList.Add(property);
 

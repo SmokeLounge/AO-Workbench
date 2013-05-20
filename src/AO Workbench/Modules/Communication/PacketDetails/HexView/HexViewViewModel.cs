@@ -14,29 +14,18 @@
 
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     using Caliburn.Micro;
-
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree;
 
     public class HexViewViewModel : PropertyChangedBase
     {
         #region Fields
 
-        private readonly IObservableCollection<IHexDigit> selectedHexDigits;
-
         private IReadOnlyCollection<IHexDigit> hexDigits;
-
-        #endregion
-
-        #region Constructors and Destructors
-
-        public HexViewViewModel()
-        {
-            this.selectedHexDigits = new BindableCollection<IHexDigit>();
-        }
 
         #endregion
 
@@ -57,16 +46,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
                 }
 
                 this.hexDigits = value;
-                this.OnHexDigitsChanged();
                 this.NotifyOfPropertyChange();
-            }
-        }
-
-        public IObservableCollection<IHexDigit> SelectedHexDigits
-        {
-            get
-            {
-                return this.selectedHexDigits;
             }
         }
 
@@ -74,30 +54,30 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 
         #region Public Methods and Operators
 
-        public void SetSelectedItems(IEnumerable<IHexDigit> hexDigits)
+        public void SelectRange(int offset, int length)
         {
-            this.selectedHexDigits.Clear();
-            if (hexDigits == null)
+            Contract.Requires<ArgumentOutOfRangeException>(offset >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(length >= 0);
+
+            if (this.hexDigits == null)
             {
                 return;
             }
 
-            hexDigits.Apply(this.selectedHexDigits.Add);
-        }
+            foreach (var hexDigit in this.hexDigits.Take(offset))
+            {
+                hexDigit.IsSelected = false;
+            }
 
-        #endregion
+            foreach (var hexDigit in this.hexDigits.Skip(offset).Take(length))
+            {
+                hexDigit.IsSelected = true;
+            }
 
-        #region Methods
-
-        [ContractInvariantMethod]
-        private void ObjectInvariant()
-        {
-            Contract.Invariant(this.selectedHexDigits != null);
-        }
-
-        private void OnHexDigitsChanged()
-        {
-            this.selectedHexDigits.Clear();
+            foreach (var hexDigit in this.hexDigits.Skip(offset + length))
+            {
+                hexDigit.IsSelected = false;
+            }
         }
 
         #endregion

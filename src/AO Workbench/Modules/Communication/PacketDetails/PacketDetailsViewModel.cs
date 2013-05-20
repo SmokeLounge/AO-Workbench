@@ -52,7 +52,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
             this.visualTreeFactory = visualTreeFactory;
 
             PropertyChangedEventManager.AddHandler(
-                this.propertyView, (sender, args) => { this.PropertyViewSelectedPropertyChanged(); }, "SelectedProperty");
+                this.propertyView, (sender, args) => this.PropertyViewSelectedPropertyChanged(), "SelectedProperty");
         }
 
         #endregion
@@ -123,13 +123,14 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 
         private void PropertyViewSelectedPropertyChanged()
         {
-            if (this.propertyView.SelectedProperty == null)
+            var property = this.propertyView.SelectedProperty;
+            if (property == null)
             {
-                this.hexView.SetSelectedItems(null);
+                this.hexView.SelectRange(0, 0);
                 return;
             }
 
-            this.hexView.SetSelectedItems(this.propertyView.SelectedProperty.HexDigits);
+            this.hexView.SelectRange(property.Offset, property.Length);
         }
 
         #endregion

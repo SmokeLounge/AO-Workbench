@@ -18,6 +18,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
+    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
+
     [ContractClass(typeof(IVisualTreeContract))]
     public interface IVisualTree
     {

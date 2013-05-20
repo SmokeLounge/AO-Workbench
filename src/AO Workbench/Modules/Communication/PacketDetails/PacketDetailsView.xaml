@@ -6,20 +6,18 @@
              d:DesignHeight="300"
              d:DesignWidth="300"
              mc:Ignorable="d">
-    <AdornerDecorator>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="4" />
-                <RowDefinition Height="*" MaxHeight="200" />
-            </Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="4" />
+            <RowDefinition Height="*" MaxHeight="200" />
+        </Grid.RowDefinitions>
 
-            <ContentControl x:Name="PropertyView" />
-            <GridSplitter Grid.Row="1"
-                          VerticalAlignment="Stretch"
-                          Background="Transparent"
-                          ShowsPreview="True" />
-            <ContentControl x:Name="HexView" Grid.Row="2" />
-        </Grid>
-    </AdornerDecorator>
+        <ContentControl x:Name="PropertyView" />
+        <GridSplitter Grid.Row="1"
+                      VerticalAlignment="Stretch"
+                      Background="Transparent"
+                      ShowsPreview="True" />
+        <ContentControl x:Name="HexView" Grid.Row="2" />
+    </Grid>
 </UserControl>

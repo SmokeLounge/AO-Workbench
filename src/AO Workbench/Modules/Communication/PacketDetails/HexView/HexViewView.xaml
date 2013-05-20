@@ -33,8 +33,5 @@
                 </Border>
             </DataTemplate>
         </ListBox.ItemTemplate>
-        <i:Interaction.Behaviors>
-            <behaviors:BindableSelectedItemsBehavior SelectedItems="{Binding SelectedHexDigits}" />
-        </i:Interaction.Behaviors>
     </ListBox>
 </UserControl>

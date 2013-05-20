@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
+namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -25,8 +25,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         bool IsHighlighted { get; set; }
 
         bool IsSelected { get; set; }
-
-        IProperty Property { get; set; }
 
         byte Value { get; }
 
@@ -52,19 +50,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
         }
 
         public bool IsSelected
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public IProperty Property
         {
             get
             {

@@ -50,7 +50,7 @@
                                     Header="Time" />
                     <GridViewColumn Width="250"
                                     DisplayMemberBinding="{Binding PacketTypeText}"
-                                    Header="Packet DebugInfos" />
+                                    Header="Packet Type" />
                 </GridView>
             </ListView.View>
         </ListView>
