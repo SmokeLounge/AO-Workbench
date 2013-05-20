@@ -23,6 +23,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Domain.Interfaces", "..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Domain.Interfaces\SmokeLounge.AOtomation.Domain.Interfaces.csproj", "{F7ACCFA0-A898-444B-ABFA-5A920945F52B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Messaging", "..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj", "{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF44EA80-5101-4550-9F25-DA723EF5C38A} = {FF44EA80-5101-4550-9F25-DA723EF5C38A}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
