@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     using System.Diagnostics.Contracts;
     using System.Linq;
 
+    using SmokeLounge.AOtomation.AutoFactory;
     using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
@@ -31,7 +32,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         private readonly IEnumerable<IModuleFactory> moduleFactories;
 
-        private readonly ProcessDetailsFactory processDetailsFactory;
+        private readonly IAutoFactory<ProcessDetailsViewModel> processDetailsVMFactory;
 
         #endregion
 
@@ -39,13 +40,14 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
         [ImportingConstructor]
         public ProcessModulesFactory(
-            [ImportMany] IEnumerable<IModuleFactory> moduleFactories, ProcessDetailsFactory processDetailsFactory)
+            [ImportMany] IEnumerable<IModuleFactory> moduleFactories, 
+            IAutoFactory<ProcessDetailsViewModel> processDetailsVMFactory)
         {
             Contract.Requires<ArgumentNullException>(moduleFactories != null);
-            Contract.Requires<ArgumentNullException>(processDetailsFactory != null);
+            Contract.Requires<ArgumentNullException>(processDetailsVMFactory != null);
 
             this.moduleFactories = moduleFactories.OrderBy(m => m.Name);
-            this.processDetailsFactory = processDetailsFactory;
+            this.processDetailsVMFactory = processDetailsVMFactory;
         }
 
         #endregion
@@ -58,7 +60,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
             return new ProcessModulesViewModel(
                 remoteProcess, 
-                this.processDetailsFactory.Create(), 
+                this.processDetailsVMFactory.Create(), 
                 this.moduleFactories.Select(o => o.Create(remoteProcess)));
         }
 
@@ -70,7 +72,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         private void ObjectInvariant()
         {
             Contract.Invariant(this.moduleFactories != null);
-            Contract.Invariant(this.processDetailsFactory != null);
+            Contract.Invariant(this.processDetailsVMFactory != null);
         }
 
         #endregion

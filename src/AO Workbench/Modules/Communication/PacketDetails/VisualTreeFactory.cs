@@ -21,14 +21,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
     using System.Diagnostics.Contracts;
     using System.Reflection;
 
-    using Caliburn.Micro;
-
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
 
-    using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
+    using ExtensionMethods = Caliburn.Micro.ExtensionMethods;
 
     [Export]
     public class VisualTreeFactory

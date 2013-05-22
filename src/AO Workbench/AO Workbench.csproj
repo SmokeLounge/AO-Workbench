@@ -198,18 +198,14 @@
     <Compile Include="Models\Domain\IProcessModules.cs" />
     <Compile Include="Modules\Communication\PacketDetails\Document\IOpenPacketDetails.cs" />
     <Compile Include="Modules\Communication\PacketDetails\Document\OpenPacketDetails.cs" />
-    <Compile Include="Modules\Communication\PacketDetails\Document\PacketDetailsDocumentItemFactory.cs" />
     <Compile Include="Modules\Communication\PacketDetails\Document\PacketDetailsDocumentItemViewModel.cs" />
-    <Compile Include="Modules\Communication\PacketDetails\HexView\HexViewFactory.cs" />
     <Compile Include="Modules\Communication\PacketDetails\HexView\HexViewViewModel.cs" />
     <Compile Include="Modules\Communication\PacketDetails\HexView\HexDigitViewModel.cs" />
     <Compile Include="Modules\Communication\PacketDetails\HexView\IHexDigit.cs" />
     <Compile Include="Modules\Communication\PacketDetails\PropertyView\IProperty.cs" />
     <Compile Include="Modules\Communication\PacketDetails\VisualTreeFactory.cs" />
-    <Compile Include="Modules\Communication\PacketDetails\PacketDetailsFactory.cs" />
     <Compile Include="Modules\Communication\PacketDetails\PacketDetailsViewModel.cs" />
     <Compile Include="Modules\Communication\PacketDetails\PropertyView\PropertyViewModel.cs" />
-    <Compile Include="Modules\Communication\PacketDetails\PropertyView\PropertyViewFactory.cs" />
     <Compile Include="Modules\Communication\PacketDetails\PropertyView\PropertyViewViewModel.cs" />
     <Compile Include="Modules\Communication\PacketDirection.cs" />
     <Compile Include="Modules\Communication\PacketFactory.cs" />
@@ -249,7 +245,6 @@
     <Compile Include="Modules\Wear\WearFactory.cs" />
     <Compile Include="Modules\Wear\WearModule.cs" />
     <Compile Include="Modules\Wear\WearViewModel.cs" />
-    <Compile Include="ViewModels\Dialogs\AttachToProcessFactory.cs" />
     <Compile Include="ViewModels\Dialogs\AttachToProcessViewModel.cs" />
     <Compile Include="ViewModels\Domain\PlayerFactory.cs" />
     <Compile Include="ViewModels\Domain\PlayerViewModel.cs" />
@@ -258,7 +253,6 @@
     <Compile Include="ViewModels\ToolbarViewModel.cs" />
     <Compile Include="ViewModels\Workbench\AnchorableItemViewModel.cs" />
     <Compile Include="ViewModels\Workbench\Anchorables\BreakpointsViewModel.cs" />
-    <Compile Include="ViewModels\Workbench\Documents\ProcessDetailsFactory.cs" />
     <Compile Include="ViewModels\Workbench\Documents\ProcessDetailsViewModel.cs" />
     <Compile Include="ViewModels\Workbench\Anchorables\ProcessListViewModel.cs" />
     <Compile Include="ViewModels\Workbench\Anchorables\PropertiesViewModel.cs" />
@@ -393,6 +387,10 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.AutoFactory\src\SmokeLounge.AOtomation.AutoFactory\SmokeLounge.AOtomation.AutoFactory.csproj">
+      <Project>{772F2183-7F21-46E1-99F0-3C26811D5BC8}</Project>
+      <Name>SmokeLounge.AOtomation.AutoFactory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
       <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
       <Name>SmokeLounge.AOtomation.Messaging</Name>

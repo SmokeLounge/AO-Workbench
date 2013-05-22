@@ -16,10 +16,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 {
     using System;
     using System.ComponentModel;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.AutoFactory;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
 
@@ -39,15 +41,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 
         #region Constructors and Destructors
 
+        [ImportingConstructor]
         public PacketDetailsViewModel(
-            PropertyViewViewModel propertyView, HexViewViewModel hexView, VisualTreeFactory visualTreeFactory)
+            IAutoFactory<PropertyViewViewModel> propertyViewVMFactory,
+            IAutoFactory<HexViewViewModel> hexViewVMFactory,
+            VisualTreeFactory visualTreeFactory)
         {
-            Contract.Requires<ArgumentNullException>(propertyView != null);
-            Contract.Requires<ArgumentNullException>(hexView != null);
+            Contract.Requires<ArgumentNullException>(propertyViewVMFactory != null);
+            Contract.Requires<ArgumentNullException>(hexViewVMFactory != null);
             Contract.Requires<ArgumentNullException>(visualTreeFactory != null);
 
-            this.propertyView = propertyView;
-            this.hexView = hexView;
+            this.propertyView = propertyViewVMFactory.Create();
+            this.hexView = hexViewVMFactory.Create();
             this.visualTreeFactory = visualTreeFactory;
 
             PropertyChangedEventManager.AddHandler(

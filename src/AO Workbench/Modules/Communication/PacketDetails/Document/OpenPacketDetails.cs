@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.AutoFactory;
     using SmokeLounge.AoWorkbench.Events.Workbench;
 
     [Export(typeof(IOpenPacketDetails))]
@@ -29,7 +30,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
 
         private readonly IEventAggregator events;
 
-        private readonly PacketDetailsDocumentItemFactory packetDetailsDocumentItemFactory;
+        private readonly IAutoFactory<PacketDetailsDocumentItemViewModel> packetDetailsDocumentItemVMFactory;
 
         #endregion
 
@@ -37,12 +38,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
 
         [ImportingConstructor]
         public OpenPacketDetails(
-            PacketDetailsDocumentItemFactory packetDetailsDocumentItemFactory, IEventAggregator events)
+            IAutoFactory<PacketDetailsDocumentItemViewModel> packetDetailsDocumentItemVMFactory, IEventAggregator events)
         {
-            Contract.Requires<ArgumentNullException>(packetDetailsDocumentItemFactory != null);
+            Contract.Requires<ArgumentNullException>(packetDetailsDocumentItemVMFactory != null);
             Contract.Requires<ArgumentNullException>(events != null);
 
-            this.packetDetailsDocumentItemFactory = packetDetailsDocumentItemFactory;
+            this.packetDetailsDocumentItemVMFactory = packetDetailsDocumentItemVMFactory;
             this.events = events;
         }
 
@@ -52,7 +53,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
 
         public void OpenDetailsInNewTab(PacketViewModel packet)
         {
-            var packetDetailsDocumentItem = this.packetDetailsDocumentItemFactory.Create(packet);
+            var packetDetailsDocumentItem = this.packetDetailsDocumentItemVMFactory.Create();
+            packetDetailsDocumentItem.PacketDetails.Packet = packet;
             this.events.Publish(new ItemOpenedEvent(packetDetailsDocumentItem));
         }
 
@@ -63,7 +65,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.packetDetailsDocumentItemFactory != null);
+            Contract.Invariant(this.packetDetailsDocumentItemVMFactory != null);
             Contract.Invariant(this.events != null);
         }
 

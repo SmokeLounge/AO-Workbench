@@ -21,6 +21,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.AutoFactory;
     using SmokeLounge.AoWorkbench.Models;
     using SmokeLounge.AoWorkbench.ViewModels.Dialogs;
 
@@ -29,7 +30,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
     {
         #region Fields
 
-        private readonly AttachToProcessFactory attachToProcessFactory;
+        private readonly IAutoFactory<AttachToProcessViewModel> attachToProcessVMFactory;
 
         private readonly IWindowManager windowManager;
 
@@ -38,13 +39,14 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public ToolbarViewModel(IWindowManager windowManager, AttachToProcessFactory attachToProcessFactory)
+        public ToolbarViewModel(
+            IWindowManager windowManager, IAutoFactory<AttachToProcessViewModel> attachToProcessVMFactory)
         {
             Contract.Requires<ArgumentNullException>(windowManager != null);
-            Contract.Requires<ArgumentNullException>(attachToProcessFactory != null);
+            Contract.Requires<ArgumentNullException>(attachToProcessVMFactory != null);
 
             this.windowManager = windowManager;
-            this.attachToProcessFactory = attachToProcessFactory;
+            this.attachToProcessVMFactory = attachToProcessVMFactory;
         }
 
         #endregion
@@ -56,7 +58,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
             dynamic settings = new ExpandoObject();
             settings.MinWidth = 600;
             settings.MinHeight = 300;
-            this.windowManager.ShowDialog(this.attachToProcessFactory.Create(), null, settings);
+            this.windowManager.ShowDialog(this.attachToProcessVMFactory.Create(), null, settings);
         }
 
         #endregion
@@ -67,7 +69,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         private void ObjectInvariant()
         {
             Contract.Invariant(this.windowManager != null);
-            Contract.Invariant(this.attachToProcessFactory != null);
+            Contract.Invariant(this.attachToProcessVMFactory != null);
         }
 
         #endregion

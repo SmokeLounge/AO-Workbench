@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
@@ -23,6 +24,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents
     {
         #region Constructors and Destructors
 
+        [ImportingConstructor]
         public ProcessDetailsViewModel(IEventAggregator events)
             : base(events)
         {

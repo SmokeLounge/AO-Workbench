@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
     using System.Linq;
 
@@ -41,6 +42,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
         #region Constructors and Destructors
 
+        [ImportingConstructor]
         public AttachToProcessViewModel(
             IRemoteProcessService remoteProcessService, IRemoteProcessCommandService remoteProcessCommandService)
         {
