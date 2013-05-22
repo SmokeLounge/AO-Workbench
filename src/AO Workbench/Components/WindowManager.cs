@@ -16,17 +16,34 @@ namespace SmokeLounge.AoWorkbench.Components
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Diagnostics.Contracts;
     using System.Windows;
 
     using Caliburn.Micro;
 
     using MahApps.Metro.Controls;
 
+    using SmokeLounge.AoWorkbench.Controls;
+
+    [Export(typeof(IWindowManager))]
     public class WindowManager : Caliburn.Micro.WindowManager
     {
-        #region Static Fields
+        #region Fields
 
-        private static readonly ResourceDictionary[] Resources = InitializeResources();
+        private readonly IThemeManager themeManager;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        [ImportingConstructor]
+        public WindowManager(IThemeManager themeManager)
+        {
+            Contract.Requires<ArgumentNullException>(themeManager != null);
+
+            this.themeManager = themeManager;
+        }
 
         #endregion
 
@@ -56,12 +73,9 @@ namespace SmokeLounge.AoWorkbench.Components
             if (window == null)
             {
                 window = new MetroWindow { Content = view, };
-                foreach (var resourceDictionary in Resources)
-                {
-                    window.Resources.MergedDictionaries.Add(resourceDictionary);
-                }
-
                 window.SetValue(View.IsGeneratedProperty, true);
+                window.Resources.MergedDictionaries.Add(this.themeManager.GetThemeResources());
+
                 var owner = this.InferOwnerOf(window);
                 if (owner != null)
                 {
@@ -85,54 +99,10 @@ namespace SmokeLounge.AoWorkbench.Components
             return window;
         }
 
-        private static ResourceDictionary[] InitializeResources()
+        [ContractInvariantMethod]
+        private void ObjectInvariant()
         {
-            var resources = new[]
-                                {
-                                    new ResourceDictionary
-                                        {
-                                            Source =
-                                                new Uri(
-                                                "pack://application:,,,/MahApps.Metro;component/Styles/Colours.xaml", 
-                                                UriKind.RelativeOrAbsolute)
-                                        }, 
-                                    new ResourceDictionary
-                                        {
-                                            Source =
-                                                new Uri(
-                                                "pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml", 
-                                                UriKind.RelativeOrAbsolute)
-                                        }, 
-                                    new ResourceDictionary
-                                        {
-                                            Source =
-                                                new Uri(
-                                                "pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml", 
-                                                UriKind.RelativeOrAbsolute)
-                                        }, 
-                                    new ResourceDictionary
-                                        {
-                                            Source =
-                                                new Uri(
-                                                "pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml", 
-                                                UriKind.RelativeOrAbsolute)
-                                        }, 
-                                    new ResourceDictionary
-                                        {
-                                            Source =
-                                                new Uri(
-                                                "pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml", 
-                                                UriKind.RelativeOrAbsolute)
-                                        }, 
-                                    new ResourceDictionary
-                                        {
-                                            Source =
-                                                new Uri(
-                                                "pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedTabControl.xaml", 
-                                                UriKind.RelativeOrAbsolute)
-                                        }
-                                };
-            return resources;
+            Contract.Invariant(this.themeManager != null);
         }
 
         #endregion

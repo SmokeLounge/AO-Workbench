@@ -4,13 +4,6 @@
                  xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
                  ShowIconOnTitleBar="true"
                  WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Resources/Generic.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     <DockPanel>
         <ContentControl x:Name="Toolbar" DockPanel.Dock="Top" />
         <ContentControl x:Name="Workbench" />

@@ -21,12 +21,14 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
     using System.Diagnostics.Contracts;
     using System.Reflection;
 
+    using Caliburn.Micro;
+
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
 
-    using ExtensionMethods = Caliburn.Micro.ExtensionMethods;
+    using Message = SmokeLounge.AOtomation.Messaging.Messages.Message;
 
     [Export]
     public class VisualTreeFactory
@@ -167,10 +169,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
                         queue.Enqueue(p);
                     }
 
-                    if (queue.Count > 0)
-                    {
-                        current = queue.Dequeue();
-                    }
+                    current = queue.Count > 0 ? queue.Dequeue() : null;
                 }
                 while (current != null);
             }

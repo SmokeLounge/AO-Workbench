@@ -21,14 +21,14 @@ namespace SmokeLounge.AoWorkbench
     using System.Diagnostics.Contracts;
     using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
 
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AOtomation.Domain.Interfaces;
+    using SmokeLounge.AoWorkbench.Controls;
     using SmokeLounge.AoWorkbench.Models;
-
-    using WindowManager = SmokeLounge.AoWorkbench.Components.WindowManager;
 
     public sealed class AppBootstrapper : Bootstrapper<IShell>, IDisposable
     {
@@ -71,7 +71,6 @@ namespace SmokeLounge.AoWorkbench
 
             var batch = new CompositionBatch();
 
-            batch.AddExportedValue<IWindowManager>(new WindowManager());
             batch.AddExportedValue<IEventAggregator>(new EventAggregator());
             batch.AddExportedValue(this.container);
             batch.AddExportedValue(catalog);
@@ -116,6 +115,8 @@ namespace SmokeLounge.AoWorkbench
 
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
+            ViewLocator.GetOrCreateViewType = this.GetOrCreateViewType;
+
             var domainEvents = (IDomainEventAggregator)this.GetInstance(typeof(IDomainEventAggregator), null);
             var domainEventHandlers = this.GetAllInstances(typeof(IHandleDomainEvent));
             domainEventHandlers.Apply(domainEvents.Subscribe);
@@ -123,6 +124,33 @@ namespace SmokeLounge.AoWorkbench
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
             domainBootstrapper.Startup();
             base.OnStartup(sender, e);
+        }
+
+        private UIElement GetOrCreateViewType(Type viewType)
+        {
+            Contract.Requires(viewType != null);
+            var cached = IoC.GetAllInstances(viewType).OfType<UIElement>().FirstOrDefault();
+            if (cached != null)
+            {
+                ViewLocator.InitializeComponent(cached);
+                return cached;
+            }
+
+            if (viewType.IsInterface || viewType.IsAbstract || !typeof(UIElement).IsAssignableFrom(viewType))
+            {
+                return new TextBlock { Text = string.Format("Cannot create {0}.", viewType.FullName) };
+            }
+
+            var newInstance = (UIElement)Activator.CreateInstance(viewType);
+            var frameworkElement = newInstance as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                var themeManager = (IThemeManager)this.GetInstance(typeof(IThemeManager), null);
+                frameworkElement.Resources.MergedDictionaries.Add(themeManager.GetThemeResources());
+            }
+
+            ViewLocator.InitializeComponent(newInstance);
+            return newInstance;
         }
 
         #endregion

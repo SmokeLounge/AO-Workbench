@@ -179,8 +179,10 @@
     <Compile Include="Components\Services\RemoteProcessService.cs" />
     <Compile Include="Controls\CollectionStyleSelector.cs" />
     <Compile Include="Controls\CollectionDataTemplateSelector.cs" />
+    <Compile Include="Controls\IThemeManager.cs" />
     <Compile Include="Controls\StylePair.cs" />
     <Compile Include="Controls\StylePairCollection.cs" />
+    <Compile Include="Controls\ThemeManager.cs" />
     <Compile Include="Controls\TreeListView.cs" />
     <Compile Include="Controls\TreeListViewConverter.cs" />
     <Compile Include="Controls\TreeListViewExpander.cs" />
