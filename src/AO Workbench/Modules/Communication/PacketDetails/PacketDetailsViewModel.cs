@@ -22,7 +22,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree;
 
     public class PacketDetailsViewModel : PropertyChangedBase
     {
@@ -111,14 +110,14 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
         {
             if (this.packet == null || this.packet.Packet.Length < 16)
             {
-                this.hexView.HexDigits = null;
-                this.propertyView.Properties = null;
+                this.hexView.Buffer = null;
+                this.propertyView.SetProperties(null);
                 return;
             }
 
-            var visualTree = this.visualTreeFactory.Create(this.packet);
-            this.hexView.HexDigits = visualTree.HexDigits;
-            this.propertyView.Properties = visualTree.Properties;
+            var properties = this.visualTreeFactory.Create(this.packet);
+            this.hexView.Buffer = this.packet.Packet;
+            this.propertyView.SetProperties(properties);
         }
 
         private void PropertyViewSelectedPropertyChanged()

@@ -236,6 +236,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
         private void ObjectInvariant()
         {
             Contract.Invariant(this.bytes != null);
+            Contract.Invariant(this.endOffset >= 0);
             Contract.Invariant(this.hexValue != null);
             Contract.Invariant(this.length >= 0);
             Contract.Invariant(this.offset >= 0);

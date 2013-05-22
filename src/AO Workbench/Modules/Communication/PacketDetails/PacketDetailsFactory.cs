@@ -20,7 +20,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree;
 
     [Export]
     public class PacketDetailsFactory

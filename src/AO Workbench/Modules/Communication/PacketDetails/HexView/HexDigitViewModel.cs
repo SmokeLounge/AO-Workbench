@@ -16,9 +16,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 {
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree;
-
     public class HexDigitViewModel : PropertyChangedBase, IHexDigit
     {
         #region Fields
@@ -28,8 +25,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
         private bool isHighlighted;
 
         private bool isSelected;
-
-        private IProperty property;
 
         #endregion
 

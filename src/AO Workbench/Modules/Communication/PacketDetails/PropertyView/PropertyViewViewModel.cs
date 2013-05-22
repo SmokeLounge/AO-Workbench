@@ -15,16 +15,15 @@
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView
 {
     using System.Collections.Generic;
+    using System.Linq;
 
     using Caliburn.Micro;
-
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree;
 
     public class PropertyViewViewModel : PropertyChangedBase
     {
         #region Fields
 
-        private IReadOnlyCollection<IProperty> properties;
+        private IProperty[] properties;
 
         private IProperty selectedProperty;
 
@@ -37,17 +36,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
             get
             {
                 return this.properties;
-            }
-
-            set
-            {
-                if (Equals(value, this.properties))
-                {
-                    return;
-                }
-
-                this.properties = value;
-                this.NotifyOfPropertyChange();
             }
         }
 
@@ -68,6 +56,23 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
                 this.selectedProperty = value;
                 this.NotifyOfPropertyChange();
             }
+        }
+
+        #endregion
+
+        #region Public Methods and Operators
+
+        public void SetProperties(IEnumerable<IProperty> properties)
+        {
+            if (properties == null)
+            {
+                this.properties = null;
+                this.NotifyOfPropertyChange(() => this.Properties);
+                return;
+            }
+
+            this.properties = properties.ToArray();
+            this.NotifyOfPropertyChange(() => this.Properties);
         }
 
         #endregion

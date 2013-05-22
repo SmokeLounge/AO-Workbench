@@ -24,9 +24,11 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
     {
         #region Public Properties
 
+        ArraySegment<byte> Bytes { get; }
+
         string DisplayName { get; }
 
-        ArraySegment<byte> Bytes { get; }
+        int EndOffset { get; }
 
         string HexValue { get; }
 
@@ -37,8 +39,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
         int Length { get; }
 
         int Offset { get; }
-
-        int EndOffset { get; }
 
         IReadOnlyCollection<IProperty> Properties { get; }
 
@@ -60,6 +60,14 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
     {
         #region Public Properties
 
+        public ArraySegment<byte> Bytes
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
         public string DisplayName
         {
             get
@@ -70,10 +78,12 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
             }
         }
 
-        public ArraySegment<byte> Bytes
+        public int EndOffset
         {
             get
             {
+                Contract.Ensures(Contract.Result<int>() >= 0);
+
                 throw new NotImplementedException();
             }
         }
@@ -125,16 +135,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
         }
 
         public int Offset
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<int>() >= 0);
-
-                throw new NotImplementedException();
-            }
-        }
-
-        public int EndOffset
         {
             get
             {

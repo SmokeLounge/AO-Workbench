@@ -17,7 +17,6 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.Contracts;
-    using System.Linq;
 
     using Caliburn.Micro;
 
@@ -25,28 +24,33 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
     {
         #region Fields
 
-        private IReadOnlyCollection<IHexDigit> hexDigits;
+        private byte[] buffer;
+
+        private IHexDigit[] hexDigits;
 
         #endregion
 
         #region Public Properties
+
+        public byte[] Buffer
+        {
+            get
+            {
+                return this.buffer;
+            }
+
+            set
+            {
+                this.buffer = value;
+                this.OnBufferChanged();
+            }
+        }
 
         public IReadOnlyCollection<IHexDigit> HexDigits
         {
             get
             {
                 return this.hexDigits;
-            }
-
-            set
-            {
-                if (Equals(value, this.hexDigits))
-                {
-                    return;
-                }
-
-                this.hexDigits = value;
-                this.NotifyOfPropertyChange();
             }
         }
 
@@ -58,26 +62,50 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
         {
             Contract.Requires<ArgumentOutOfRangeException>(offset >= 0);
             Contract.Requires<ArgumentOutOfRangeException>(length >= 0);
+            Contract.Requires<ArgumentOutOfRangeException>(offset + length <= this.HexDigits.Count);
 
             if (this.hexDigits == null)
             {
                 return;
             }
 
-            foreach (var hexDigit in this.hexDigits.Take(offset))
+            for (var i = 0; i < offset; i++)
             {
-                hexDigit.IsSelected = false;
+                this.hexDigits[i].IsSelected = false;
             }
 
-            foreach (var hexDigit in this.hexDigits.Skip(offset).Take(length))
+            var toOffset = length + offset;
+            for (var i = offset; i < toOffset; i++)
             {
-                hexDigit.IsSelected = true;
+                this.hexDigits[i].IsSelected = true;
             }
 
-            foreach (var hexDigit in this.hexDigits.Skip(offset + length))
+            for (var i = toOffset; i < this.hexDigits.Length; i++)
             {
-                hexDigit.IsSelected = false;
+                this.hexDigits[i].IsSelected = false;
             }
+        }
+
+        #endregion
+
+        #region Methods
+
+        private void OnBufferChanged()
+        {
+            if (this.buffer == null)
+            {
+                this.hexDigits = null;
+                this.NotifyOfPropertyChange(() => this.HexDigits);
+                return;
+            }
+
+            this.hexDigits = new IHexDigit[this.buffer.Length];
+            for (var i = 0; i < this.buffer.Length; i++)
+            {
+                this.hexDigits[i] = new HexDigitViewModel(this.buffer[i]);
+            }
+
+            this.NotifyOfPropertyChange(() => this.HexDigits);
         }
 
         #endregion

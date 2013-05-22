@@ -12,20 +12,18 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
+namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Diagnostics;
     using System.Diagnostics.Contracts;
-    using System.Linq;
     using System.Reflection;
 
     using SmokeLounge.AOtomation.Messaging.Messages;
     using SmokeLounge.AOtomation.Messaging.Serialization;
     using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView;
 
     using ExtensionMethods = Caliburn.Micro.ExtensionMethods;
@@ -71,11 +69,9 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
 
         #region Public Methods and Operators
 
-        public IVisualTree Create(PacketViewModel packet)
+        public IEnumerable<IProperty> Create(PacketViewModel packet)
         {
             Contract.Requires<ArgumentNullException>(packet != null);
-
-            var hexDigits = this.CreateHexDigits(packet.Packet);
 
             Message message = null;
             SerializationContext serializationContext = null;
@@ -110,8 +106,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
                 list.Add(bodyRoot);
             }
 
-            var visualTree = new VisualTree(list, hexDigits);
-            return visualTree;
+            return list;
         }
 
         #endregion
@@ -148,50 +143,55 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.VisualTree
             return list;
         }
 
-        private IList<IHexDigit> CreateHexDigits(IEnumerable<byte> packet)
-        {
-            Contract.Requires(packet != null);
-
-            return packet.Select(p => new HexDigitViewModel(p)).Cast<IHexDigit>().ToList();
-        }
-
         private IEnumerable<IProperty> CreateProperties(SerializationContext serializationContext, byte[] packet)
         {
             var list = new List<IProperty>();
-            if (serializationContext == null || serializationContext.DebugInfos == null)
+            if (serializationContext == null || serializationContext.DiagnosticInfos == null)
             {
                 return list;
             }
 
-            var flatList = new List<IProperty>();
-
-            foreach (var debugInfo in serializationContext.DebugInfos)
+            foreach (var diagnosticInfo in serializationContext.DiagnosticInfos)
             {
-                Contract.Assume(debugInfo != null);
-                var propertyHexDigits = new ArraySegment<byte>(packet, (int)debugInfo.Offset, (int)debugInfo.Length);
-                var property = new PropertyViewModel(
-                    debugInfo.PropertyMetaData.Property, 
-                    (int)debugInfo.Offset, 
-                    (int)debugInfo.Length, 
-                    debugInfo.Value, 
-                    propertyHexDigits);
-
-                var parent =
-                    (from p in flatList where property.Offset >= p.Offset && property.EndOffset <= p.EndOffset select p)
-                        .LastOrDefault();
-
-                flatList.Add(property);
-
-                if (parent != null)
+                Contract.Assume(diagnosticInfo != null);
+                Contract.Assume(diagnosticInfo.PropertyMetaData != null);
+                var current = Tuple.Create(diagnosticInfo, this.CreateProperty(diagnosticInfo, packet));
+                list.Add(current.Item2);
+                var queue = new Queue<Tuple<DiagnosticInfo, IProperty>>();
+                do
                 {
-                    parent.AddProperty(property);
-                    continue;
-                }
+                    foreach (var di in current.Item1.DiagnosticInfos)
+                    {
+                        var p = Tuple.Create(di, this.CreateProperty(di, packet));
+                        current.Item2.AddProperty(p.Item2);
+                        queue.Enqueue(p);
+                    }
 
-                list.Add(property);
+                    if (queue.Count > 0)
+                    {
+                        current = queue.Dequeue();
+                    }
+                }
+                while (current != null);
             }
 
             return list;
+        }
+
+        private IProperty CreateProperty(DiagnosticInfo diagnosticInfo, byte[] packet)
+        {
+            Contract.Requires(diagnosticInfo != null);
+            Contract.Requires(diagnosticInfo.PropertyMetaData != null);
+
+            var propertyHexDigits = new ArraySegment<byte>(
+                packet, (int)diagnosticInfo.Offset, (int)diagnosticInfo.Length);
+            var property = new PropertyViewModel(
+                diagnosticInfo.PropertyMetaData.Property, 
+                (int)diagnosticInfo.Offset, 
+                (int)diagnosticInfo.Length, 
+                diagnosticInfo.Value, 
+                propertyHexDigits);
+            return property;
         }
 
         [ContractInvariantMethod]
