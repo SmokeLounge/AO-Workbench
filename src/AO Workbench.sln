@@ -14,8 +14,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnarchyHook", "..\lib\Smoke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Hook", "..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Hook\src\SmokeLounge.AOtomation.Hook\SmokeLounge.AOtomation.Hook.csproj", "{644C7D10-DDD2-4DD5-BF98-ADE288F611BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Common", "..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Common\SmokeLounge.AOtomation.Common.csproj", "{772F2183-7F21-46E1-99F0-3C26811D5BC8}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Domain", "..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Domain\SmokeLounge.AOtomation.Domain.csproj", "{DDD937B1-17AB-4366-8AA8-15041BCBD64A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Domain.Facade", "..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Domain.Facade\SmokeLounge.AOtomation.Domain.Facade.csproj", "{CCD8C3F0-1D08-4AAC-972D-4E5079C3B392}"
@@ -26,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Mess
 	ProjectSection(ProjectDependencies) = postProject
 		{FF44EA80-5101-4550-9F25-DA723EF5C38A} = {FF44EA80-5101-4550-9F25-DA723EF5C38A}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.AutoFactory", "..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.AutoFactory\src\SmokeLounge.AOtomation.AutoFactory\SmokeLounge.AOtomation.AutoFactory.csproj", "{772F2183-7F21-46E1-99F0-3C26811D5BC8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,16 +67,6 @@ Global
 		{644C7D10-DDD2-4DD5-BF98-ADE288F611BE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{644C7D10-DDD2-4DD5-BF98-ADE288F611BE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{644C7D10-DDD2-4DD5-BF98-ADE288F611BE}.Release|Win32.ActiveCfg = Release|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Win32.ActiveCfg = Release|Any CPU
 		{DDD937B1-17AB-4366-8AA8-15041BCBD64A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DDD937B1-17AB-4366-8AA8-15041BCBD64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DDD937B1-17AB-4366-8AA8-15041BCBD64A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -117,6 +107,16 @@ Global
 		{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}.Release|Win32.ActiveCfg = Release|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{772F2183-7F21-46E1-99F0-3C26811D5BC8}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
