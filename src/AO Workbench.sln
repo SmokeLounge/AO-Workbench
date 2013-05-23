@@ -13,6 +13,9 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AnarchyHook", "..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Hook\src\AnarchyHook\AnarchyHook.vcxproj", "{FF44EA80-5101-4550-9F25-DA723EF5C38A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Hook", "..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Hook\src\SmokeLounge.AOtomation.Hook\SmokeLounge.AOtomation.Hook.csproj", "{644C7D10-DDD2-4DD5-BF98-ADE288F611BE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FF44EA80-5101-4550-9F25-DA723EF5C38A} = {FF44EA80-5101-4550-9F25-DA723EF5C38A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOtomation.Domain", "..\lib\SmokeLounge.AOtomation.Domain\src\SmokeLounge.AOtomation.Domain\SmokeLounge.AOtomation.Domain.csproj", "{DDD937B1-17AB-4366-8AA8-15041BCBD64A}"
 EndProject
