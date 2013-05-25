@@ -12,14 +12,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Services
+namespace SmokeLounge.AOWorkbench.Components.Services
 {
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Domain;
 
     [Export(typeof(IProcessModulesService))]
     public class ProcessModulesService : IProcessModulesService

@@ -6,6 +6,6 @@
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Resources/Icons.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/Resources/TreeListView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/SmokeLounge.AoWorkbench.Controls;component/Styles/TreeListView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

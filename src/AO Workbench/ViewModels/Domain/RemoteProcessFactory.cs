@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AOWorkbench.ViewModels.Domain
 {
     using System;
     using System.ComponentModel.Composition;
@@ -20,7 +20,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Facade.Dtos;
-    using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Domain;
 
     [Export]
     public class RemoteProcessFactory

@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
+namespace SmokeLounge.AOWorkbench.ViewModels.Dialogs
 {
     using System;
     using System.ComponentModel.Composition;
@@ -23,8 +23,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Dialogs
 
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AOtomation.Domain.Interfaces.Commands;
-    using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Components.Services;
+    using SmokeLounge.AOWorkbench.Models.Domain;
 
     public class AttachToProcessViewModel : Screen
     {

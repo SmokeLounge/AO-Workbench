@@ -1,0 +1,50 @@
+<UserControl x:Class="SmokeLounge.AOWorkbench.Module.Communication.PacketDetails.PropertyView.PropertyViewView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="clr-namespace:SmokeLounge.AOWorkbench.Controls.Behaviors;assembly=SmokeLounge.AOWorkbench.Controls"
+             xmlns:controls="clr-namespace:SmokeLounge.AOWorkbench.Controls;assembly=SmokeLounge.AOWorkbench.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+    <controls:TreeListView x:Name="Properties">
+        <controls:TreeListView.ItemContainerStyle>
+            <Style BasedOn="{StaticResource {x:Type TreeViewItem}}" TargetType="{x:Type TreeViewItem}">
+                <Setter Property="Template" Value="{StaticResource TreeListViewItem}" />
+                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
+                <Setter Property="IsExpanded" Value="True" />
+            </Style>
+        </controls:TreeListView.ItemContainerStyle>
+        <controls:TreeListView.Columns>
+            <GridViewColumn Width="200" Header="Name">
+                <GridViewColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <controls:TreeListViewExpander />
+                            <TextBlock Grid.Column="1" Text="{Binding DisplayName}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridViewColumn.CellTemplate>
+            </GridViewColumn>
+            <GridViewColumn Width="200"
+                            DisplayMemberBinding="{Binding Value}"
+                            Header="Value" />
+            <GridViewColumn Width="100"
+                            DisplayMemberBinding="{Binding HexValue}"
+                            Header="Hex Value" />
+        </controls:TreeListView.Columns>
+
+        <controls:TreeListView.ItemTemplate>
+            <HierarchicalDataTemplate ItemsSource="{Binding Properties}" />
+        </controls:TreeListView.ItemTemplate>
+        <i:Interaction.Behaviors>
+            <behaviors:BindableSelectedItemBehavior SelectedItem="{Binding SelectedProperty}" />
+        </i:Interaction.Behaviors>
+    </controls:TreeListView>
+</UserControl>

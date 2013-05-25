@@ -12,13 +12,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents
+namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Documents
 {
     using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using SmokeLounge.AOtomation.Bus;
+    using SmokeLounge.AOWorkbench.Components.Workbench;
 
     public class ProcessDetailsViewModel : DocumentItemViewModel
     {

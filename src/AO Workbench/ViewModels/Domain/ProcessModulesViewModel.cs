@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AOWorkbench.ViewModels.Domain
 {
     using System;
     using System.Collections.Generic;
@@ -22,9 +22,9 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Models.Domain;
-    using SmokeLounge.AoWorkbench.Models.Modules;
-    using SmokeLounge.AoWorkbench.Models.Workbench;
+    using SmokeLounge.AOWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Modules;
+    using SmokeLounge.AOWorkbench.Models.Workbench;
 
     public class ProcessModulesViewModel : PropertyChangedBase, IProcessModules
     {

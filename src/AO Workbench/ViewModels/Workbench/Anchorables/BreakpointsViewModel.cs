@@ -12,12 +12,13 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
+namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables
 {
     using System;
     using System.Diagnostics.Contracts;
 
     using SmokeLounge.AOtomation.Bus;
+    using SmokeLounge.AOWorkbench.Components.Workbench;
 
     public class BreakpointsViewModel : AnchorableItemViewModel
     {

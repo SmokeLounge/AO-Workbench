@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.DomainEventHandlers
+namespace SmokeLounge.AOWorkbench.DomainEventHandlers
 {
     using System;
     using System.ComponentModel.Composition;
@@ -21,8 +21,8 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Facade;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
-    using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.ViewModels.Domain;
+    using SmokeLounge.AOWorkbench.Components.Services;
+    using SmokeLounge.AOWorkbench.ViewModels.Domain;
 
     [Export(typeof(IHandleMessage))]
     public class RemoteProcessCreatedEventHandler : IHandleMessage<RemoteProcessCreatedEvent>

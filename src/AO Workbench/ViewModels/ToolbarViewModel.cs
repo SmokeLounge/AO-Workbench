@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels
+namespace SmokeLounge.AOWorkbench.ViewModels
 {
     using System;
     using System.ComponentModel.Composition;
@@ -22,8 +22,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.AutoFactory;
-    using SmokeLounge.AoWorkbench.Models;
-    using SmokeLounge.AoWorkbench.ViewModels.Dialogs;
+    using SmokeLounge.AOWorkbench.Models;
+    using SmokeLounge.AOWorkbench.ViewModels.Dialogs;
 
     [Export(typeof(IToolbar))]
     public class ToolbarViewModel : Screen, IToolbar

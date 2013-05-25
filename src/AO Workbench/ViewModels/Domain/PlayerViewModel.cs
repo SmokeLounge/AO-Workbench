@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AOWorkbench.ViewModels.Domain
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -20,7 +20,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Messaging.GameData;
-    using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Domain;
 
     public class PlayerViewModel : PropertyChangedBase, IPlayer
     {

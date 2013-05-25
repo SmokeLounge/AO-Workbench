@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
+namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables
 {
     using System;
     using System.Diagnostics.Contracts;
@@ -20,10 +20,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Bus;
-    using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.Events.Workbench;
-    using SmokeLounge.AoWorkbench.Models.Domain;
-    using SmokeLounge.AoWorkbench.Models.Modules;
+    using SmokeLounge.AOWorkbench.Components.Events.Workbench;
+    using SmokeLounge.AOWorkbench.Components.Services;
+    using SmokeLounge.AOWorkbench.Components.Workbench;
+    using SmokeLounge.AOWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Modules;
 
     public class ProcessListViewModel : AnchorableItemViewModel
     {

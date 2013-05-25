@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AOWorkbench.ViewModels.Domain
 {
     using System;
     using System.Collections.Generic;
@@ -21,9 +21,9 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     using System.Linq;
 
     using SmokeLounge.AOtomation.AutoFactory;
-    using SmokeLounge.AoWorkbench.Models.Domain;
-    using SmokeLounge.AoWorkbench.Models.Modules;
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
+    using SmokeLounge.AOWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Modules;
+    using SmokeLounge.AOWorkbench.ViewModels.Workbench.Documents;
 
     [Export]
     public class ProcessModulesFactory

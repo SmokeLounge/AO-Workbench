@@ -1,7 +1,6 @@
-﻿<Application x:Class="SmokeLounge.AoWorkbench.App"
+﻿<Application x:Class="SmokeLounge.AOWorkbench.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SmokeLounge.AoWorkbench">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:SmokeLounge.AOWorkbench">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels
+namespace SmokeLounge.AOWorkbench.ViewModels
 {
     using System;
     using System.ComponentModel.Composition;
@@ -21,12 +21,12 @@ namespace SmokeLounge.AoWorkbench.ViewModels
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Bus;
-    using SmokeLounge.AoWorkbench.Components.Services;
-    using SmokeLounge.AoWorkbench.Events.Workbench;
-    using SmokeLounge.AoWorkbench.Models;
-    using SmokeLounge.AoWorkbench.Models.Workbench;
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables;
-    using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
+    using SmokeLounge.AOWorkbench.Components.Events.Workbench;
+    using SmokeLounge.AOWorkbench.Components.Services;
+    using SmokeLounge.AOWorkbench.Models;
+    using SmokeLounge.AOWorkbench.Models.Workbench;
+    using SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables;
+    using SmokeLounge.AOWorkbench.ViewModels.Workbench.Documents;
 
     [Export(typeof(IWorkbench))]
     public class WorkbenchViewModel : Screen, 

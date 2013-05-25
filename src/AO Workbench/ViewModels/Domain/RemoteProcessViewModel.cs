@@ -12,14 +12,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels.Domain
+namespace SmokeLounge.AOWorkbench.ViewModels.Domain
 {
     using System;
     using System.Globalization;
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.Models.Domain;
 
     public class RemoteProcessViewModel : PropertyChangedBase, IRemoteProcess
     {

@@ -12,14 +12,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench
+namespace SmokeLounge.AOWorkbench
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.ComponentModel.Composition.Hosting;
     using System.Diagnostics.Contracts;
+    using System.IO;
     using System.Linq;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -28,8 +30,8 @@ namespace SmokeLounge.AoWorkbench
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Bus.Caliburn.Micro;
     using SmokeLounge.AOtomation.Domain.Facade;
-    using SmokeLounge.AoWorkbench.Controls;
-    using SmokeLounge.AoWorkbench.Models;
+    using SmokeLounge.AOWorkbench.Controls;
+    using SmokeLounge.AOWorkbench.Models;
 
     public sealed class AppBootstrapper : Bootstrapper<IShell>, IDisposable
     {
@@ -66,12 +68,11 @@ namespace SmokeLounge.AoWorkbench
         protected override void Configure()
         {
             Contract.Ensures(this.container != null);
-            var catalog = new ApplicationCatalog();
 
+            var catalog = new ApplicationCatalog();
             this.container = new CompositionContainer(catalog);
 
             var batch = new CompositionBatch();
-
             batch.AddExportedValue<IBus>(new Bus(new CmAdapter()));
             batch.AddExportedValue(this.container);
             batch.AddExportedValue(catalog);
@@ -125,6 +126,30 @@ namespace SmokeLounge.AoWorkbench
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
             domainBootstrapper.Startup();
             base.OnStartup(sender, e);
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            var list = new List<Assembly>(base.SelectAssemblies());
+
+            foreach (
+                var file in
+                    Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "SmokeLounge.AOWorkbench.Module.*.dll"))
+            {
+                try
+                {
+                    var assembly = Assembly.LoadFile(file);
+                    if (assembly != null)
+                    {
+                        list.Add(assembly);
+                    }
+                }
+                catch
+                {
+                }
+            }
+
+            return list;
         }
 
         private UIElement GetOrCreateViewType(Type viewType)

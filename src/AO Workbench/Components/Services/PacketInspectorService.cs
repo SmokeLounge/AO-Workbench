@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Services
+namespace SmokeLounge.AOWorkbench.Components.Services
 {
     using System;
     using System.ComponentModel.Composition;

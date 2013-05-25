@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.Components.Services
+namespace SmokeLounge.AOWorkbench.Components.Services
 {
     using System;
     using System.ComponentModel.Composition;
@@ -22,8 +22,8 @@ namespace SmokeLounge.AoWorkbench.Components.Services
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Domain.Facade;
-    using SmokeLounge.AoWorkbench.Models.Domain;
-    using SmokeLounge.AoWorkbench.ViewModels.Domain;
+    using SmokeLounge.AOWorkbench.Models.Domain;
+    using SmokeLounge.AOWorkbench.ViewModels.Domain;
 
     [Export(typeof(IRemoteProcessService))]
     public class RemoteProcessService : IRemoteProcessService

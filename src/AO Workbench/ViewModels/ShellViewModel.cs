@@ -12,14 +12,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AoWorkbench.ViewModels
+namespace SmokeLounge.AOWorkbench.ViewModels
 {
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AoWorkbench.Models;
+    using SmokeLounge.AOWorkbench.Models;
 
     [Export(typeof(IShell))]
     public class ShellViewModel : Screen, IShell
