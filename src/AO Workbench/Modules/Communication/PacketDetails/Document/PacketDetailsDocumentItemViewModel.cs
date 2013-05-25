@@ -18,9 +18,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
     using SmokeLounge.AOtomation.AutoFactory;
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
     public class PacketDetailsDocumentItemViewModel : DocumentItemViewModel
@@ -34,11 +33,11 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketDetailsDocumentItemViewModel(IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory, IEventAggregator events)
-            : base(events)
+        public PacketDetailsDocumentItemViewModel(IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory, IBus bus)
+            : base(bus)
         {
             Contract.Requires<ArgumentNullException>(packetDetailsVMFactory != null);
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.packetDetails = packetDetailsVMFactory.Create();
             this.Title = "Packet Details";

@@ -18,8 +18,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
     using System.Diagnostics.Contracts;
     using System.Windows.Input;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public abstract class AnchorableItemViewModel : ItemViewModel, IAnchorableItem
@@ -38,10 +37,10 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         #region Constructors and Destructors
 
-        protected AnchorableItemViewModel(IEventAggregator events)
-            : base(events)
+        protected AnchorableItemViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
         }
 
         #endregion

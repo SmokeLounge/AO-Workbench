@@ -18,14 +18,14 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Facade;
-    using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
-    [Export(typeof(IHandleDomainEvent))]
-    public class RemoteProcessCreatedEventHandler : IHandleDomainEvent<RemoteProcessCreatedEvent>
+    [Export(typeof(IHandleMessage))]
+    public class RemoteProcessCreatedEventHandler : IHandleMessage<RemoteProcessCreatedEvent>
     {
         #region Fields
 

@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Components;
     using SmokeLounge.AoWorkbench.Events.Workbench;
     using SmokeLounge.AoWorkbench.Models.Workbench;
@@ -28,7 +29,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
     {
         #region Fields
 
-        private readonly IEventAggregator events;
+        private readonly IBus bus;
 
         private ICommand activateCommand;
 
@@ -68,11 +69,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         #region Constructors and Destructors
 
-        protected ItemViewModel(IEventAggregator events)
+        protected ItemViewModel(IBus bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
-            this.events = events;
+            this.bus = bus;
 
             this.closeCommand = new RelayCommand(_ => this.OnClose(), _ => this.CanClose);
         }
@@ -408,11 +409,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         #region Properties
 
-        protected IEventAggregator Events
+        protected IBus Bus
         {
             get
             {
-                return this.events;
+                return this.bus;
             }
         }
 
@@ -422,13 +423,13 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         protected virtual void OnClose()
         {
-            this.Events.Publish(new ItemClosedEvent(this));
+            this.Bus.Publish(new ItemClosedEvent(this));
         }
 
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
         }
 
         #endregion

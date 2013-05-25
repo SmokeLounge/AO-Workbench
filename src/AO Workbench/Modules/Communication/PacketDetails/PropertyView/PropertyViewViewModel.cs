@@ -15,6 +15,7 @@
 namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyView
 {
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
 
     using Caliburn.Micro;
@@ -26,6 +27,15 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.PropertyVi
         private IProperty[] properties;
 
         private IProperty selectedProperty;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        [ImportingConstructor]
+        public PropertyViewViewModel()
+        {
+        }
 
         #endregion
 

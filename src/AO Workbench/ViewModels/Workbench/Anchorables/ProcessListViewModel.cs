@@ -19,6 +19,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Events.Workbench;
     using SmokeLounge.AoWorkbench.Models.Domain;
@@ -38,11 +39,11 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
 
         #region Constructors and Destructors
 
-        public ProcessListViewModel(IProcessModulesService processModulesService, IEventAggregator events)
-            : base(events)
+        public ProcessListViewModel(IProcessModulesService processModulesService, IBus bus)
+            : base(bus)
         {
             Contract.Requires<ArgumentNullException>(processModulesService != null);
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.processModulesService = processModulesService;
             this.processModulesCollection = this.processModulesService.GetAll();
@@ -100,7 +101,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
             }
 
             var item = module.CreateItem();
-            this.Events.Publish(new ItemOpenedEvent(item));
+            this.Bus.Publish(new ItemOpenedEvent(item));
         }
 
         #endregion

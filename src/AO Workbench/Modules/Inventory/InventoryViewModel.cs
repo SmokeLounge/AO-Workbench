@@ -17,18 +17,17 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
     using System;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
     public class InventoryViewModel : AnchorableItemViewModel
     {
         #region Constructors and Destructors
 
-        public InventoryViewModel(IEventAggregator events)
-            : base(events)
+        public InventoryViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.Title = "Inventory";
         }

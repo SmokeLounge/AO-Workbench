@@ -18,8 +18,8 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Facade.Dtos;
-    using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AoWorkbench.Models.Domain;
 
     [Export]
@@ -27,7 +27,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
     {
         #region Fields
 
-        private readonly IDomainEventAggregator domainEvents;
+        private readonly IBus bus;
 
         private readonly PlayerFactory playerFactory;
 
@@ -36,13 +36,13 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public RemoteProcessFactory(PlayerFactory playerFactory, IDomainEventAggregator domainEvents)
+        public RemoteProcessFactory(PlayerFactory playerFactory, IBus bus)
         {
             Contract.Requires<ArgumentNullException>(playerFactory != null);
-            Contract.Requires<ArgumentNullException>(domainEvents != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.playerFactory = playerFactory;
-            this.domainEvents = domainEvents;
+            this.bus = bus;
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Domain
         private void ObjectInvariant()
         {
             Contract.Invariant(this.playerFactory != null);
-            Contract.Invariant(this.domainEvents != null);
+            Contract.Invariant(this.bus != null);
         }
 
         #endregion

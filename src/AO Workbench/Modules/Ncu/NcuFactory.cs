@@ -18,8 +18,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Models.Modules;
 
     [Export]
@@ -27,18 +26,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
     {
         #region Fields
 
-        private readonly IEventAggregator events;
+        private readonly IBus bus;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public NcuFactory(IEventAggregator events)
+        public NcuFactory(IBus bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
-            this.events = events;
+            this.bus = bus;
         }
 
         #endregion
@@ -47,7 +46,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
 
         public NcuViewModel CreateItem(Guid processId)
         {
-            return new NcuViewModel(this.events);
+            return new NcuViewModel(this.bus);
         }
 
         #endregion
@@ -57,7 +56,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Ncu
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
         }
 
         #endregion

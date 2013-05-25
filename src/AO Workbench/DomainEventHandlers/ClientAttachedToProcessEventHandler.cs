@@ -18,13 +18,13 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AOtomation.Domain.Interfaces;
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
-    [Export(typeof(IHandleDomainEvent))]
-    public class ClientAttachedToProcessEventHandler : IHandleDomainEvent<ClientAttachedToProcessEvent>
+    [Export(typeof(IHandleMessage))]
+    public class ClientAttachedToProcessEventHandler : IHandleMessage<ClientAttachedToProcessEvent>
     {
         #region Fields
 

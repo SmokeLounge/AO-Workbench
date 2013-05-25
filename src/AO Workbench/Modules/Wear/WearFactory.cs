@@ -18,8 +18,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Models.Modules;
 
     [Export]
@@ -27,18 +26,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
     {
         #region Fields
 
-        private readonly IEventAggregator events;
+        private readonly IBus bus;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public WearFactory(IEventAggregator events)
+        public WearFactory(IBus bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
-            this.events = events;
+            this.bus = bus;
         }
 
         #endregion
@@ -47,7 +46,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
 
         public WearViewModel CreateItem(Guid processId)
         {
-            return new WearViewModel(this.events);
+            return new WearViewModel(this.bus);
         }
 
         #endregion
@@ -57,7 +56,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
         }
 
         #endregion

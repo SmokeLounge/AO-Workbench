@@ -18,9 +18,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
     using SmokeLounge.AOtomation.AutoFactory;
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Events.Workbench;
 
     [Export(typeof(IOpenPacketDetails))]
@@ -28,7 +27,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
     {
         #region Fields
 
-        private readonly IEventAggregator events;
+        private readonly IBus bus;
 
         private readonly IAutoFactory<PacketDetailsDocumentItemViewModel> packetDetailsDocumentItemVMFactory;
 
@@ -38,13 +37,13 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
 
         [ImportingConstructor]
         public OpenPacketDetails(
-            IAutoFactory<PacketDetailsDocumentItemViewModel> packetDetailsDocumentItemVMFactory, IEventAggregator events)
+            IAutoFactory<PacketDetailsDocumentItemViewModel> packetDetailsDocumentItemVMFactory, IBus bus)
         {
             Contract.Requires<ArgumentNullException>(packetDetailsDocumentItemVMFactory != null);
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.packetDetailsDocumentItemVMFactory = packetDetailsDocumentItemVMFactory;
-            this.events = events;
+            this.bus = bus;
         }
 
         #endregion
@@ -55,7 +54,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
         {
             var packetDetailsDocumentItem = this.packetDetailsDocumentItemVMFactory.Create();
             packetDetailsDocumentItem.PacketDetails.Packet = packet;
-            this.events.Publish(new ItemOpenedEvent(packetDetailsDocumentItem));
+            this.bus.Publish(new ItemOpenedEvent(packetDetailsDocumentItem));
         }
 
         #endregion
@@ -66,7 +65,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document
         private void ObjectInvariant()
         {
             Contract.Invariant(this.packetDetailsDocumentItemVMFactory != null);
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
         }
 
         #endregion

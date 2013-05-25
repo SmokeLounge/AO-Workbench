@@ -18,7 +18,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketList
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using SmokeLounge.AOtomation.Domain.Interfaces;
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document;
 
     [Export]
@@ -26,7 +26,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketList
     {
         #region Fields
 
-        private readonly IDomainEventAggregator domainEvents;
+        private readonly IBus bus;
 
         private readonly IOpenPacketDetails openPacketDetails;
 
@@ -37,16 +37,15 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketList
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketListFactory(
-            PacketFactory packetFactory, IOpenPacketDetails openPacketDetails, IDomainEventAggregator domainEvents)
+        public PacketListFactory(PacketFactory packetFactory, IOpenPacketDetails openPacketDetails, IBus bus)
         {
             Contract.Requires<ArgumentNullException>(packetFactory != null);
             Contract.Requires<ArgumentNullException>(openPacketDetails != null);
-            Contract.Requires<ArgumentNullException>(domainEvents != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.packetFactory = packetFactory;
             this.openPacketDetails = openPacketDetails;
-            this.domainEvents = domainEvents;
+            this.bus = bus;
         }
 
         #endregion
@@ -58,7 +57,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketList
             Contract.Ensures(Contract.Result<PacketListViewModel>() != null);
 
             var packetList = new PacketListViewModel(processId, this.packetFactory, this.openPacketDetails);
-            this.domainEvents.Subscribe(packetList);
+            this.bus.Subscribe(packetList);
             return packetList;
         }
 
@@ -69,7 +68,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketList
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.domainEvents != null);
+            Contract.Invariant(this.bus != null);
             Contract.Invariant(this.openPacketDetails != null);
             Contract.Invariant(this.packetFactory != null);
         }

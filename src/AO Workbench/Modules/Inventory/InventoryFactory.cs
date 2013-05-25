@@ -18,8 +18,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Models.Modules;
 
     [Export]
@@ -27,18 +26,18 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
     {
         #region Fields
 
-        private readonly IEventAggregator events;
+        private readonly IBus bus;
 
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public InventoryFactory(IEventAggregator events)
+        public InventoryFactory(IBus bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
-            this.events = events;
+            this.bus = bus;
         }
 
         #endregion
@@ -47,7 +46,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
 
         public InventoryViewModel CreateItem(Guid processId)
         {
-            return new InventoryViewModel(this.events);
+            return new InventoryViewModel(this.bus);
         }
 
         #endregion
@@ -57,7 +56,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Inventory
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
         }
 
         #endregion

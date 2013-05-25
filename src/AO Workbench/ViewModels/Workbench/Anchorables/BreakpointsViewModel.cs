@@ -17,16 +17,16 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Anchorables
     using System;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
+    using SmokeLounge.AOtomation.Bus;
 
     public class BreakpointsViewModel : AnchorableItemViewModel
     {
         #region Constructors and Destructors
 
-        public BreakpointsViewModel(IEventAggregator events)
-            : base(events)
+        public BreakpointsViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.Title = "Breakpoints";
         }

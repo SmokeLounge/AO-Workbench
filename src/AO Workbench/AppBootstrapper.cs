@@ -25,8 +25,9 @@ namespace SmokeLounge.AoWorkbench
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.Bus;
+    using SmokeLounge.AOtomation.Bus.Caliburn.Micro;
     using SmokeLounge.AOtomation.Domain.Facade;
-    using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AoWorkbench.Controls;
     using SmokeLounge.AoWorkbench.Models;
 
@@ -71,7 +72,7 @@ namespace SmokeLounge.AoWorkbench
 
             var batch = new CompositionBatch();
 
-            batch.AddExportedValue<IEventAggregator>(new EventAggregator());
+            batch.AddExportedValue<IBus>(new Bus(new CmAdapter()));
             batch.AddExportedValue(this.container);
             batch.AddExportedValue(catalog);
 
@@ -104,8 +105,8 @@ namespace SmokeLounge.AoWorkbench
 
         protected override void OnExit(object sender, EventArgs e)
         {
-            var domainEvents = (IDomainEventAggregator)this.GetInstance(typeof(IDomainEventAggregator), null);
-            var domainEventHandlers = this.GetAllInstances(typeof(IHandleDomainEvent));
+            var domainEvents = (IBus)this.GetInstance(typeof(IBus), null);
+            var domainEventHandlers = this.GetAllInstances(typeof(IHandleMessage));
             domainEventHandlers.Apply(domainEvents.Unsubscribe);
 
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);
@@ -117,8 +118,8 @@ namespace SmokeLounge.AoWorkbench
         {
             ViewLocator.GetOrCreateViewType = this.GetOrCreateViewType;
 
-            var domainEvents = (IDomainEventAggregator)this.GetInstance(typeof(IDomainEventAggregator), null);
-            var domainEventHandlers = this.GetAllInstances(typeof(IHandleDomainEvent));
+            var domainEvents = (IBus)this.GetInstance(typeof(IBus), null);
+            var domainEventHandlers = this.GetAllInstances(typeof(IHandleMessage));
             domainEventHandlers.Apply(domainEvents.Subscribe);
 
             var domainBootstrapper = (IDomainBootstrapper)this.GetInstance(typeof(IDomainBootstrapper), null);

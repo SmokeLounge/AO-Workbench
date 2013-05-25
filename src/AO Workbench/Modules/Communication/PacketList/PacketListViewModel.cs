@@ -19,13 +19,13 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketList
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AOtomation.Domain.Interfaces;
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.Document;
 
     public class PacketListViewModel : PropertyChangedBase, 
-                                       IHandleDomainEvent<PacketReceivedEvent>, 
-                                       IHandleDomainEvent<PacketSentEvent>
+                                       IHandleMessage<PacketReceivedEvent>, 
+                                       IHandleMessage<PacketSentEvent>
     {
         #region Fields
 

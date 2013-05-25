@@ -18,14 +18,14 @@ namespace SmokeLounge.AoWorkbench.DomainEventHandlers
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Facade;
-    using SmokeLounge.AOtomation.Domain.Interfaces;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.ViewModels.Domain;
 
-    [Export(typeof(IHandleDomainEvent))]
+    [Export(typeof(IHandleMessage))]
     public class ProcessPlayerChangedEvent :
-        IHandleDomainEvent<AOtomation.Domain.Interfaces.Events.ProcessPlayerChangedEvent>
+        IHandleMessage<AOtomation.Domain.Interfaces.Events.ProcessPlayerChangedEvent>
     {
         #region Fields
 

@@ -17,8 +17,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
     using System;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Models.Workbench;
 
     public abstract class DocumentItemViewModel : ItemViewModel, IDocumentItem
@@ -31,10 +30,10 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench
 
         #region Constructors and Destructors
 
-        protected DocumentItemViewModel(IEventAggregator events)
-            : base(events)
+        protected DocumentItemViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
         }
 
         #endregion

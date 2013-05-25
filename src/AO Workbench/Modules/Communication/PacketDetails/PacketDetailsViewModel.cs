@@ -43,8 +43,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails
 
         [ImportingConstructor]
         public PacketDetailsViewModel(
-            IAutoFactory<PropertyViewViewModel> propertyViewVMFactory,
-            IAutoFactory<HexViewViewModel> hexViewVMFactory,
+            IAutoFactory<PropertyViewViewModel> propertyViewVMFactory, 
+            IAutoFactory<HexViewViewModel> hexViewVMFactory, 
             VisualTreeFactory visualTreeFactory)
         {
             Contract.Requires<ArgumentNullException>(propertyViewVMFactory != null);

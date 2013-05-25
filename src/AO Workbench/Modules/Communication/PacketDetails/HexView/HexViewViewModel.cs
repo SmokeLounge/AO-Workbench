@@ -16,6 +16,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
@@ -27,6 +28,15 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails.HexView
         private byte[] buffer;
 
         private IHexDigit[] hexDigits;
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        [ImportingConstructor]
+        public HexViewViewModel()
+        {
+        }
 
         #endregion
 

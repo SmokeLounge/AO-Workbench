@@ -18,8 +18,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
     using System.ComponentModel;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Models.Domain;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketList;
@@ -40,16 +39,13 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
         #region Constructors and Destructors
 
         public CommunicationViewModel(
-            IProcess process, 
-            PacketListViewModel packetList, 
-            PacketDetailsViewModel packetDetails, 
-            IEventAggregator events)
-            : base(events)
+            IProcess process, PacketListViewModel packetList, PacketDetailsViewModel packetDetails, IBus bus)
+            : base(bus)
         {
             Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(packetList != null);
             Contract.Requires<ArgumentNullException>(packetDetails != null);
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.process = process;
             this.packetList = packetList;

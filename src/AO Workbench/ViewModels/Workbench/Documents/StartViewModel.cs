@@ -17,16 +17,16 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents
     using System;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
+    using SmokeLounge.AOtomation.Bus;
 
     public class StartViewModel : DocumentItemViewModel
     {
         #region Constructors and Destructors
 
-        public StartViewModel(IEventAggregator events)
-            : base(events)
+        public StartViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.Title = "Start";
         }

@@ -17,18 +17,17 @@ namespace SmokeLounge.AoWorkbench.Modules.Wear
     using System;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
     public class WearViewModel : AnchorableItemViewModel
     {
         #region Constructors and Destructors
 
-        public WearViewModel(IEventAggregator events)
-            : base(events)
+        public WearViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.Title = "Wear";
         }

@@ -17,18 +17,17 @@ namespace SmokeLounge.AoWorkbench.Modules.Nanos
     using System;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.ViewModels.Workbench;
 
     public class NanosViewModel : AnchorableItemViewModel
     {
         #region Constructors and Destructors
 
-        public NanosViewModel(IEventAggregator events)
-            : base(events)
+        public NanosViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.Title = "Nanos";
         }

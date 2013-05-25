@@ -18,17 +18,17 @@ namespace SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
+    using SmokeLounge.AOtomation.Bus;
 
     public class ProcessDetailsViewModel : DocumentItemViewModel
     {
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public ProcessDetailsViewModel(IEventAggregator events)
-            : base(events)
+        public ProcessDetailsViewModel(IBus bus)
+            : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.Title = "Process Details";
         }

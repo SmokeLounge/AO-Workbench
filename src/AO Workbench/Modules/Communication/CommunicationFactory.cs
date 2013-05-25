@@ -18,9 +18,8 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
-    using Caliburn.Micro;
-
     using SmokeLounge.AOtomation.AutoFactory;
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Models.Modules;
     using SmokeLounge.AoWorkbench.Modules.Communication.PacketDetails;
@@ -31,7 +30,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
     {
         #region Fields
 
-        private readonly IEventAggregator events;
+        private readonly IBus bus;
 
         private readonly IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory;
 
@@ -48,17 +47,17 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
             IRemoteProcessService remoteProcessService, 
             PacketListFactory packetListFactory, 
             IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory, 
-            IEventAggregator events)
+            IBus bus)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
             Contract.Requires<ArgumentNullException>(packetListFactory != null);
             Contract.Requires<ArgumentNullException>(packetDetailsVMFactory != null);
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.remoteProcessService = remoteProcessService;
             this.packetListFactory = packetListFactory;
             this.packetDetailsVMFactory = packetDetailsVMFactory;
-            this.events = events;
+            this.bus = bus;
         }
 
         #endregion
@@ -74,7 +73,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
             }
 
             return new CommunicationViewModel(
-                process, this.packetListFactory.Create(process.Id), this.packetDetailsVMFactory.Create(), this.events);
+                process, this.packetListFactory.Create(process.Id), this.packetDetailsVMFactory.Create(), this.bus);
         }
 
         #endregion
@@ -84,7 +83,7 @@ namespace SmokeLounge.AoWorkbench.Modules.Communication
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
             Contract.Invariant(this.packetDetailsVMFactory != null);
             Contract.Invariant(this.packetListFactory != null);
             Contract.Invariant(this.remoteProcessService != null);

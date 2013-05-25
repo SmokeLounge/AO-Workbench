@@ -20,6 +20,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AoWorkbench.Components.Services;
     using SmokeLounge.AoWorkbench.Events.Workbench;
     using SmokeLounge.AoWorkbench.Models;
@@ -28,15 +29,18 @@ namespace SmokeLounge.AoWorkbench.ViewModels
     using SmokeLounge.AoWorkbench.ViewModels.Workbench.Documents;
 
     [Export(typeof(IWorkbench))]
-    public class WorkbenchViewModel : Screen, IWorkbench, IHandle<ItemClosedEvent>, IHandle<ItemOpenedEvent>
+    public class WorkbenchViewModel : Screen, 
+                                      IWorkbench, 
+                                      IHandleMessage<ItemClosedEvent>, 
+                                      IHandleMessage<ItemOpenedEvent>
     {
         #region Fields
 
         private readonly IObservableCollection<IAnchorableItem> anchorables;
 
-        private readonly IObservableCollection<IDocumentItem> documents;
+        private readonly IBus bus;
 
-        private readonly IEventAggregator events;
+        private readonly IObservableCollection<IDocumentItem> documents;
 
         private readonly IProcessModulesService processModulesService;
 
@@ -47,13 +51,13 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public WorkbenchViewModel(IProcessModulesService processModulesService, IEventAggregator events)
+        public WorkbenchViewModel(IProcessModulesService processModulesService, IBus bus)
         {
             Contract.Requires<ArgumentNullException>(processModulesService != null);
-            Contract.Requires<ArgumentNullException>(events != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.processModulesService = processModulesService;
-            this.events = events;
+            this.bus = bus;
             this.anchorables = new BindableCollection<IAnchorableItem>();
             this.documents = new BindableCollection<IDocumentItem>();
         }
@@ -153,16 +157,16 @@ namespace SmokeLounge.AoWorkbench.ViewModels
 
         protected override void OnInitialize()
         {
-            this.events.Subscribe(this);
+            this.bus.Subscribe(this);
 
-            var start = new StartViewModel(this.events);
+            var start = new StartViewModel(this.bus);
             this.documents.Add(start);
 
             var configurationLoaded = this.LoadConfiguration();
             if (configurationLoaded == false)
             {
-                this.anchorables.Add(new ProcessListViewModel(this.processModulesService, this.events));
-                this.anchorables.Add(new PropertiesViewModel(this.events));
+                this.anchorables.Add(new ProcessListViewModel(this.processModulesService, this.bus));
+                this.anchorables.Add(new PropertiesViewModel(this.bus));
             }
 
             this.ActiveContent = start;
@@ -180,7 +184,7 @@ namespace SmokeLounge.AoWorkbench.ViewModels
         {
             Contract.Invariant(this.anchorables != null);
             Contract.Invariant(this.documents != null);
-            Contract.Invariant(this.events != null);
+            Contract.Invariant(this.bus != null);
             Contract.Invariant(this.processModulesService != null);
         }
 
