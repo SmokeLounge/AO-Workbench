@@ -20,9 +20,9 @@ namespace SmokeLounge.AOWorkbench.ViewModels
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOtomation.AutoFactory;
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOWorkbench.Components.Events.Workbench;
-    using SmokeLounge.AOWorkbench.Components.Services;
     using SmokeLounge.AOWorkbench.Models;
     using SmokeLounge.AOWorkbench.Models.Workbench;
     using SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables;
@@ -42,7 +42,7 @@ namespace SmokeLounge.AOWorkbench.ViewModels
 
         private readonly IObservableCollection<IDocumentItem> documents;
 
-        private readonly IProcessModulesService processModulesService;
+        private readonly IAutoFactory<ProcessListViewModel> processListVMFactory;
 
         private IItem activeContent;
 
@@ -51,12 +51,12 @@ namespace SmokeLounge.AOWorkbench.ViewModels
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public WorkbenchViewModel(IProcessModulesService processModulesService, IBus bus)
+        public WorkbenchViewModel(IAutoFactory<ProcessListViewModel> processListVMFactory, IBus bus)
         {
-            Contract.Requires<ArgumentNullException>(processModulesService != null);
+            Contract.Requires<ArgumentNullException>(processListVMFactory != null);
             Contract.Requires<ArgumentNullException>(bus != null);
 
-            this.processModulesService = processModulesService;
+            this.processListVMFactory = processListVMFactory;
             this.bus = bus;
             this.anchorables = new BindableCollection<IAnchorableItem>();
             this.documents = new BindableCollection<IDocumentItem>();
@@ -165,8 +165,7 @@ namespace SmokeLounge.AOWorkbench.ViewModels
             var configurationLoaded = this.LoadConfiguration();
             if (configurationLoaded == false)
             {
-                this.anchorables.Add(new ProcessListViewModel(this.processModulesService, this.bus));
-                this.anchorables.Add(new PropertiesViewModel(this.bus));
+                this.anchorables.Add(this.processListVMFactory.Create());
             }
 
             this.ActiveContent = start;
@@ -185,7 +184,7 @@ namespace SmokeLounge.AOWorkbench.ViewModels
             Contract.Invariant(this.anchorables != null);
             Contract.Invariant(this.documents != null);
             Contract.Invariant(this.bus != null);
-            Contract.Invariant(this.processModulesService != null);
+            Contract.Invariant(this.processListVMFactory != null);
         }
 
         #endregion

@@ -154,7 +154,6 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="Components\Services\MessageSerializerService.cs" />
     <Compile Include="Components\Services\PacketInspectorService.cs" />
-    <Compile Include="Components\Services\ProcessModulesService.cs" />
     <Compile Include="Components\Services\RemoteProcessService.cs" />
     <Compile Include="Components\WindowManager.cs" />
     <Compile Include="DomainEventHandlers\ClientAttachedToProcessEventHandler.cs" />

@@ -29,6 +29,8 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
 
         IObservableCollection<IModule> Modules { get; }
 
+        Guid ProcessId { get; }
+
         #endregion
     }
 
@@ -43,6 +45,14 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
             {
                 Contract.Ensures(Contract.Result<IObservableCollection<IModule>>() != null);
 
+                throw new NotImplementedException();
+            }
+        }
+
+        public Guid ProcessId
+        {
+            get
+            {
                 throw new NotImplementedException();
             }
         }

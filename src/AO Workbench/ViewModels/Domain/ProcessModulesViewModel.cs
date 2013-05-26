@@ -99,6 +99,14 @@ namespace SmokeLounge.AOWorkbench.ViewModels.Domain
             }
         }
 
+        public Guid ProcessId
+        {
+            get
+            {
+                return this.remoteProcess.Id;
+            }
+        }
+
         #endregion
 
         #region Public Methods and Operators

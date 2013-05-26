@@ -64,7 +64,8 @@ namespace SmokeLounge.AOWorkbench.ViewModels.Domain
                 player = this.playerFactory.Create(remoteProcessDto.Player);
             }
 
-            var remoteProcess = new RemoteProcessViewModel(remoteProcessDto.Id, remoteProcessDto.RemoteId, player);
+            var remoteProcess = new RemoteProcessViewModel(
+                remoteProcessDto.Id, remoteProcessDto.RemoteId, player, this.bus);
             return remoteProcess;
         }
 

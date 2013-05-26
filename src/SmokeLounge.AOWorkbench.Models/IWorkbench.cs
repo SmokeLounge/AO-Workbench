@@ -39,15 +39,59 @@ namespace SmokeLounge.AOWorkbench.Models
     [ContractClassFor(typeof(IWorkbench))]
     internal abstract class IWorkbenchContract : IWorkbench
     {
-        #region Public Events
+        #region Explicit Interface Events
 
-        public abstract event EventHandler<ActivationEventArgs> Activated;
+        event EventHandler<ActivationEventArgs> IActivate.Activated
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-        public abstract event EventHandler<DeactivationEventArgs> AttemptingDeactivation;
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
-        public abstract event EventHandler<DeactivationEventArgs> Deactivated;
+        event EventHandler<DeactivationEventArgs> IDeactivate.AttemptingDeactivation
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
 
-        public abstract event PropertyChangedEventHandler PropertyChanged;
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        event EventHandler<DeactivationEventArgs> IDeactivate.Deactivated
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
+        {
+            add
+            {
+                throw new NotImplementedException();
+            }
+
+            remove
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         #endregion
 
@@ -76,7 +120,21 @@ namespace SmokeLounge.AOWorkbench.Models
             }
         }
 
-        public string DisplayName
+        public IObservableCollection<IDocumentItem> Documents
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IObservableCollection<IDocumentItem>>() != null);
+
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
+
+        #region Explicit Interface Properties
+
+        string IHaveDisplayName.DisplayName
         {
             get
             {
@@ -89,17 +147,7 @@ namespace SmokeLounge.AOWorkbench.Models
             }
         }
 
-        public IObservableCollection<IDocumentItem> Documents
-        {
-            get
-            {
-                Contract.Ensures(Contract.Result<IObservableCollection<IDocumentItem>>() != null);
-
-                throw new NotImplementedException();
-            }
-        }
-
-        public bool IsActive
+        bool IActivate.IsActive
         {
             get
             {
@@ -107,7 +155,7 @@ namespace SmokeLounge.AOWorkbench.Models
             }
         }
 
-        public bool IsNotifying
+        bool INotifyPropertyChangedEx.IsNotifying
         {
             get
             {
@@ -122,34 +170,34 @@ namespace SmokeLounge.AOWorkbench.Models
 
         #endregion
 
-        #region Public Methods and Operators
+        #region Explicit Interface Methods
 
-        public void Activate()
+        void IActivate.Activate()
         {
             throw new NotImplementedException();
         }
 
-        public void CanClose(Action<bool> callback)
+        void IGuardClose.CanClose(Action<bool> callback)
         {
             throw new NotImplementedException();
         }
 
-        public void Deactivate(bool close)
+        void IDeactivate.Deactivate(bool close)
         {
             throw new NotImplementedException();
         }
 
-        public void NotifyOfPropertyChange(string propertyName)
+        void INotifyPropertyChangedEx.NotifyOfPropertyChange(string propertyName)
         {
             throw new NotImplementedException();
         }
 
-        public void Refresh()
+        void INotifyPropertyChangedEx.Refresh()
         {
             throw new NotImplementedException();
         }
 
-        public void TryClose()
+        void IClose.TryClose()
         {
             throw new NotImplementedException();
         }

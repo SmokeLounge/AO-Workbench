@@ -15,24 +15,27 @@
 namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
+    using System.Linq;
 
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Bus;
+    using SmokeLounge.AOWorkbench.Components.Events;
     using SmokeLounge.AOWorkbench.Components.Events.Workbench;
     using SmokeLounge.AOWorkbench.Components.Services;
     using SmokeLounge.AOWorkbench.Components.Workbench;
     using SmokeLounge.AOWorkbench.Models.Domain;
     using SmokeLounge.AOWorkbench.Models.Modules;
 
-    public class ProcessListViewModel : AnchorableItemViewModel
+    public class ProcessListViewModel : AnchorableItemViewModel, IHandleMessage<ProcessLoadedEvent>
     {
         #region Fields
 
         private readonly IObservableCollection<IProcessModules> processModulesCollection;
 
-        private readonly IProcessModulesService processModulesService;
+        private readonly IRemoteProcessService processService;
 
         private IModule selectedItem;
 
@@ -40,15 +43,18 @@ namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables
 
         #region Constructors and Destructors
 
-        public ProcessListViewModel(IProcessModulesService processModulesService, IBus bus)
+        [ImportingConstructor]
+        public ProcessListViewModel(IRemoteProcessService processService, IBus bus)
             : base(bus)
         {
-            Contract.Requires<ArgumentNullException>(processModulesService != null);
+            this.processService = processService;
+            Contract.Requires<ArgumentNullException>(processService != null);
             Contract.Requires<ArgumentNullException>(bus != null);
 
-            this.processModulesService = processModulesService;
-            this.processModulesCollection = this.processModulesService.GetAll();
+            this.processModulesCollection = new BindableCollection<IProcessModules>();
+            this.processService.GetAll().Where(p => p.IsAttached).Apply(this.AddProcessModules);
             this.Title = "Processes";
+            this.Bus.Subscribe(this);
         }
 
         #endregion
@@ -86,6 +92,17 @@ namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables
 
         #region Public Methods and Operators
 
+        public void Handle(ProcessLoadedEvent message)
+        {
+            var process = this.processService.Get(message.ProcessId);
+            if (process == null)
+            {
+                return;
+            }
+
+            this.AddProcessModules(process);
+        }
+
         public void Open(object arg)
         {
             Contract.Requires<ArgumentNullException>(arg != null);
@@ -109,11 +126,28 @@ namespace SmokeLounge.AOWorkbench.ViewModels.Workbench.Anchorables
 
         #region Methods
 
+        private void AddProcessModules(IProcess process)
+        {
+            Contract.Requires(process != null);
+
+            var processModules = process.ServiceLocator.GetInstance<IProcessModules>();
+            if (processModules == null)
+            {
+                return;
+            }
+
+            this.processModulesCollection.Add(processModules);
+        }
+
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(this.processService != null);
             Contract.Invariant(this.processModulesCollection != null);
-            Contract.Invariant(this.processModulesService != null);
+        }
+
+        private void RemoveProcessModules(IProcess process)
+        {
         }
 
         #endregion

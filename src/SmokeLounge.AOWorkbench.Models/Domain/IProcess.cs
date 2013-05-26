@@ -18,6 +18,8 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
     using System.ComponentModel;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AOtomation.AutoFactory;
+
     [ContractClass(typeof(IProcessContract))]
     public interface IProcess : INotifyPropertyChanged
     {
@@ -32,6 +34,8 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
         bool IsAttached { get; }
 
         IPlayer Player { get; set; }
+
+        IMiniIoC ServiceLocator { get; }
 
         #endregion
     }
@@ -104,6 +108,16 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
 
             set
             {
+                throw new NotImplementedException();
+            }
+        }
+
+        public IMiniIoC ServiceLocator
+        {
+            get
+            {
+                Contract.Ensures(Contract.Result<IMiniIoC>() != null);
+
                 throw new NotImplementedException();
             }
         }

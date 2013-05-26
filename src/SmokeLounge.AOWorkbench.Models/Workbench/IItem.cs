@@ -15,8 +15,10 @@
 namespace SmokeLounge.AOWorkbench.Models.Workbench
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Windows.Input;
 
+    [ContractClass(typeof(IItemContract))]
     public interface IItem
     {
         #region Public Properties
@@ -54,6 +56,48 @@ namespace SmokeLounge.AOWorkbench.Models.Workbench
         string Title { get; set; }
 
         string ToolTip { get; set; }
+
+        #endregion
+    }
+
+    [ContractClassFor(typeof(IItem))]
+    internal abstract class IItemContract : IItem
+    {
+        #region Public Properties
+
+        public ICommand ActivateCommand { get; private set; }
+
+        public bool CanClose { get; set; }
+
+        public bool CanFloat { get; set; }
+
+        public ICommand CloseAllButThisCommand { get; private set; }
+
+        public ICommand CloseCommand { get; private set; }
+
+        public string ContentId { get; set; }
+
+        public ICommand DockAsDocumentCommand { get; private set; }
+
+        public ICommand FloatCommand { get; private set; }
+
+        public Uri IconSource { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsSelected { get; set; }
+
+        public ICommand MoveToNextTabGroupCommand { get; private set; }
+
+        public ICommand MoveToPreviousTabGroupCommand { get; private set; }
+
+        public ICommand NewHorizontalTabGroupCommand { get; private set; }
+
+        public ICommand NewVerticalTabGroupCommand { get; private set; }
+
+        public string Title { get; set; }
+
+        public string ToolTip { get; set; }
 
         #endregion
     }

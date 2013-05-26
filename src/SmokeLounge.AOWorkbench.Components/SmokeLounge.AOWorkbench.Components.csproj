@@ -126,6 +126,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Events\ProcessLoadedEvent.cs" />
     <Compile Include="Events\PropertyDisplayRequestedEvent.cs" />
     <Compile Include="Events\Workbench\ItemClosedEvent.cs" />
     <Compile Include="Events\Workbench\ItemOpenedEvent.cs" />
@@ -135,7 +136,6 @@
     <Compile Include="RelayCommand.cs" />
     <Compile Include="Services\IMessageSerializerService.cs" />
     <Compile Include="Services\IPacketInspectorService.cs" />
-    <Compile Include="Services\IProcessModulesService.cs" />
     <Compile Include="Services\IRemoteProcessService.cs" />
     <Compile Include="Workbench\AnchorableItemViewModel.cs" />
     <Compile Include="Workbench\DocumentItemViewModel.cs" />

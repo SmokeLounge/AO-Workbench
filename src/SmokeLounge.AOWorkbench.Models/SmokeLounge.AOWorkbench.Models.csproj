@@ -146,6 +146,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.AutoFactory\src\SmokeLounge.AOtomation.AutoFactory\SmokeLounge.AOtomation.AutoFactory.csproj">
+      <Project>{772F2183-7F21-46E1-99F0-3C26811D5BC8}</Project>
+      <Name>SmokeLounge.AOtomation.AutoFactory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\lib\SmokeLounge.AOtomation.Domain\lib\SmokeLounge.AOtomation.Messaging\src\SmokeLounge.AOtomation.Messaging\SmokeLounge.AOtomation.Messaging.csproj">
       <Project>{3CEAC898-BFCA-45EA-BF34-C4BBB85D2DA4}</Project>
       <Name>SmokeLounge.AOtomation.Messaging</Name>

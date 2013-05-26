@@ -132,9 +132,8 @@ namespace SmokeLounge.AOWorkbench
         {
             var list = new List<Assembly>(base.SelectAssemblies());
 
-            foreach (
-                var file in
-                    Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "SmokeLounge.AOWorkbench.Module.*.dll"))
+            foreach (var file in
+                Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory, "SmokeLounge.AOWorkbench.Module.*.dll"))
             {
                 try
                 {

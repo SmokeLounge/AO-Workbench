@@ -412,6 +412,8 @@ namespace SmokeLounge.AOWorkbench.Components.Workbench
         {
             get
             {
+                Contract.Ensures(Contract.Result<IBus>() != null);
+
                 return this.bus;
             }
         }

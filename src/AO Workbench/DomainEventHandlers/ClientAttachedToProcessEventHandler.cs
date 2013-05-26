@@ -30,8 +30,6 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
 
         private readonly ProcessModulesFactory processModulesFactory;
 
-        private readonly IProcessModulesService processModulesService;
-
         private readonly IRemoteProcessService remoteProcessService;
 
         #endregion
@@ -40,16 +38,12 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
 
         [ImportingConstructor]
         public ClientAttachedToProcessEventHandler(
-            IRemoteProcessService remoteProcessService, 
-            IProcessModulesService processModulesService, 
-            ProcessModulesFactory processModulesFactory)
+            IRemoteProcessService remoteProcessService, ProcessModulesFactory processModulesFactory)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
-            Contract.Requires<ArgumentNullException>(processModulesService != null);
             Contract.Requires<ArgumentNullException>(processModulesFactory != null);
 
             this.remoteProcessService = remoteProcessService;
-            this.processModulesService = processModulesService;
             this.processModulesFactory = processModulesFactory;
         }
 
@@ -65,11 +59,9 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
                 return;
             }
 
-            remoteProcess.ClientId = message.ClientId;
-
             var processModules = this.processModulesFactory.Create(remoteProcess);
-
-            this.processModulesService.Add(processModules);
+            remoteProcess.ServiceLocator.AddInstance(processModules);
+            remoteProcess.ClientId = message.ClientId;
         }
 
         #endregion
@@ -80,7 +72,6 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
         private void ObjectInvariant()
         {
             Contract.Invariant(this.remoteProcessService != null);
-            Contract.Invariant(this.processModulesService != null);
             Contract.Invariant(this.processModulesFactory != null);
         }
 

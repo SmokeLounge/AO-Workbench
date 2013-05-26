@@ -18,6 +18,8 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
     using System.ComponentModel;
     using System.Diagnostics.Contracts;
 
+    using SmokeLounge.AOtomation.AutoFactory;
+
     [ContractClass(typeof(IRemoteProcessContract))]
     public interface IRemoteProcess : IProcess
     {
@@ -107,6 +109,22 @@ namespace SmokeLounge.AOWorkbench.Models.Domain
             }
 
             set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        int IRemoteProcess.RemoteId
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        IMiniIoC IProcess.ServiceLocator
+        {
+            get
             {
                 throw new NotImplementedException();
             }
