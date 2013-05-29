@@ -46,6 +46,8 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         private readonly SQLiteConnection sqLiteConnection;
 
+        private readonly IUniqueIdentityGenerator uniqueIdentityGenerator;
+
         private readonly string updateSql = string.Format(
             "UPDATE [{0}] SET [Content] = @content WHERE [Id] = @id", typeof(T).Name);
 
@@ -53,13 +55,18 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         #region Constructors and Destructors
 
-        public SQLiteDataAdapter(SQLiteConnection sqLiteConnection, IDataFormatter<T> dataFormatter)
+        public SQLiteDataAdapter(
+            SQLiteConnection sqLiteConnection, 
+            IDataFormatter<T> dataFormatter, 
+            IUniqueIdentityGenerator uniqueIdentityGenerator)
         {
             Contract.Requires<ArgumentNullException>(sqLiteConnection != null);
             Contract.Requires<ArgumentNullException>(dataFormatter != null);
+            Contract.Requires<ArgumentNullException>(uniqueIdentityGenerator != null);
 
             this.sqLiteConnection = sqLiteConnection;
             this.dataFormatter = dataFormatter;
+            this.uniqueIdentityGenerator = uniqueIdentityGenerator;
         }
 
         #endregion
@@ -179,6 +186,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
             using (var command = new SQLiteCommand(this.insertSql, this.sqLiteConnection))
             {
                 Contract.Assume(command.Parameters != null);
+                data.Id = this.uniqueIdentityGenerator.CreateSequentialUuid();
                 command.Parameters.AddWithValue("@id", data.Id);
                 command.Parameters.AddWithValue("@content", content);
 
@@ -230,6 +238,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
         {
             Contract.Invariant(this.dataFormatter != null);
             Contract.Invariant(this.sqLiteConnection != null);
+            Contract.Invariant(this.uniqueIdentityGenerator != null);
         }
 
         #endregion

@@ -30,9 +30,9 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
     {
         #region Fields
 
-        private readonly ProcessModulesFactory processModulesFactory;
-
         private readonly IDataService dataService;
+
+        private readonly ProcessModulesFactory processModulesFactory;
 
         private readonly IRemoteProcessService remoteProcessService;
 
@@ -42,7 +42,9 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
 
         [ImportingConstructor]
         public ClientAttachedToProcessEventHandler(
-            IRemoteProcessService remoteProcessService, ProcessModulesFactory processModulesFactory, IDataService dataService)
+            IRemoteProcessService remoteProcessService, 
+            ProcessModulesFactory processModulesFactory, 
+            IDataService dataService)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
             Contract.Requires<ArgumentNullException>(processModulesFactory != null);
@@ -65,14 +67,14 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
                 return;
             }
 
-
-            var processModules = this.processModulesFactory.Create(remoteProcess);
-            remoteProcess.ServiceLocator.AddInstance(processModules);
             var dataSource = this.dataService.OpenDataSource(Path.GetTempFileName());
             if (dataSource != null)
             {
                 remoteProcess.ServiceLocator.AddInstance(dataSource);
             }
+
+            var processModules = this.processModulesFactory.Create(remoteProcess);
+            remoteProcess.ServiceLocator.AddInstance(processModules);
 
             remoteProcess.ClientId = message.ClientId;
         }

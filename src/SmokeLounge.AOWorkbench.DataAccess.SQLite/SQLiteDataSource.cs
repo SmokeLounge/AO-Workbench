@@ -28,17 +28,24 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         private readonly SQLiteConnection sqLiteConnection;
 
+        private readonly IUniqueIdentityGenerator uniqueIdentityGenerator;
+
         #endregion
 
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public SQLiteDataSource(string filePath, IDataFormatterResolver dataFormatterResolver)
+        public SQLiteDataSource(
+            string filePath, 
+            IDataFormatterResolver dataFormatterResolver, 
+            IUniqueIdentityGenerator uniqueIdentityGenerator)
         {
             Contract.Requires<ArgumentNullException>(filePath != null);
             Contract.Requires<ArgumentNullException>(dataFormatterResolver != null);
+            Contract.Requires<ArgumentNullException>(uniqueIdentityGenerator != null);
 
             this.dataFormatterResolver = dataFormatterResolver;
+            this.uniqueIdentityGenerator = uniqueIdentityGenerator;
             if (File.Exists(filePath) == false)
             {
                 SQLiteConnection.CreateFile(filePath);
@@ -65,7 +72,8 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
                     typeof(T).Name);
             var command = new SQLiteCommand(sql, this.sqLiteConnection);
             command.ExecuteNonQuery();
-            return new SQLiteDataAdapter<T>(this.sqLiteConnection, this.dataFormatterResolver.GetDataFormatter<T>());
+            return new SQLiteDataAdapter<T>(
+                this.sqLiteConnection, this.dataFormatterResolver.GetDataFormatter<T>(), this.uniqueIdentityGenerator);
         }
 
         #endregion
@@ -77,6 +85,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
         {
             Contract.Invariant(this.dataFormatterResolver != null);
             Contract.Invariant(this.sqLiteConnection != null);
+            Contract.Invariant(this.uniqueIdentityGenerator != null);
         }
 
         #endregion

@@ -25,7 +25,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
     {
         #region Fields
 
-        private readonly Lazy<CommunicationViewModel> lazyCommunication;
+        private readonly CommunicationViewModel communication;
 
         private readonly Uri iconSource;
 
@@ -42,7 +42,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
 
             this.iconSource = null;
             this.name = "Communication";
-            this.lazyCommunication = new Lazy<CommunicationViewModel>(() => communicationFactory.CreateItem(process.Id));
+            this.communication = communicationFactory.CreateItem(process.Id);
         }
 
         #endregion
@@ -71,7 +71,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
 
         public IItem CreateItem()
         {
-            return this.lazyCommunication.Value;
+            return this.communication;
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
         private void ObjectInvariant()
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
-            Contract.Invariant(this.lazyCommunication != null);
+            Contract.Invariant(this.communication != null);
         }
 
         #endregion

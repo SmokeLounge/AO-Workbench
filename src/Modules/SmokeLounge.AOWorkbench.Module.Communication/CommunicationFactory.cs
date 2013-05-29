@@ -44,7 +44,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
 
         [ImportingConstructor]
         public CommunicationFactory(
-            IRemoteProcessService remoteProcessService,
+            IRemoteProcessService remoteProcessService, 
             IAutoFactory<PacketListViewModel> packetListVMFactory, 
             IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory, 
             IBus bus)
@@ -73,7 +73,10 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
             }
 
             return new CommunicationViewModel(
-                process, this.packetListVMFactory.WithIoC(process.ServiceLocator).Create(process.Id), this.packetDetailsVMFactory.Create(), this.bus);
+                process, 
+                this.packetListVMFactory.WithIoC(process.ServiceLocator).Create(process.Id), 
+                this.packetDetailsVMFactory.Create(), 
+                this.bus);
         }
 
         #endregion

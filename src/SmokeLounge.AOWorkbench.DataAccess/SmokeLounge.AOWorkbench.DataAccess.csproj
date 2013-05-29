@@ -133,9 +133,11 @@
     <Compile Include="IDataFormatterResolver.cs" />
     <Compile Include="IDataService.cs" />
     <Compile Include="IDataSource.cs" />
+    <Compile Include="IUniqueIdentityGenerator.cs" />
     <Compile Include="MessagePackDataFormatter.cs" />
     <Compile Include="MessagePackDataFormatterResolver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UniqueIdentityGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

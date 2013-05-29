@@ -25,7 +25,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess
 
         T Content { get; set; }
 
-        Guid Id { get; }
+        Guid Id { get; set; }
 
         #endregion
     }
@@ -57,6 +57,13 @@ namespace SmokeLounge.AOWorkbench.DataAccess
         {
             get
             {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                Contract.Requires<ArgumentNullException>(value != null);
+
                 throw new NotImplementedException();
             }
         }

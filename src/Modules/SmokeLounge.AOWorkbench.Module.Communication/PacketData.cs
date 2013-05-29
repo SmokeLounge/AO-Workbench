@@ -27,7 +27,5 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
         public DateTime Timestamp { get; set; }
 
         #endregion
-
-    ;
     }
 }

@@ -31,11 +31,9 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
     {
         #region Fields
 
-        private readonly IOpenPacketDetails openPacketDetails;
-
         private readonly IDataSource dataSource;
 
-        private readonly IBus bus;
+        private readonly IOpenPacketDetails openPacketDetails;
 
         private readonly PacketFactory packetFactory;
 
@@ -52,18 +50,17 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
         #region Constructors and Destructors
 
         [ImportingConstructor]
-        public PacketListViewModel(Guid processId, PacketFactory packetFactory, IOpenPacketDetails openPacketDetails, IDataSource dataSource, IBus bus)
+        public PacketListViewModel(
+            Guid processId, PacketFactory packetFactory, IOpenPacketDetails openPacketDetails, IDataSource dataSource)
         {
             Contract.Requires<ArgumentNullException>(packetFactory != null);
             Contract.Requires<ArgumentNullException>(openPacketDetails != null);
             Contract.Requires<ArgumentNullException>(dataSource != null);
-            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.processId = processId;
             this.packetFactory = packetFactory;
             this.openPacketDetails = openPacketDetails;
             this.dataSource = dataSource;
-            this.bus = bus;
 
             this.packets = new BindableCollection<PacketViewModel>();
         }
@@ -131,7 +128,12 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
                 return;
             }
 
-            var packetData = new PacketData { Packet = messagePacket, PacketDirection = packetDirection, Timestamp = DateTime.Now };
+            var packetData = new PacketData
+                                 {
+                                     Packet = messagePacket, 
+                                     PacketDirection = packetDirection, 
+                                     Timestamp = DateTime.Now
+                                 };
             var dataAdapter = this.dataSource.GetDataAdapter<PacketData>();
             dataAdapter.Save(new Data<PacketData>(packetData));
             var packet = this.packetFactory.Create(packetDirection, messagePacket);
@@ -177,7 +179,6 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
-            Contract.Invariant(this.bus != null);
             Contract.Invariant(this.dataSource != null);
             Contract.Invariant(this.openPacketDetails != null);
             Contract.Invariant(this.packetFactory != null);

@@ -61,6 +61,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
                 this.packetList, 
                 (sender, args) => this.packetDetails.Packet = this.packetList.SelectedPacket, 
                 "SelectedPacket");
+            this.Bus.Subscribe(this.packetList);
         }
 
         #endregion
