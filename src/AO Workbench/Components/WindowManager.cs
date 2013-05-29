@@ -80,6 +80,7 @@ namespace SmokeLounge.AOWorkbench.Components
                 if (owner != null)
                 {
                     window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    window.ShowInTaskbar = false;
                     window.Owner = owner;
                 }
                 else
@@ -92,6 +93,7 @@ namespace SmokeLounge.AOWorkbench.Components
                 var owner2 = this.InferOwnerOf(window);
                 if (owner2 != null && isDialog)
                 {
+                    window.ShowInTaskbar = false;
                     window.Owner = owner2;
                 }
             }
