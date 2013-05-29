@@ -142,6 +142,7 @@
     <Compile Include="CommunicationModule.cs" />
     <Compile Include="CommunicationModuleFactory.cs" />
     <Compile Include="CommunicationViewModel.cs" />
+    <Compile Include="PacketData.cs" />
     <Compile Include="PacketDetails\Document\IOpenPacketDetails.cs" />
     <Compile Include="PacketDetails\Document\OpenPacketDetails.cs" />
     <Compile Include="PacketDetails\Document\PacketDetailsDocumentItemViewModel.cs" />

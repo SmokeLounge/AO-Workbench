@@ -68,9 +68,12 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         public int Count()
         {
-            var command = new SQLiteCommand(this.countSql, this.sqLiteConnection);
+            int? count;
+            using (var command = new SQLiteCommand(this.countSql, this.sqLiteConnection))
+            {
+                count = command.ExecuteScalar() as int?;
+            }
 
-            var count = command.ExecuteScalar() as int?;
             if (count.HasValue == false || count.Value < 0)
             {
                 throw new InvalidOperationException();
@@ -81,10 +84,14 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         public void Delete(IData<T> data)
         {
-            var command = new SQLiteCommand(this.deleteSql, this.sqLiteConnection);
-            command.Parameters.AddWithValue("@id", data.Id);
+            int rows;
+            using (var command = new SQLiteCommand(this.deleteSql, this.sqLiteConnection))
+            {
+                Contract.Assume(command.Parameters != null);
+                command.Parameters.AddWithValue("@id", data.Id);
+                rows = command.ExecuteNonQuery();
+            }
 
-            var rows = command.ExecuteNonQuery();
             if (rows != 1)
             {
                 throw new InvalidOperationException();
@@ -93,28 +100,35 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         public IData<T> Get(Guid id)
         {
-            var command = new SQLiteCommand(this.getSql, this.sqLiteConnection);
-            command.Parameters.AddWithValue("@id", id);
-
-            using (var dataReader = command.ExecuteReader(CommandBehavior.SingleRow | CommandBehavior.SequentialAccess))
+            using (var command = new SQLiteCommand(this.getSql, this.sqLiteConnection))
             {
-                if (dataReader.FieldCount != 1)
-                {
-                    return null;
-                }
+                Contract.Assume(command.Parameters != null);
+                command.Parameters.AddWithValue("@id", id);
 
-                var content = this.dataFormatter.Deserialize(dataReader.GetStream(1));
-                var data = new Data<T>(id, content);
-                return data;
+                const CommandBehavior CommandBehavior = CommandBehavior.SingleRow | CommandBehavior.SequentialAccess;
+                using (var dataReader = command.ExecuteReader(CommandBehavior))
+                {
+                    Contract.Assume(dataReader != null);
+                    if (dataReader.FieldCount != 1)
+                    {
+                        return null;
+                    }
+
+                    var dataId = dataReader.GetGuid(0);
+                    var stream = dataReader.GetStream(1);
+                    Contract.Assume(stream != null);
+                    var content = this.dataFormatter.Deserialize(stream);
+                    var data = new Data<T>(dataId, content);
+                    return data;
+                }
             }
         }
 
         public IEnumerable<IData<T>> GetAll()
         {
-            var command = new SQLiteCommand(this.getAllSql, this.sqLiteConnection);
-
-            using (
-                var dataReader = command.ExecuteReader(CommandBehavior.SingleResult | CommandBehavior.SequentialAccess))
+            const CommandBehavior CommandBehavior = CommandBehavior.SingleResult | CommandBehavior.SequentialAccess;
+            using (var command = new SQLiteCommand(this.getAllSql, this.sqLiteConnection))
+            using (var dataReader = command.ExecuteReader(CommandBehavior))
             {
                 while (dataReader.Read())
                 {
@@ -128,19 +142,21 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
 
         public IEnumerable<IData<T>> GetRange(int offset, int count)
         {
-            var command = new SQLiteCommand(this.getRangeSql, this.sqLiteConnection);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@count", count);
-
-            using (
-                var dataReader = command.ExecuteReader(CommandBehavior.SingleResult | CommandBehavior.SequentialAccess))
+            using (var command = new SQLiteCommand(this.getRangeSql, this.sqLiteConnection))
             {
-                while (dataReader.Read())
+                command.Parameters.AddWithValue("@offset", offset);
+                command.Parameters.AddWithValue("@count", count);
+
+                const CommandBehavior CommandBehavior = CommandBehavior.SingleResult | CommandBehavior.SequentialAccess;
+                using (var dataReader = command.ExecuteReader(CommandBehavior))
                 {
-                    var id = dataReader.GetGuid(0);
-                    var content = this.dataFormatter.Deserialize(dataReader.GetStream(1));
-                    var data = new Data<T>(id, content);
-                    yield return data;
+                    while (dataReader.Read())
+                    {
+                        var id = dataReader.GetGuid(0);
+                        var content = this.dataFormatter.Deserialize(dataReader.GetStream(1));
+                        var data = new Data<T>(id, content);
+                        yield return data;
+                    }
                 }
             }
         }
@@ -159,11 +175,16 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
                 throw new InvalidOperationException();
             }
 
-            var command = new SQLiteCommand(this.insertSql, this.sqLiteConnection);
-            command.Parameters.AddWithValue("@id", data.Id);
-            command.Parameters.AddWithValue("@content", content);
+            int rows;
+            using (var command = new SQLiteCommand(this.insertSql, this.sqLiteConnection))
+            {
+                Contract.Assume(command.Parameters != null);
+                command.Parameters.AddWithValue("@id", data.Id);
+                command.Parameters.AddWithValue("@content", content);
 
-            var rows = command.ExecuteNonQuery();
+                rows = command.ExecuteNonQuery();
+            }
+
             if (rows != 1)
             {
                 throw new InvalidOperationException();
@@ -184,11 +205,16 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
                 throw new InvalidOperationException();
             }
 
-            var command = new SQLiteCommand(this.updateSql, this.sqLiteConnection);
-            command.Parameters.AddWithValue("@id", data.Id);
-            command.Parameters.AddWithValue("@content", content);
+            int rows;
+            using (var command = new SQLiteCommand(this.updateSql, this.sqLiteConnection))
+            {
+                Contract.Assume(command.Parameters != null);
+                command.Parameters.AddWithValue("@id", data.Id);
+                command.Parameters.AddWithValue("@content", content);
 
-            var rows = command.ExecuteNonQuery();
+                rows = command.ExecuteNonQuery();
+            }
+
             if (rows != 1)
             {
                 throw new InvalidOperationException();

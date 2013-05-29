@@ -20,7 +20,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
     using System.Diagnostics.Contracts;
     using System.IO;
 
-    public class SQLiteDataSource : IDataSource
+    public sealed class SQLiteDataSource : IDataSource
     {
         #region Fields
 
@@ -51,6 +51,11 @@ namespace SmokeLounge.AOWorkbench.DataAccess.SQLite
         #endregion
 
         #region Public Methods and Operators
+
+        public void Dispose()
+        {
+            this.sqLiteConnection.Dispose();
+        }
 
         public IDataAdapter<T> GetDataAdapter<T>() where T : class
         {

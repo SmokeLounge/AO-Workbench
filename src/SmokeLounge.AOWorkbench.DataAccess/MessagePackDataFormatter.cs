@@ -48,6 +48,11 @@ namespace SmokeLounge.AOWorkbench.DataAccess
             }
 
             var obj = this.lazySerializer.Value.Unpack(stream);
+            if (obj == null)
+            {
+                throw new InvalidOperationException();
+            }
+
             return obj;
         }
 

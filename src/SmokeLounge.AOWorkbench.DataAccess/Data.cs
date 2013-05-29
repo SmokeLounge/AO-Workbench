@@ -17,7 +17,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess
     using System;
     using System.Diagnostics.Contracts;
 
-    public class Data<T> : IData<T>
+    public sealed class Data<T> : IData<T>
         where T : class
     {
         #region Fields

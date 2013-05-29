@@ -18,7 +18,7 @@ namespace SmokeLounge.AOWorkbench.DataAccess
     using System.Diagnostics.Contracts;
 
     [ContractClass(typeof(IDataSourceContract))]
-    public interface IDataSource
+    public interface IDataSource : IDisposable
     {
         #region Public Methods and Operators
 
@@ -36,6 +36,15 @@ namespace SmokeLounge.AOWorkbench.DataAccess
         {
             Contract.Ensures(Contract.Result<IDataAdapter<T>>() != null);
 
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Explicit Interface Methods
+
+        void IDisposable.Dispose()
+        {
             throw new NotImplementedException();
         }
 

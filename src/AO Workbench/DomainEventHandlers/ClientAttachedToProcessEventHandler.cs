@@ -19,11 +19,10 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
     using System.Diagnostics.Contracts;
     using System.IO;
 
-    using SmokeLounge.AOWorkbench.DataAccess;
-    using SmokeLounge.AOWorkbench.Models.Domain;
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AOWorkbench.Components.Services;
+    using SmokeLounge.AOWorkbench.DataAccess;
     using SmokeLounge.AOWorkbench.ViewModels.Domain;
 
     [Export(typeof(IHandleMessage))]
@@ -67,13 +66,14 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
             }
 
 
+            var processModules = this.processModulesFactory.Create(remoteProcess);
+            remoteProcess.ServiceLocator.AddInstance(processModules);
             var dataSource = this.dataService.OpenDataSource(Path.GetTempFileName());
             if (dataSource != null)
             {
                 remoteProcess.ServiceLocator.AddInstance(dataSource);
             }
-            var processModules = this.processModulesFactory.Create(remoteProcess);
-            remoteProcess.ServiceLocator.AddInstance(processModules);
+
             remoteProcess.ClientId = message.ClientId;
         }
 

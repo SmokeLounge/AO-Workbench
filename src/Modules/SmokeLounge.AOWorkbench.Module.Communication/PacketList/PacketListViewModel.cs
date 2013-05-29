@@ -20,9 +20,9 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
 
     using Caliburn.Micro;
 
-    using SmokeLounge.AOWorkbench.DataAccess;
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
+    using SmokeLounge.AOWorkbench.DataAccess;
     using SmokeLounge.AOWorkbench.Module.Communication.PacketDetails.Document;
 
     public class PacketListViewModel : PropertyChangedBase, 
@@ -32,6 +32,10 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
         #region Fields
 
         private readonly IOpenPacketDetails openPacketDetails;
+
+        private readonly IDataSource dataSource;
+
+        private readonly IBus bus;
 
         private readonly PacketFactory packetFactory;
 
@@ -52,10 +56,14 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
         {
             Contract.Requires<ArgumentNullException>(packetFactory != null);
             Contract.Requires<ArgumentNullException>(openPacketDetails != null);
+            Contract.Requires<ArgumentNullException>(dataSource != null);
+            Contract.Requires<ArgumentNullException>(bus != null);
 
             this.processId = processId;
             this.packetFactory = packetFactory;
             this.openPacketDetails = openPacketDetails;
+            this.dataSource = dataSource;
+            this.bus = bus;
 
             this.packets = new BindableCollection<PacketViewModel>();
         }
@@ -123,6 +131,9 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
                 return;
             }
 
+            var packetData = new PacketData { Packet = messagePacket, PacketDirection = packetDirection, Timestamp = DateTime.Now };
+            var dataAdapter = this.dataSource.GetDataAdapter<PacketData>();
+            dataAdapter.Save(new Data<PacketData>(packetData));
             var packet = this.packetFactory.Create(packetDirection, messagePacket);
             this.packets.Add(packet);
         }
@@ -166,6 +177,8 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
         [ContractInvariantMethod]
         private void ObjectInvariant()
         {
+            Contract.Invariant(this.bus != null);
+            Contract.Invariant(this.dataSource != null);
             Contract.Invariant(this.openPacketDetails != null);
             Contract.Invariant(this.packetFactory != null);
             Contract.Invariant(this.packets != null);
