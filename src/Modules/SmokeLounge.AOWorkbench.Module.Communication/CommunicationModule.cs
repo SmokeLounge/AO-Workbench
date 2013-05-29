@@ -25,15 +25,11 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
     {
         #region Fields
 
-        private readonly CommunicationViewModel communication;
-
-        private readonly CommunicationFactory communicationFactory;
+        private readonly Lazy<CommunicationViewModel> lazyCommunication;
 
         private readonly Uri iconSource;
 
         private readonly string name;
-
-        private readonly IProcess process;
 
         #endregion
 
@@ -44,11 +40,9 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
             Contract.Requires<ArgumentNullException>(process != null);
             Contract.Requires<ArgumentNullException>(communicationFactory != null);
 
-            this.process = process;
-            this.communicationFactory = communicationFactory;
             this.iconSource = null;
             this.name = "Communication";
-            this.communication = this.communicationFactory.CreateItem(this.process.Id);
+            this.lazyCommunication = new Lazy<CommunicationViewModel>(() => communicationFactory.CreateItem(process.Id));
         }
 
         #endregion
@@ -77,7 +71,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
 
         public IItem CreateItem()
         {
-            return this.communication;
+            return this.lazyCommunication.Value;
         }
 
         #endregion
@@ -88,9 +82,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
         private void ObjectInvariant()
         {
             Contract.Invariant(string.IsNullOrWhiteSpace(this.name) == false);
-            Contract.Invariant(this.communication != null);
-            Contract.Invariant(this.communicationFactory != null);
-            Contract.Invariant(this.process != null);
+            Contract.Invariant(this.lazyCommunication != null);
         }
 
         #endregion

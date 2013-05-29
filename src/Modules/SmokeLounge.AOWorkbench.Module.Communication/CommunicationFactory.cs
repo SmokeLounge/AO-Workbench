@@ -34,7 +34,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
 
         private readonly IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory;
 
-        private readonly PacketListFactory packetListFactory;
+        private readonly IAutoFactory<PacketListViewModel> packetListVMFactory;
 
         private readonly IRemoteProcessService remoteProcessService;
 
@@ -44,18 +44,18 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
 
         [ImportingConstructor]
         public CommunicationFactory(
-            IRemoteProcessService remoteProcessService, 
-            PacketListFactory packetListFactory, 
+            IRemoteProcessService remoteProcessService,
+            IAutoFactory<PacketListViewModel> packetListVMFactory, 
             IAutoFactory<PacketDetailsViewModel> packetDetailsVMFactory, 
             IBus bus)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
-            Contract.Requires<ArgumentNullException>(packetListFactory != null);
+            Contract.Requires<ArgumentNullException>(packetListVMFactory != null);
             Contract.Requires<ArgumentNullException>(packetDetailsVMFactory != null);
             Contract.Requires<ArgumentNullException>(bus != null);
 
             this.remoteProcessService = remoteProcessService;
-            this.packetListFactory = packetListFactory;
+            this.packetListVMFactory = packetListVMFactory;
             this.packetDetailsVMFactory = packetDetailsVMFactory;
             this.bus = bus;
         }
@@ -73,7 +73,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
             }
 
             return new CommunicationViewModel(
-                process, this.packetListFactory.Create(process.Id), this.packetDetailsVMFactory.Create(), this.bus);
+                process, this.packetListVMFactory.WithIoC(process.ServiceLocator).Create(process.Id), this.packetDetailsVMFactory.Create(), this.bus);
         }
 
         #endregion
@@ -85,7 +85,7 @@ namespace SmokeLounge.AOWorkbench.Module.Communication
         {
             Contract.Invariant(this.bus != null);
             Contract.Invariant(this.packetDetailsVMFactory != null);
-            Contract.Invariant(this.packetListFactory != null);
+            Contract.Invariant(this.packetListVMFactory != null);
             Contract.Invariant(this.remoteProcessService != null);
         }
 

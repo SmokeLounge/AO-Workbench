@@ -21,7 +21,7 @@
     <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -64,6 +64,7 @@
     <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>%28none%29</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>3</CodeContractsAnalysisWarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -279,6 +280,10 @@
     <ProjectReference Include="..\SmokeLounge.AoWorkbench.Controls\SmokeLounge.AOWorkbench.Controls.csproj">
       <Project>{e54cef53-31ad-4768-8eaa-bb92cb22a8a2}</Project>
       <Name>SmokeLounge.AOWorkbench.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SmokeLounge.AOWorkbench.DataAccess\SmokeLounge.AOWorkbench.DataAccess.csproj">
+      <Project>{F013ADB7-1BD9-432A-A569-7C0BB16949C7}</Project>
+      <Name>SmokeLounge.AOWorkbench.DataAccess</Name>
     </ProjectReference>
     <ProjectReference Include="..\SmokeLounge.AOWorkbench.Models\SmokeLounge.AOWorkbench.Models.csproj">
       <Project>{c3f0bba3-291e-403c-9521-572ecd5476a3}</Project>

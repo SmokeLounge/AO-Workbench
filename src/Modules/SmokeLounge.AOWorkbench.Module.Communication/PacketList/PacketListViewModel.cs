@@ -15,10 +15,12 @@
 namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
 {
     using System;
+    using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOWorkbench.DataAccess;
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AOWorkbench.Module.Communication.PacketDetails.Document;
@@ -45,7 +47,8 @@ namespace SmokeLounge.AOWorkbench.Module.Communication.PacketList
 
         #region Constructors and Destructors
 
-        public PacketListViewModel(Guid processId, PacketFactory packetFactory, IOpenPacketDetails openPacketDetails)
+        [ImportingConstructor]
+        public PacketListViewModel(Guid processId, PacketFactory packetFactory, IOpenPacketDetails openPacketDetails, IDataSource dataSource, IBus bus)
         {
             Contract.Requires<ArgumentNullException>(packetFactory != null);
             Contract.Requires<ArgumentNullException>(openPacketDetails != null);

@@ -2,6 +2,13 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AO Workbench", "AO Workbench\AO Workbench.csproj", "{7740089B-926E-4AB9-8CDD-7B4065B374FD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{644C7D10-DDD2-4DD5-BF98-ADE288F611BE} = {644C7D10-DDD2-4DD5-BF98-ADE288F611BE}
+		{FF44EA80-5101-4550-9F25-DA723EF5C38A} = {FF44EA80-5101-4550-9F25-DA723EF5C38A}
+		{DDD937B1-17AB-4366-8AA8-15041BCBD64A} = {DDD937B1-17AB-4366-8AA8-15041BCBD64A}
+		{8F74CDE2-81CE-4324-8AF4-E167C348BE3F} = {8F74CDE2-81CE-4324-8AF4-E167C348BE3F}
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762} = {D58F32ED-91A8-4BF4-93FA-C4A67CF92762}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{908A5FA8-0CA7-4925-A55F-E99CF60BBC05}"
 	ProjectSection(SolutionItems) = preProject
@@ -43,6 +50,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOWorkbench.Components", "SmokeLounge.AOWorkbench.Components\SmokeLounge.AOWorkbench.Components.csproj", "{92494C79-48D2-4705-8210-E6EA097D9EE4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOWorkbench.Models", "SmokeLounge.AOWorkbench.Models\SmokeLounge.AOWorkbench.Models.csproj", "{C3F0BBA3-291E-403C-9521-572ECD5476A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOWorkbench.DataAccess", "SmokeLounge.AOWorkbench.DataAccess\SmokeLounge.AOWorkbench.DataAccess.csproj", "{F013ADB7-1BD9-432A-A569-7C0BB16949C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmokeLounge.AOWorkbench.DataAccess.SQLite", "SmokeLounge.AOWorkbench.DataAccess.SQLite\SmokeLounge.AOWorkbench.DataAccess.SQLite.csproj", "{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,6 +195,26 @@ Global
 		{C3F0BBA3-291E-403C-9521-572ECD5476A3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C3F0BBA3-291E-403C-9521-572ECD5476A3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C3F0BBA3-291E-403C-9521-572ECD5476A3}.Release|Win32.ActiveCfg = Release|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F013ADB7-1BD9-432A-A569-7C0BB16949C7}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D58F32ED-91A8-4BF4-93FA-C4A67CF92762}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

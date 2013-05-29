@@ -17,7 +17,10 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
     using System;
     using System.ComponentModel.Composition;
     using System.Diagnostics.Contracts;
+    using System.IO;
 
+    using SmokeLounge.AOWorkbench.DataAccess;
+    using SmokeLounge.AOWorkbench.Models.Domain;
     using SmokeLounge.AOtomation.Bus;
     using SmokeLounge.AOtomation.Domain.Interfaces.Events;
     using SmokeLounge.AOWorkbench.Components.Services;
@@ -30,6 +33,8 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
 
         private readonly ProcessModulesFactory processModulesFactory;
 
+        private readonly IDataService dataService;
+
         private readonly IRemoteProcessService remoteProcessService;
 
         #endregion
@@ -38,13 +43,15 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
 
         [ImportingConstructor]
         public ClientAttachedToProcessEventHandler(
-            IRemoteProcessService remoteProcessService, ProcessModulesFactory processModulesFactory)
+            IRemoteProcessService remoteProcessService, ProcessModulesFactory processModulesFactory, IDataService dataService)
         {
             Contract.Requires<ArgumentNullException>(remoteProcessService != null);
             Contract.Requires<ArgumentNullException>(processModulesFactory != null);
+            Contract.Requires<ArgumentNullException>(dataService != null);
 
             this.remoteProcessService = remoteProcessService;
             this.processModulesFactory = processModulesFactory;
+            this.dataService = dataService;
         }
 
         #endregion
@@ -59,6 +66,12 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
                 return;
             }
 
+
+            var dataSource = this.dataService.OpenDataSource(Path.GetTempFileName());
+            if (dataSource != null)
+            {
+                remoteProcess.ServiceLocator.AddInstance(dataSource);
+            }
             var processModules = this.processModulesFactory.Create(remoteProcess);
             remoteProcess.ServiceLocator.AddInstance(processModules);
             remoteProcess.ClientId = message.ClientId;
@@ -73,6 +86,7 @@ namespace SmokeLounge.AOWorkbench.DomainEventHandlers
         {
             Contract.Invariant(this.remoteProcessService != null);
             Contract.Invariant(this.processModulesFactory != null);
+            Contract.Invariant(this.dataService != null);
         }
 
         #endregion
