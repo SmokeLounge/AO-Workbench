@@ -22,6 +22,7 @@ namespace SmokeLounge.AOWorkbench.Components.Services
     using Caliburn.Micro;
 
     using SmokeLounge.AOtomation.Domain.Facade;
+    using SmokeLounge.AOWorkbench.Components.Collections;
     using SmokeLounge.AOWorkbench.Models.Domain;
     using SmokeLounge.AOWorkbench.ViewModels.Domain;
 

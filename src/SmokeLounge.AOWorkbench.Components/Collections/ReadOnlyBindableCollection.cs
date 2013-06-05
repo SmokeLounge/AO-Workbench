@@ -12,7 +12,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace SmokeLounge.AOWorkbench.Components
+namespace SmokeLounge.AOWorkbench.Components.Collections
 {
     using System;
     using System.Collections.Generic;

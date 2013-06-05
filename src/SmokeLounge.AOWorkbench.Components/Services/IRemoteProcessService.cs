@@ -19,6 +19,7 @@ namespace SmokeLounge.AOWorkbench.Components.Services
 
     using Caliburn.Micro;
 
+    using SmokeLounge.AOWorkbench.Components.Collections;
     using SmokeLounge.AOWorkbench.Models.Domain;
 
     [ContractClass(typeof(IRemoteProcessServiceContract))]
